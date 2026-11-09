@@ -1,10 +1,10 @@
 var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/insan-kaynaklari/page.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0755i9zuzkmnd._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_09qh0_djbveyw.js")
+R.c("server/chunks/ssr/[root-of-the-server]__1c5n43g--1r17._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_0--zbjje-18i1.js")
 R.c("server/chunks/ssr/src_components_12hcpyhtn_z-z._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__2123l7b0pd8dc._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
 R.c("server/chunks/ssr/src_165kz6ossvz03._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
 R.c("server/chunks/ssr/src_components_0n_2it05jrso3._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0jvzvy8kiex_9._.js")
 R.c("server/chunks/ssr/_1ce5vwdzovz2a._.js")
@@ -19,5 +19,5 @@ R.c("server/chunks/ssr/node_modules_next_dist_client_components_0p8s4lhdi0ir6._.
 R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0l_sp0xky89qu.js")
 R.c("server/chunks/ssr/src_app_global-error_tsx_009xrx8nk64k0._.js")
 R.c("server/chunks/ssr/_next-internal_server_app_insan-kaynaklari_page_actions_20hjmjwusdf7o.js")
-R.m(45167)
-module.exports=R.m(45167).exports
+R.m(96994)
+module.exports=R.m(96994).exports

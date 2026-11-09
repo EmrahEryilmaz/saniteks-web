@@ -3,6 +3,7 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/api/apply/route": "app/api/apply/route.js",
   "/api/contact/route": "app/api/contact/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/iletisim/page": "app/iletisim/page.js",
   "/insan-kaynaklari/page": "app/insan-kaynaklari/page.js",
   "/kabiliyetler/page": "app/kabiliyetler/page.js",

@@ -1,11 +1,11 @@
 var R=require("../../../chunks/ssr/[turbopack]_runtime.js")("server/app/urunler/ozel-marka-uretimi/page.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0755i9zuzkmnd._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__1c5n43g--1r17._.js")
 R.c("server/chunks/ssr/src_components_ui_0h8tlzp0nl0_r._.js")
 R.c("server/chunks/ssr/src_17pubcv52ggdi._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1pk__ce57_303.js")
-R.c("server/chunks/ssr/src_app_urunler_ozel-marka-uretimi_page_tsx_0z4up7xtxir7l._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
 R.c("server/chunks/ssr/src_components_products_PrivateLabel_tsx_0rofrh8xey5_m._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
+R.c("server/chunks/ssr/src_app_urunler_ozel-marka-uretimi_page_tsx_0z4up7xtxir7l._.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1bkhg08swg5oi.js")
 R.c("server/chunks/ssr/[root-of-the-server]__2123l7b0pd8dc._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0jvzvy8kiex_9._.js")
 R.c("server/chunks/ssr/_1ce5vwdzovz2a._.js")
@@ -20,5 +20,5 @@ R.c("server/chunks/ssr/node_modules_next_dist_client_components_0p8s4lhdi0ir6._.
 R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0l_sp0xky89qu.js")
 R.c("server/chunks/ssr/src_app_global-error_tsx_009xrx8nk64k0._.js")
 R.c("server/chunks/ssr/_next-internal_server_app_urunler_ozel-marka-uretimi_page_actions_12oubfp18clks.js")
-R.m(41493)
-module.exports=R.m(41493).exports
+R.m(83166)
+module.exports=R.m(83166).exports

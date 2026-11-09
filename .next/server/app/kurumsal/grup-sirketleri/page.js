@@ -1,11 +1,11 @@
 var R=require("../../../chunks/ssr/[turbopack]_runtime.js")("server/app/kurumsal/grup-sirketleri/page.js")
 R.c("server/chunks/ssr/src_components_corporate_CorporateHero_tsx_0h0w0cbt-gw33._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1a4avx0kbg3nb.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1ggvs3qq3yrb8.js")
 R.c("server/chunks/ssr/src_components_ui_0h8tlzp0nl0_r._.js")
+R.c("server/chunks/ssr/src_app_kurumsal_grup-sirketleri_page_tsx_1mokylp5z1l32._.js")
 R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__2123l7b0pd8dc._.js")
-R.c("server/chunks/ssr/src_app_kurumsal_grup-sirketleri_page_tsx_1mokylp5z1l32._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__0h1nkya5wd8fr._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0ko6shehna6h7._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0jvzvy8kiex_9._.js")
 R.c("server/chunks/ssr/_1ce5vwdzovz2a._.js")
 R.c("server/chunks/ssr/src_data_corporate_ts_1s3xtys7xjyfo._.js")
@@ -19,5 +19,5 @@ R.c("server/chunks/ssr/node_modules_next_dist_client_components_0p8s4lhdi0ir6._.
 R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0l_sp0xky89qu.js")
 R.c("server/chunks/ssr/src_app_global-error_tsx_009xrx8nk64k0._.js")
 R.c("server/chunks/ssr/_next-internal_server_app_kurumsal_grup-sirketleri_page_actions_1qg9a4qlvjpsc.js")
-R.m(35462)
-module.exports=R.m(35462).exports
+R.m(63272)
+module.exports=R.m(63272).exports

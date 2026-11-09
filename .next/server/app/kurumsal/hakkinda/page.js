@@ -1,8 +1,8 @@
 var R=require("../../../chunks/ssr/[turbopack]_runtime.js")("server/app/kurumsal/hakkinda/page.js")
 R.c("server/chunks/ssr/src_components_corporate_CorporateHero_tsx_0h0w0cbt-gw33._.js")
-R.c("server/chunks/ssr/[root-of-the-server]__1r8016vz6l73u._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__1xknsmsl7s2mx._.js")
 R.c("server/chunks/ssr/src_components_05h_v4bfge_jw._.js")
-R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_1h6_tbcz2ltjd.js")
+R.c("server/chunks/ssr/node_modules_next_dist_esm_build_templates_app-page_18r7pg2lq7_oc.js")
 R.c("server/chunks/ssr/node_modules_next_dist_0-amwqbrge23p._.js")
 R.c("server/chunks/ssr/src_app_kurumsal_hakkinda_page_tsx_0wx-zp3rthjr9._.js")
 R.c("server/chunks/ssr/src_components_ui_0h8tlzp0nl0_r._.js")
@@ -20,5 +20,5 @@ R.c("server/chunks/ssr/node_modules_next_dist_client_components_0p8s4lhdi0ir6._.
 R.c("server/chunks/ssr/node_modules_next_dist_client_components_builtin_unauthorized_0l_sp0xky89qu.js")
 R.c("server/chunks/ssr/src_app_global-error_tsx_009xrx8nk64k0._.js")
 R.c("server/chunks/ssr/_next-internal_server_app_kurumsal_hakkinda_page_actions_0yc2crz1o3b3c.js")
-R.m(67287)
-module.exports=R.m(67287).exports
+R.m(36200)
+module.exports=R.m(36200).exports
