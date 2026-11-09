@@ -4,6 +4,7 @@
 #   the run page it is the zip for a manual Plesk upload (DEPLOY.md, Yöntem A) — no local build needed.
 # - The publish job only runs when the repository variable DEPLOY_ENABLED is "true". It uses the "production"
 #   environment: add required reviewers there to approve each release by hand.
+# - Transport: repository variable DEPLOY_METHOD = "ftp" (default; PLESK_FTP_* secrets) or "ssh" (PLESK_SSH_* secrets).
 # - Manual run (Actions › Yayın › Run workflow): "deploy" re-publishes main, "rollback" swaps back to the previous
 #   release kept on the server.
 # Setup and the list of secrets/variables: DEPLOY.md › "Yöntem C — GitHub ile otomatik yayın".
@@ -73,6 +74,8 @@ jobs:
     environment:
       name: production
       url: ${{ vars.SITE_URL }}
+    env:
+      METHOD: ${{ vars.DEPLOY_METHOD || 'ftp' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -83,7 +86,23 @@ jobs:
           name: saniteks-web
           path: bundle
 
+      - name: FTP aracını kur
+        if: env.METHOD == 'ftp'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: FTP ile yükle ve yeni sürüme geç
+        if: env.METHOD == 'ftp'
+        run: .github/scripts/ftp-release.sh deploy bundle
+        env:
+          FTP_HOST: ${{ secrets.PLESK_FTP_HOST }}
+          FTP_PORT: ${{ secrets.PLESK_FTP_PORT }}
+          FTP_USER: ${{ secrets.PLESK_FTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.PLESK_FTP_PASSWORD }}
+          FTP_TLS: ${{ vars.PLESK_FTP_TLS }}
+          APP_DIR: ${{ vars.PLESK_APP_DIR }}
+
       - name: SSH bağlantısını hazırla
+        if: env.METHOD == 'ssh'
         run: .github/scripts/ssh-setup.sh
         env:
           SSH_HOST: ${{ secrets.PLESK_SSH_HOST }}
@@ -92,7 +111,8 @@ jobs:
           SSH_KEY: ${{ secrets.PLESK_SSH_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.PLESK_SSH_KNOWN_HOSTS }}
 
-      - name: Yükle ve yeni sürüme geç
+      - name: SSH ile yükle ve yeni sürüme geç
+        if: env.METHOD == 'ssh'
         run: |
           tar -czf release.tgz -C bundle .
           ssh plesk "cat > \"\$HOME/.saniteks-release.tgz\"" < release.tgz
@@ -114,12 +134,30 @@ jobs:
     environment:
       name: production
       url: ${{ vars.SITE_URL }}
+    env:
+      METHOD: ${{ vars.DEPLOY_METHOD || 'ftp' }}
     steps:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: .github/scripts
 
+      - name: FTP aracını kur
+        if: env.METHOD == 'ftp'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: FTP ile sürümleri değiştir
+        if: env.METHOD == 'ftp'
+        run: .github/scripts/ftp-release.sh rollback
+        env:
+          FTP_HOST: ${{ secrets.PLESK_FTP_HOST }}
+          FTP_PORT: ${{ secrets.PLESK_FTP_PORT }}
+          FTP_USER: ${{ secrets.PLESK_FTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.PLESK_FTP_PASSWORD }}
+          FTP_TLS: ${{ vars.PLESK_FTP_TLS }}
+          APP_DIR: ${{ vars.PLESK_APP_DIR }}
+
       - name: SSH bağlantısını hazırla
+        if: env.METHOD == 'ssh'
         run: .github/scripts/ssh-setup.sh
         env:
           SSH_HOST: ${{ secrets.PLESK_SSH_HOST }}
@@ -128,7 +166,8 @@ jobs:
           SSH_KEY: ${{ secrets.PLESK_SSH_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.PLESK_SSH_KNOWN_HOSTS }}
 
-      - name: Sürümleri değiştir
+      - name: SSH ile sürümleri değiştir
+        if: env.METHOD == 'ssh'
         run: ssh plesk bash -s -- rollback "$APP_DIR" < .github/scripts/plesk-release.sh
         env:
           APP_DIR: ${{ vars.PLESK_APP_DIR }}
