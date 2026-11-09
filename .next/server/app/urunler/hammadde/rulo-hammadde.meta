@@ -1,0 +1,45 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/urunler/layout,_N_T_/urunler/[kategori]/layout,_N_T_/urunler/[kategori]/[urun]/layout,_N_T_/urunler/[kategori]/[urun]/page,_N_T_/urunler/hammadde/rulo-hammadde"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/_index",
+    "/urunler/$d$kategori/$d$urun/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 0,
+    "slots": {
+      "children": {
+        "hints": 64,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/1ac961e77767a8720e6b334d3d3fb0245dc4c0ca1c446f968b4d13a5b7e2d499/$/urunler/hammadde/rulo-hammadde",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/urunler/[kategori]/[urun]/page"
+    },
+    "isFallback": false
+  }
+}
