@@ -1,0 +1,33 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/deploy
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# env files
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# business data kept off the repository (e.g. the shipping list "saniteks ürünler.xlsx")
+*.xlsx
+*.xls
+*.csv
+
+# local tool settings
+/.claude/settings.local.json

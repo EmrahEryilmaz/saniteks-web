@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "swiper/css";
+
+/*
+ * Saniteks design tokens — mirrors the live saniteks.com.tr stylesheet.
+ * Brand palette first, then semantic tokens that components consume.
+ */
+:root {
+  --saniteks-green: #093;
+  --saniteks-light-green: #6c0;
+  --saniteks-yellow: #ff0;
+  --saniteks-red: red;
+  --saniteks-white: #fff;
+  --saniteks-black: #000;
+
+  --background: #fff;
+  --surface: #fff;
+  --surface-muted: #f7f7f7;
+  --surface-strong: #f0f0f0;
+  --foreground: #171717;
+  --foreground-secondary: #5f6368;
+  --foreground-muted: #80868b;
+  --primary: #093;
+  --primary-hover: #007a29;
+  --primary-active: #062;
+  --primary-foreground: #fff;
+  --accent: #6c0;
+  --accent-foreground: #171717;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --focus-ring: #093;
+  --link: #007a29;
+  --link-hover: #062;
+  --success: #008a2e;
+  --warning: #b77900;
+  --error: #c62828;
+  --info: #1769aa;
+}
+
+@theme inline {
+  --font-sans: Arial, Helvetica, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-strong: var(--surface-strong);
+  --color-muted-foreground: var(--foreground-secondary);
+  --color-subtle-foreground: var(--foreground-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-focus-ring: var(--focus-ring);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+  --color-overlay: var(--saniteks-black);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Anchored sections must clear the fixed header. */
+:target {
+  scroll-margin-top: 7rem;
+}
