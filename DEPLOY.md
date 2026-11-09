@@ -11,13 +11,18 @@ paketi üretir; Plesk'te başlangıç dosyası olarak bu paketteki `server.js` k
 ## Gereksinimler
 
 - Plesk'te **Node.js** eklentisi ve **Node.js 20.9 veya üzeri** (22 LTS önerilir).
-- Bilgisayarınızda Node.js 20+ ve internet bağlantısı (paket hazırlarken Linux görsel kütüphanesi indirilir).
+- Yalnızca Yöntem A ve B için: bilgisayarınızda Node.js 20+ ve internet bağlantısı (paket hazırlarken Linux görsel
+  kütüphanesi indirilir). Yöntem C bilgisayar gerektirmez.
 - İletişim ve başvuru formlarının e-posta gönderebilmesi için bir SMTP hesabı (ör. Plesk'te `saniteks.com.tr`
   için açılmış bir e-posta kutusu).
 
-## Yöntem A — Hazır paketi yükleyerek (önerilen)
+## Yöntem A — Hazır paketi yükleyerek
 
 Sunucuda derleme yapılmaz; paket çalışmaya hazır gelir.
+
+> **Bilgisayarsız paket:** `main` dalına gelen her değişiklikten sonra GitHub › **Actions** › **Yayın** › son çalışma ›
+> *Artifacts* bölümünden `saniteks-web` paketini indirebilirsiniz. Bu zip, 1. adımdaki paketle aynıdır (Linux için
+> derlenmiştir); doğrudan 2. adıma geçin.
 
 1. **Paketi hazırlayın** (proje klasöründe):
    ```
@@ -60,6 +65,52 @@ SSH erişimi varsa kaynak kodu yükleyip sunucuda derleyebilirsiniz.
    TypeScript derleme için gereklidir.)
 3. Node.js ayarları Yöntem A ile aynıdır; yalnızca **uygulama kökü** `/saniteks-web-src`,
    **başlangıç dosyası** `.next/standalone/server.js`, **belge kökü** `/saniteks-web-src/public` olur.
+
+## Yöntem C — GitHub ile otomatik yayın (önerilen)
+
+Kod GitHub'da değiştirilir; derleme ve yükleme GitHub Actions'ta yapılır. Bilgisayarda hiçbir şey kurulu olması gerekmez.
+
+- **Kontrol** (`.github/workflows/ci.yml`): her pull request'te ve `main`'e her gönderimde `typecheck`, `lint`, `build`.
+- **Yayın** (`.github/workflows/deploy.yml`): `main`'e her gönderimde paketi hazırlar (Yöntem A'daki zip, *Artifacts*
+  altında 30 gün saklanır). `DEPLOY_ENABLED` açıksa paketi SSH ile sunucuya yükler: önce `<klasör>-next` içine açar,
+  sonra mevcut klasörü `<klasör>-prev` yapıp yenisini yerine koyar ve Passenger'ı `tmp/restart.txt` ile yeniden
+  başlatır. Ortam değişkenleri (SMTP vb.) Plesk'te kalır, bu işlemden etkilenmez.
+- **Geri dönüş:** GitHub › Actions › **Yayın** › *Run workflow* › `rollback`. Sunucudaki `<klasör>` ile `<klasör>-prev`
+  yer değiştirir.
+
+### Bir kerelik kurulum
+
+1. **Plesk'te SSH erişimi:** alan adı › *Web Hosting Erişimi* › *SSH ile sunucuya erişim*: `/bin/bash` (chroot'lu kabuk
+   da olur; `tar` ve `bash` yeterlidir).
+2. **SSH anahtarı:** yalnızca bu iş için yeni bir anahtar çifti oluşturun. Bilgisayar gerekmez: Plesk'in tarayıcıdaki
+   *SSH Terminal*'inde `ssh-keygen -t ed25519 -N "" -f ~/.ssh/github_deploy` çalıştırıp
+   `cat ~/.ssh/github_deploy.pub >> ~/.ssh/authorized_keys` ile yetkilendirin; `cat ~/.ssh/github_deploy` çıktısını
+   `PLESK_SSH_KEY` olarak GitHub'a girip sunucudaki gizli anahtar dosyasını silin. `PLESK_SSH_KNOWN_HOSTS` için aynı
+   terminalde `ssh-keyscan localhost` çıktısındaki `localhost` yerine `PLESK_SSH_HOST` değerini yazın.
+3. **Uygulama klasörü:** Plesk Node.js ayarlarını Yöntem A'daki gibi yapın. *Uygulama kökü* SSH kullanıcısının ev
+   klasörüne göre göreli olarak `PLESK_APP_DIR` değişkenine yazılır (ör. uygulama kökü `/saniteks-web` ise
+   `saniteks-web`). İlk otomatik yayında o klasördeki mevcut dosyalar `<klasör>-prev` olarak saklanır.
+4. **GitHub › depo › Settings › Secrets and variables › Actions:**
+
+   | Tür | Ad | Değer |
+   |---|---|---|
+   | Secret | `PLESK_SSH_HOST` | Sunucu adresi (ör. `saniteks.com.tr` veya IP) |
+   | Secret | `PLESK_SSH_USER` | Alan adının sistem kullanıcısı (Plesk › *Web Hosting Erişimi*) |
+   | Secret | `PLESK_SSH_KEY` | Gizli anahtarın tamamı (`-----BEGIN OPENSSH PRIVATE KEY-----` dahil) |
+   | Secret | `PLESK_SSH_PORT` | İsteğe bağlı; boşsa 22 |
+   | Secret | `PLESK_SSH_KNOWN_HOSTS` | Önerilir: sunucunun `ssh-keyscan` satırları. Boşsa ilk bağlantıdaki anahtar kabul edilir ve parmak izi günlüğe yazılır |
+   | Variable | `PLESK_APP_DIR` | Ör. `saniteks-web` |
+   | Variable | `SITE_URL` | İsteğe bağlı; yayın sonrası kontrol edilen adres (ör. `https://yeni.saniteks.com.tr`) |
+   | Variable | `DEPLOY_ENABLED` | `true` olunca otomatik yayın başlar; o zamana kadar yalnızca paket hazırlanır |
+
+5. **Onay adımı (önerilir):** Settings › *Environments* › `production` › *Required reviewers*: kendinizi ekleyin. Her
+   yayın, Actions sayfasında *Approve* deyene kadar bekler. Aynı yerde *Deployment branches* ile yalnızca `main`'e izin
+   verin.
+6. **`main` dalını koruyun (önerilir):** Settings › *Branches* › kural ekleyin: pull request zorunlu ve **Kontrol**
+   işinin geçmesi zorunlu.
+
+İlk denemeyi sayfa başındaki uyarıdaki gibi bir test alt alan adına yapın; sorun yoksa `PLESK_APP_DIR` ve `SITE_URL`'i ana
+alan adına çevirin.
 
 ## Ortam değişkenleri
 

@@ -1,0 +1,140 @@
+# Builds the standalone server package and (when enabled) publishes it to the Plesk server over SSH.
+#
+# - Every push to main builds the package and keeps it as a downloadable artifact ("saniteks-web"). Downloaded from
+#   the run page it is the zip for a manual Plesk upload (DEPLOY.md, Yöntem A) — no local build needed.
+# - The publish job only runs when the repository variable DEPLOY_ENABLED is "true". It uses the "production"
+#   environment: add required reviewers there to approve each release by hand.
+# - Manual run (Actions › Yayın › Run workflow): "deploy" re-publishes main, "rollback" swaps back to the previous
+#   release kept on the server.
+# Setup and the list of secrets/variables: DEPLOY.md › "Yöntem C — GitHub ile otomatik yayın".
+name: Yayın
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "deploy: main dalını yayınla · rollback: sunucudaki önceki sürüme dön"
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Paket hazırla
+    if: github.event_name == 'push' || inputs.action == 'deploy'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      # Built on Linux x64 (glibc), so the bundled image library (sharp) already matches the server.
+      - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Paketi denetle
+        run: |
+          test -f .next/standalone/server.js
+          test -d .next/standalone/public
+          test -d .next/standalone/.next/static
+          find .next/standalone -maxdepth 1 -name '.env*' -exec rm -f {} +
+          echo "${GITHUB_SHA}" > .next/standalone/REVISION
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: saniteks-web
+          path: .next/standalone
+          include-hidden-files: true
+          retention-days: 30
+
+  publish:
+    name: Plesk'e yayınla
+    needs: build
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: saniteks-web
+          path: bundle
+
+      - name: SSH bağlantısını hazırla
+        run: .github/scripts/ssh-setup.sh
+        env:
+          SSH_HOST: ${{ secrets.PLESK_SSH_HOST }}
+          SSH_PORT: ${{ secrets.PLESK_SSH_PORT }}
+          SSH_USER: ${{ secrets.PLESK_SSH_USER }}
+          SSH_KEY: ${{ secrets.PLESK_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.PLESK_SSH_KNOWN_HOSTS }}
+
+      - name: Yükle ve yeni sürüme geç
+        run: |
+          tar -czf release.tgz -C bundle .
+          ssh plesk "cat > \"\$HOME/.saniteks-release.tgz\"" < release.tgz
+          ssh plesk bash -s -- deploy "$APP_DIR" < .github/scripts/plesk-release.sh
+        env:
+          APP_DIR: ${{ vars.PLESK_APP_DIR }}
+
+      - name: Siteyi kontrol et
+        if: vars.SITE_URL != ''
+        run: curl -fsS -o /dev/null --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 "$SITE_URL"
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
+  rollback:
+    name: Önceki sürüme dön
+    if: github.event_name == 'workflow_dispatch' && inputs.action == 'rollback' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: SSH bağlantısını hazırla
+        run: .github/scripts/ssh-setup.sh
+        env:
+          SSH_HOST: ${{ secrets.PLESK_SSH_HOST }}
+          SSH_PORT: ${{ secrets.PLESK_SSH_PORT }}
+          SSH_USER: ${{ secrets.PLESK_SSH_USER }}
+          SSH_KEY: ${{ secrets.PLESK_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.PLESK_SSH_KNOWN_HOSTS }}
+
+      - name: Sürümleri değiştir
+        run: ssh plesk bash -s -- rollback "$APP_DIR" < .github/scripts/plesk-release.sh
+        env:
+          APP_DIR: ${{ vars.PLESK_APP_DIR }}
+
+      - name: Siteyi kontrol et
+        if: vars.SITE_URL != ''
+        run: curl -fsS -o /dev/null --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 "$SITE_URL"
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
