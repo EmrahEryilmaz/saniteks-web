@@ -6,7 +6,7 @@
 #   environment: add required reviewers there to approve each release by hand.
 # - Transport: repository variable DEPLOY_METHOD = "ftp" (default; PLESK_FTP_* secrets) or "ssh" (PLESK_SSH_* secrets).
 # - Manual run (Actions › Yayın › Run workflow): "deploy" re-publishes main, "rollback" swaps back to the previous
-#   release kept on the server.
+#   release kept on the server, "test" only checks the FTP connection (uploads nothing).
 # Setup and the list of secrets/variables: DEPLOY.md › "Yöntem C — GitHub ile otomatik yayın".
 name: Yayın
 
@@ -16,9 +16,9 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "deploy: main dalını yayınla · rollback: sunucudaki önceki sürüme dön"
+        description: "deploy: main dalını yayınla · rollback: önceki sürüme dön · test: yalnızca FTP bağlantısını dene"
         type: choice
-        options: [deploy, rollback]
+        options: [deploy, rollback, test]
         default: deploy
 
 concurrency:
@@ -125,6 +125,31 @@ jobs:
         run: curl -fsS -o /dev/null --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 "$SITE_URL"
         env:
           SITE_URL: ${{ vars.SITE_URL }}
+
+  connection-test:
+    name: FTP bağlantı testi
+    if: github.event_name == 'workflow_dispatch' && inputs.action == 'test'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: FTP aracını kur
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Bağlantıyı dene
+        run: .github/scripts/ftp-release.sh test
+        env:
+          FTP_HOST: ${{ secrets.PLESK_FTP_HOST }}
+          FTP_PORT: ${{ secrets.PLESK_FTP_PORT }}
+          FTP_USER: ${{ secrets.PLESK_FTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.PLESK_FTP_PASSWORD }}
+          FTP_TLS: ${{ vars.PLESK_FTP_TLS }}
+          APP_DIR: ${{ vars.PLESK_APP_DIR }}
 
   rollback:
     name: Önceki sürüme dön
