@@ -4,7 +4,10 @@
 #   the run page it is the zip for a manual Plesk upload (DEPLOY.md, Yöntem A) — no local build needed.
 # - The publish job only runs when the repository variable DEPLOY_ENABLED is "true". It uses the "production"
 #   environment: add required reviewers there to approve each release by hand.
-# - Transport: repository variable DEPLOY_METHOD = "ftp" (default; PLESK_FTP_* secrets) or "ssh" (PLESK_SSH_* secrets).
+# - Transport: repository variable DEPLOY_METHOD =
+#     "git" (default): commit the package on the release branch (RELEASE_BRANCH, default "yayin"); the Plesk Git
+#                      extension pulls it — no inbound connection to the server needed;
+#     "ftp" (PLESK_FTP_* secrets) or "ssh" (PLESK_SSH_* secrets): push to the server directly.
 # - Manual run (Actions › Yayın › Run workflow): "deploy" re-publishes main, "rollback" swaps back to the previous
 #   release kept on the server, "test" only checks the FTP connection (uploads nothing).
 # Setup and the list of secrets/variables: DEPLOY.md › "Yöntem C — GitHub ile otomatik yayın".
@@ -67,6 +70,8 @@ jobs:
 
   publish:
     name: Plesk'e yayınla
+    permissions:
+      contents: write
     needs: build
     if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
@@ -75,7 +80,7 @@ jobs:
       name: production
       url: ${{ vars.SITE_URL }}
     env:
-      METHOD: ${{ vars.DEPLOY_METHOD || 'ftp' }}
+      METHOD: ${{ vars.DEPLOY_METHOD || 'git' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,6 +90,13 @@ jobs:
         with:
           name: saniteks-web
           path: bundle
+
+      - name: Yayın dalına gönder
+        if: env.METHOD == 'git'
+        run: .github/scripts/git-release.sh deploy bundle
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_BRANCH: ${{ vars.RELEASE_BRANCH }}
 
       - name: FTP aracını kur
         if: env.METHOD == 'ftp'
@@ -121,7 +133,7 @@ jobs:
           APP_DIR: ${{ vars.PLESK_APP_DIR }}
 
       - name: Siteyi kontrol et
-        if: vars.SITE_URL != ''
+        if: vars.SITE_URL != '' && env.METHOD != 'git'
         run: curl -fsS -o /dev/null --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 "$SITE_URL"
         env:
           SITE_URL: ${{ vars.SITE_URL }}
@@ -153,6 +165,8 @@ jobs:
 
   rollback:
     name: Önceki sürüme dön
+    permissions:
+      contents: write
     if: github.event_name == 'workflow_dispatch' && inputs.action == 'rollback' && vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -160,11 +174,18 @@ jobs:
       name: production
       url: ${{ vars.SITE_URL }}
     env:
-      METHOD: ${{ vars.DEPLOY_METHOD || 'ftp' }}
+      METHOD: ${{ vars.DEPLOY_METHOD || 'git' }}
     steps:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: .github/scripts
+
+      - name: Yayın dalında önceki sürüme dön
+        if: env.METHOD == 'git'
+        run: .github/scripts/git-release.sh rollback
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_BRANCH: ${{ vars.RELEASE_BRANCH }}
 
       - name: FTP aracını kur
         if: env.METHOD == 'ftp'
@@ -198,7 +219,7 @@ jobs:
           APP_DIR: ${{ vars.PLESK_APP_DIR }}
 
       - name: Siteyi kontrol et
-        if: vars.SITE_URL != ''
+        if: vars.SITE_URL != '' && env.METHOD != 'git'
         run: curl -fsS -o /dev/null --retry 6 --retry-delay 5 --retry-all-errors --max-time 30 "$SITE_URL"
         env:
           SITE_URL: ${{ vars.SITE_URL }}
