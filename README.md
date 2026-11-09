@@ -129,7 +129,7 @@ Tüm ürün bilgisi `src/data/products.ts` dosyasındadır. Yapı: **Kategori �
 
 - **Plesk (asıl sunucu) ve GitHub otomasyonu:** her pull request'te GitHub Actions `typecheck`, `lint` ve `build`
   çalıştırır (`.github/workflows/ci.yml`). `main` dalına gelen her değişiklik Plesk'e hazır paketi üretir ve
-  etkinleştirildiyse SSH ile sunucuya yayınlar (`.github/workflows/deploy.yml`). Kurulum: `DEPLOY.md` › Yöntem C.
+  etkinleştirildiyse FTP veya SSH ile sunucuya yayınlar (`.github/workflows/deploy.yml`). Kurulum: `DEPLOY.md` › Yöntem C.
 - **Vercel:** Depoyu bağlayın, ortam değişkenlerini proje ayarlarına girin; ek yapılandırma gerekmez.
 - **Herhangi bir Node.js sunucusu:** `npm ci && npm run build && npm run start` (varsayılan port 3000, `PORT` ile
   değiştirilebilir). Önüne bir ters vekil sunucu (nginx vb.) koyuyorsanız istemci IP'sini `X-Forwarded-For` veya
