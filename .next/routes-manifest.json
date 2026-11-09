@@ -33,21 +33,27 @@
     },
     {
       "source": "/icons/icon-192.png",
-      "destination": "/icons/saniteks-icon-192.png",
+      "destination": "/images/icons/saniteks-icon-192.png",
       "statusCode": 308,
       "regex": "^(?!/_next)/icons/icon-192\\.png(?:/)?$"
     },
     {
       "source": "/icons/icon-512.png",
-      "destination": "/icons/saniteks-icon-512.png",
+      "destination": "/images/icons/saniteks-icon-512.png",
       "statusCode": 308,
       "regex": "^(?!/_next)/icons/icon-512\\.png(?:/)?$"
     },
     {
       "source": "/icons/apple-icon.png",
-      "destination": "/icons/saniteks-apple-icon.png",
+      "destination": "/images/icons/saniteks-apple-icon.png",
       "statusCode": 308,
       "regex": "^(?!/_next)/icons/apple-icon\\.png(?:/)?$"
+    },
+    {
+      "source": "/icons/:file(saniteks-.*\\.png)",
+      "destination": "/images/icons/:file",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/icons(?:/(saniteks-.*\\.png))(?:/)?$"
     }
   ],
   "headers": [

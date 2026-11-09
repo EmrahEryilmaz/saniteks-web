@@ -359,17 +359,22 @@
       },
       {
         "source": "/icons/icon-192.png",
-        "destination": "/icons/saniteks-icon-192.png",
+        "destination": "/images/icons/saniteks-icon-192.png",
         "permanent": true
       },
       {
         "source": "/icons/icon-512.png",
-        "destination": "/icons/saniteks-icon-512.png",
+        "destination": "/images/icons/saniteks-icon-512.png",
         "permanent": true
       },
       {
         "source": "/icons/apple-icon.png",
-        "destination": "/icons/saniteks-apple-icon.png",
+        "destination": "/images/icons/saniteks-apple-icon.png",
+        "permanent": true
+      },
+      {
+        "source": "/icons/:file(saniteks-.*\\.png)",
+        "destination": "/images/icons/:file",
         "permanent": true
       }
     ]
