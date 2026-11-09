@@ -75,20 +75,47 @@ Kod GitHub'da değiştirilir; derleme ve yükleme GitHub Actions'ta yapılır. B
   altında 30 gün saklanır). `DEPLOY_ENABLED` açıksa paketi sunucuya yükler: önce `<klasör>-next` içine yükler, sonra
   mevcut klasörü `<klasör>-prev` yapıp yenisini yerine koyar ve Passenger'ı `tmp/restart.txt` ile yeniden başlatır.
   Ortam değişkenleri (SMTP vb.) Plesk'teki Node.js ayarlarında kalır, bu işlemden etkilenmez.
-- **Aktarım:** `DEPLOY_METHOD` değişkeni `ftp` (varsayılan; SSH izni olmayan barındırma için) veya `ssh`.
-- **Geri dönüş:** GitHub › Actions › **Yayın** › *Run workflow* › `rollback`. Sunucudaki `<klasör>` ile `<klasör>-prev`
-  yer değiştirir.
+- **Aktarım:** `DEPLOY_METHOD` değişkeni:
+  - `git` (varsayılan): paket bu deponun `yayin` dalına (değiştirmek için `RELEASE_BRANCH`) commit olarak gönderilir;
+    sunucu bu dalı Plesk'in Git özelliğiyle **kendisi çeker**. Sunucuya dışarıdan bağlantı gerekmez.
+  - `ftp` / `ssh`: paket sunucuya doğrudan yüklenir (barındırma GitHub'dan gelen FTP/SSH bağlantısına izin vermelidir).
+- **Geri dönüş:** GitHub › Actions › **Yayın** › *Run workflow* › `rollback`. `git` yönteminde `yayin` dalına önceki
+  yayının içeriği yeniden gönderilir (iki kez çalıştırmak geri dönüşü geri alır); `ftp`/`ssh` yönteminde sunucudaki
+  `<klasör>` ile `<klasör>-prev` yer değiştirir.
 
 ### Şu anki kurulum (saniteks.com.tr, 1VS.co Plesk)
 
-- Barındırma paketinde SSH kapalı olduğundan yayın **FTP** ile yapılır.
-- Yalnızca yayın için açılmış, ana klasörü `/saniteks-web` olan ayrı bir FTP hesabı kullanılır; sitenin kendisi
-  `/saniteks-web/app` klasöründen çalışır (`PLESK_APP_DIR` = `app`).
-- Eski site `/saniteks.com.tr` klasöründe durur; Plesk'teki Git bağlantısı (`ubden/saniteks.com.tr`) **Manuel** dağıtıma
-  alınmıştır. Geri dönmek için Node.js ayarlarında uygulama kökünü `/saniteks.com.tr`, belge kökünü
+- Barındırma paketinde SSH kapalı; güvenlik duvarı GitHub'ın (yurtdışı) IP'lerinden FTP'ye (21) de izin vermiyor
+  (Kasım 2026'da denendi: TCP bağlantısı kurulamadı). Bu yüzden yayın **`git`** yöntemiyle yapılır: GitHub paketi
+  `yayin` dalına koyar, Plesk'in Git özelliği bu dalı `/saniteks-web/app` klasörüne dağıtır.
+- Site `/saniteks-web/app` klasöründen çalışır (Node.js uygulama kökü; belge kökü `/saniteks-web/app/public`).
+- Eski site `/saniteks.com.tr` klasöründe durur; Plesk'teki eski Git bağlantısı (`ubden/saniteks.com.tr`) **Manuel**
+  dağıtıma alınmıştır. Geri dönmek için Node.js ayarlarında uygulama kökünü `/saniteks.com.tr`, belge kökünü
   `/saniteks.com.tr/public` yapıp uygulamayı yeniden başlatmak yeterlidir.
+- `saniteks_depoloy` FTP hesabı (ana dizin `/saniteks-web`) FTP yöntemi için açılmıştı; kullanılmıyorsa silinebilir.
 
-### Bir kerelik kurulum — FTP
+### Bir kerelik kurulum — Git (Plesk çeker)
+
+1. **GitHub değişkenleri** (Settings › Secrets and variables › Actions › *Variables*): `DEPLOY_ENABLED` = `true`.
+   `DEPLOY_METHOD` boş bırakılabilir (varsayılan `git`). İlk yayın `yayin` dalını oluşturur (Actions › **Yayın** ›
+   *Run workflow* › `deploy`).
+2. **Plesk'e depo ekleyin:** alan adı › *Git* › *Depo Ekle*:
+   - *Uzak Git barındırma*, URL: `git@github.com:EmrahEryilmaz/saniteks-web.git` (depo gizli olduğu için SSH adresi).
+   - Plesk bir **SSH ortak anahtarı** gösterir. GitHub › depo › Settings › *Deploy keys* › *Add deploy key*: bu anahtarı
+     yapıştırın, **Allow write access işaretlemeyin** (salt okunur). GitHub "Key is already in use" derse anahtar başka
+     bir depoda kullanılıyordur; Plesk'te bu depo için yeni anahtar oluşturun.
+   - *Şube*: `yayin`. *Dağıtım modu*: **Otomatik**. *Sunucu yolu*: `/saniteks-web/app`.
+3. **Otomatik çekme:** Plesk'in depo ayarlarında gösterdiği *Webhook URL*'sini GitHub › Settings › *Webhooks* ›
+   *Add webhook* ile ekleyin (Content type `application/json`, yalnızca *push* olayı). GitHub › Webhooks ›
+   *Recent Deliveries* hata gösteriyorsa (güvenlik duvarı Plesk'e erişimi engelliyorsa) Plesk › *Zamanlanmış Görevler*
+   › *Görev Ekle* › *URL getir* ile aynı adresi 5–10 dakikada bir çağırın. Her iki yol da olmazsa Plesk › Git ›
+   **Şimdi çek** düğmesi yeterlidir.
+4. **Geçiş:** Plesk › alan adı › *Node.js*: *Uygulama Kökü* `/saniteks-web/app`, *Belge kökü*
+   `/saniteks-web/app/public`, başlangıç dosyası `server.js`; *Uygulamayı yeniden başlat*. Ardından aşağıdaki kontrol
+   listesini uygulayın. Bundan sonraki yayınlarda Passenger, `tmp/restart.txt` değiştiği için kendiliğinden yeniden
+   başlar.
+
+### Bir kerelik kurulum — FTP (barındırma izin verirse)
 
 1. **Klasör:** Plesk › alan adı › *Dosyalar*: en üst düzeyde (`saniteks.com.tr` klasörünün yanında) `saniteks-web`
    klasörünü oluşturun.
