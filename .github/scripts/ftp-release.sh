@@ -3,6 +3,7 @@
 #
 #   ftp-release.sh deploy <bundle-dir>   upload into <app>-next, then <app> → <app>-prev and <app>-next → <app>
 #   ftp-release.sh rollback              swap <app> and <app>-prev
+#   ftp-release.sh test                  only check the connection and list the FTP home (changes nothing)
 #
 # Environment: FTP_HOST, FTP_USER, LFTP_PASSWORD, APP_DIR (relative to the FTP account's home, e.g. "app"),
 # optional FTP_PORT (21) and FTP_TLS: "require" (default, verified certificate), "noverify" (encrypted, certificate
@@ -50,6 +51,28 @@ exists() {
   ftp "cls -1 \"$1\"" >/dev/null 2>&1
 }
 
+# Connection check with diagnostics: TCP reachability of the control port, then an lftp login + directory listing
+# (needs a passive-mode data connection) with protocol debug output on failure. lftp masks the password in debug.
+check_connection() {
+  local port="${FTP_PORT:-21}"
+  echo "Bağlantı denetleniyor: $FTP_HOST:$port (TLS: ${FTP_TLS:-require})"
+  if ! timeout 15 bash -c "exec 3<>/dev/tcp/$FTP_HOST/$port" 2>/dev/null; then
+    echo "::error::$FTP_HOST:$port adresine TCP bağlantısı kurulamadı. Sunucu/güvenlik duvarı GitHub'ın IP'lerinden FTP'ye izin vermiyor olabilir (ör. yurtdışı engeli) ya da adres/port yanlış."
+    return 1
+  fi
+  echo "TCP bağlantısı tamam (port $port açık)."
+  local log
+  log="$(mktemp)"
+  if lftp -c "$settings set net:max-retries 1; set net:timeout 20; debug 3; open --env-password -u \"$FTP_USER\" -p \"$port\" \"$FTP_HOST\"; cls -1 ." >"$log" 2>&1; then
+    echo "Giriş ve klasör listeleme tamam. FTP ana klasöründekiler:"
+    grep -vE '^(---|<---|--->|\*\*\*\*)' "$log" | sed 's/^/  /'
+    return 0
+  fi
+  echo "::error::FTP girişi veya klasör listeleme başarısız. Ayrıntılı günlük:"
+  sed -E 's/(PASS ).*/\1********/' "$log" | tail -n 60
+  return 1
+}
+
 restart_file="$(mktemp -d)/restart.txt"
 date -u +%FT%TZ > "$restart_file"
 restart_cmd="mkdir -p -f \"$app/tmp\"; put -O \"$app/tmp\" \"$restart_file\""
@@ -57,8 +80,7 @@ restart_cmd="mkdir -p -f \"$app/tmp\"; put -O \"$app/tmp\" \"$restart_file\""
 case "$action" in
   deploy)
     [ -f "$bundle/server.js" ] || { echo "::error::Pakette server.js yok: $bundle"; exit 1; }
-    echo "Bağlantı denetleniyor…"
-    ftp "cls -1 ." >/dev/null
+    check_connection
 
     if exists "$next"; then ftp "rm -r \"$next\""; fi
     echo "Yükleniyor → $next ($(find "$bundle" -type f | wc -l) dosya)…"
@@ -75,6 +97,10 @@ case "$action" in
     fi
     echo "Yayınlandı: $app ($(cat "$bundle/REVISION" 2>/dev/null || echo '?')). Önceki sürüm: $prev"
     ;;
+  test)
+    check_connection
+    echo "Bağlantı testi başarılı; sunucuda hiçbir şey değiştirilmedi."
+    ;;
   rollback)
     exists "$prev" || { echo "::error::Geri dönülecek önceki sürüm yok: $prev"; exit 1; }
     if exists "$next"; then ftp "rm -r \"$next\""; fi
@@ -82,7 +108,7 @@ case "$action" in
     echo "Geri dönüldü: $app"
     ;;
   *)
-    echo "Kullanım: ftp-release.sh deploy <bundle-dir> | rollback" >&2
+    echo "Kullanım: ftp-release.sh deploy <bundle-dir> | rollback | test" >&2
     exit 1
     ;;
 esac
