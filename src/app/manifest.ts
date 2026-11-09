@@ -15,8 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#ffffff",
     // Square app icons = the logo cube (yellow/dark-green sponge colours) on a transparent background.
     icons: [
-      { src: "/icons/saniteks-icon-192.png", sizes: "192x192", type: "image/png" },
-      { src: "/icons/saniteks-icon-512.png", sizes: "512x512", type: "image/png" },
+      { src: "/images/icons/saniteks-icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/images/icons/saniteks-icon-512.png", sizes: "512x512", type: "image/png" },
     ],
   };
 }
