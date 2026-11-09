@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   icons: {
     // Transparent cube icons; the Apple touch icon keeps its white background (iOS fills transparency with black).
     icon: [
-      { url: "/icons/saniteks-icon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icons/saniteks-icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/saniteks-icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/images/icons/saniteks-icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/icons/saniteks-icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/images/icons/saniteks-icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: "/icons/saniteks-apple-icon.png",
+    apple: "/images/icons/saniteks-apple-icon.png",
   },
 };
 

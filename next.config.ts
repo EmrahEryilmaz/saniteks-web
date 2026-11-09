@@ -30,9 +30,12 @@ const nextConfig: NextConfig = {
       { source: "/kalite", destination: "/kalite/kalite-politikamiz", permanent: true },
       // Logo/icons were recoloured (yellow cube) and renamed so cached green copies are never served.
       { source: "/images/logo/logo.png", destination: "/images/logo/saniteks-logo.png", permanent: true },
-      { source: "/icons/icon-192.png", destination: "/icons/saniteks-icon-192.png", permanent: true },
-      { source: "/icons/icon-512.png", destination: "/icons/saniteks-icon-512.png", permanent: true },
-      { source: "/icons/apple-icon.png", destination: "/icons/saniteks-apple-icon.png", permanent: true },
+      // Icons live under /images/icons: on the Plesk/Apache host "/icons/" is a server-wide alias for Apache's own icon
+      // folder, so nothing under /icons/ ever reaches the app there. These redirects only help other hosts.
+      { source: "/icons/icon-192.png", destination: "/images/icons/saniteks-icon-192.png", permanent: true },
+      { source: "/icons/icon-512.png", destination: "/images/icons/saniteks-icon-512.png", permanent: true },
+      { source: "/icons/apple-icon.png", destination: "/images/icons/saniteks-apple-icon.png", permanent: true },
+      { source: "/icons/:file(saniteks-.*\\.png)", destination: "/images/icons/:file", permanent: true },
     ];
   },
 };

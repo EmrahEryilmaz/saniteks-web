@@ -55,7 +55,8 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   another manufacturer, Provel). CarrefourSA has no logo file yet and is shown as text.
 - Logo: the cube was recoloured from light green to sponge yellow (front `#EFE532`, side `#D9C21A`, dark-green top).
   The live site still has the green version — never bring it back. Files: `public/images/logo/saniteks-logo.png`,
-  `public/icons/saniteks-*.png` (favicons transparent; the Apple touch icon keeps a white background).
+  `public/images/icons/saniteks-*.png` and `src/app/favicon.ico` (favicons transparent; the Apple touch icon keeps a white
+  background). Never serve anything under `/icons/`: on the Plesk/Apache host it is a server-wide alias to Apache's icons.
 - HR: job applications and "İnsan Kaynakları" contact messages go to `site.contact.hrEmail` (ik@sanifoam.com.tr)
   unless `HR_TO` is set.
 - Home slider lifestyle photos come from the 2016 catalogue (licence unverified); slide 3 was AI-upscaled and retouched

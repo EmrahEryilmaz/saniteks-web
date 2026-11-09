@@ -154,5 +154,6 @@ Tüm ürün bilgisi `src/data/products.ts` dosyasındadır. Yapı: **Kategori �
   sonrası `src/components/legal/kvkk.ts` içindeki `draft` bayrağı `false` yapılmalıdır.
 - KVKK Aydınlatma Metni şu an yalnızca iletişim formunu anlatır; iş başvuru formuyla işlenen aday verileri (CV ve içeriği,
   saklama süresi, alıcılar) için hukuk onaylı bir bölüm eklenmelidir. Başvuru formundaki onay kutusu bu metne bağlanır.
-- Uygulama ikonları (`public/icons/`) logodaki küp işaretinden üretilmiştir; kurumsal kimlikten kare bir ikon gelirse
-  değiştirilebilir.
+- Uygulama ikonları (`public/images/icons/`, sekme simgesi `src/app/favicon.ico`) logodaki küp işaretinden üretilmiştir;
+  kurumsal kimlikten kare bir ikon gelirse değiştirilebilir. İkonları `/icons/` altına koymayın: Plesk/Apache sunucusunda
+  `/icons/` adresi Apache'nin kendi simge klasörüne ayrılmıştır ve uygulamaya hiç ulaşmaz.
