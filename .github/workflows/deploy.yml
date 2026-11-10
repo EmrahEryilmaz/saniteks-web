@@ -97,6 +97,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           RELEASE_BRANCH: ${{ vars.RELEASE_BRANCH }}
+          # Transitional: also publish the old root layout until Plesk's startup file is switched to app.js.
+          LEGACY_ROOT: "true"
 
       - name: FTP aracını kur
         if: env.METHOD == 'ftp'

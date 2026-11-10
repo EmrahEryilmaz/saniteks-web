@@ -111,10 +111,15 @@ Kod GitHub'da değiştirilir; derleme ve yükleme GitHub Actions'ta yapılır. B
    › *Görev Ekle* › *URL getir* ile aynı adresi 5–10 dakikada bir çağırın. Her iki yol da olmazsa Plesk › Git ›
    **Şimdi çek** düğmesi yeterlidir.
 4. **Geçiş:** Plesk › alan adı › *Node.js*: *Uygulama Kökü* `/saniteks-web/app`, *Belge kökü*
-   `/saniteks-web/app/public`, başlangıç dosyası `server.js`; *Uygulamayı yeniden başlat*. Ardından aşağıdaki kontrol
-   listesini uygulayın. Bundan sonraki yayınlarda uygulama kendiliğinden yeni sürüme geçer: başlangıç dosyası `server.js`,
-   `REVISION` dosyasının değiştiğini 5 sn içinde fark edip süreci kapatır, Passenger yeni sürümü bir sonraki istekte
-   başlatır (bu sunucuda `tmp/restart.txt` tek başına yetmiyor).
+   `/saniteks-web/app/public`, **başlangıç dosyası `app.js`**; *Uygulamayı yeniden başlat*. Ardından aşağıdaki kontrol
+   listesini uygulayın.
+
+**Neden `app.js` ve `releases/` klasörü?** Bu sunucuda Plesk'in Git dağıtımı yeni dosyaları ekliyor, silinenleri
+kaldırıyor ama **zaten var olan dosyaların içeriğini güncellemiyor** (Kasım 2026'da görüldü: sayfalar ilk yayındaki
+haliyle kaldı). Bu yüzden her yayın `releases/<tarih>-<commit>/` adlı yeni bir klasöre iner; `app.js` en yeni klasördeki
+uygulamayı başlatır ve daha yeni bir klasör gelince 5 sn içinde süreci kapatır, Passenger bir sonraki istekte yeni
+sürümü başlatır. `app.js` hiç değişmemelidir (değişirse sunucuda güncellenmez); değişmesi gerekirse yeni bir adla
+yayınlanıp Plesk'teki başlangıç dosyası ayarı değiştirilir.
 
 ### Bir kerelik kurulum — FTP (barındırma izin verirse)
 
