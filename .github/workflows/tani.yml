@@ -14,12 +14,16 @@ jobs:
         run: |
           set +e
           B=https://www.saniteks.com.tr
-          echo "=================== chunks (old-only then new-only)"
-          for c in 2eexehf6x4wzw.js 3ieyw4jmp84eo.css ; do printf "old %s -> " $c; curl -sS -m 30 -o /dev/null -w "%{http_code}\n" "$B/_next/static/chunks/$c"; done
-          for c in 0q6yg7ul0p1yc.css 1vabkgf7_opyo.js ; do printf "new %s -> " $c; curl -sS -m 30 -o /dev/null -w "%{http_code}\n" "$B/_next/static/chunks/$c"; done
-          echo "=================== favicon headers"; curl -sS -m 30 -D - -o /dev/null "$B/favicon.ico"
-          echo "=================== icon png headers"; curl -sS -m 30 -D - -o /dev/null "$B/images/icons/saniteks-icon-32.png"
-          echo "=================== dynamic: api"; curl -sS -m 30 -D - -o /dev/null "$B/api/contact" | head -12
-          echo "=================== dynamic: product page"; curl -sS -m 30 -D h.txt -o b.html "$B/urunler/temizlik-sungerleri"; grep -iE "^HTTP|x-nextjs|content-length|etag" h.txt; echo "iconsOld=$(grep -c 'href="/icons/' b.html) iconsNew=$(grep -c '/images/icons/' b.html) favicon=$(grep -c 'favicon.ico' b.html)"
-          echo "=================== 404 page"; curl -sS -m 30 -o b.html "$B/olmayan-sayfa-tani"; echo "iconsOld=$(grep -c 'href="/icons/' b.html) iconsNew=$(grep -c '/images/icons/' b.html) favicon=$(grep -c 'favicon.ico' b.html)"
-          echo "=================== rsc"; curl -sS -m 30 -H "RSC: 1" -o b.txt -D h.txt "$B/urunler/ozel-marka-uretimi"; grep -iE "^HTTP|content-length|x-nextjs" h.txt; echo "CleanFun=$(grep -c 'Clean & Fun' b.txt)"
+          for u in "/urunler/ozel-marka-uretimi" "/"; do
+            echo "=================== GET $u"
+            curl -sS -m 30 -D h.txt -o b.html "$B$u"
+            grep -iE "^HTTP|^content-length|^x-nextjs-cache" h.txt
+            echo "-- h2:"; grep -oE '<h2[^>]*>[^<]*' b.html | sed 's/<h2[^>]*>//' | head -20
+            echo "-- markers: CleanFun=$(grep -c 'Clean &amp; Fun' b.html) Banat=$(grep -c Banat b.html) iconsOld=$(grep -c 'href="/icons/' b.html) iconsNew=$(grep -c '/images/icons/' b.html) favicon=$(grep -c 'favicon.ico' b.html)"
+            bad=0; for c in $(grep -oE '/_next/static/[A-Za-z0-9_./-]+\.(js|css)' b.html | sort -u); do code=$(curl -sS -m 30 -o /dev/null -w "%{http_code}" "$B$c"); [ "$code" = 200 ] || { bad=$((bad+1)); echo "MISSING $code $c"; }; done; echo "-- missing js/css: $bad"
+          done
+          echo "=================== assets"
+          for u in /favicon.ico /images/icons/saniteks-icon-32.png /images/logo/saniteks-logo.png /manifest.webmanifest /sitemap.xml /robots.txt /urunler /urunler/temizlik-sungerleri /iletisim /kataloglar /app.js /releases/ /package.json /README.md "/_next/image?url=%2Fimages%2Flogo%2Fsaniteks-logo.png&w=256&q=75"; do
+            printf "%s -> " "$u"; curl -sS -m 30 -o /dev/null -w "%{http_code} %{content_type} %{size_download}B\n" "$B$u"
+          done
+          echo "=================== manifest"; curl -sS -m 30 "$B/manifest.webmanifest" | grep -oE '"src":"[^"]+"'
