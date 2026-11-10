@@ -1,16 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  brandOwners,
-  privateLabelCategories,
-  privateLabelFacts,
-  privateLabelPath,
-  privateLabelSteps,
-  retailers,
-  visiblePlProducts,
-} from "@/data/privateLabel";
-import { BrandOwnerCard, PlProductGroups, RetailerTile } from "@/components/products/PrivateLabel";
+import { privateLabelCategories, privateLabelFacts, privateLabelPath, privateLabelSteps, retailers } from "@/data/privateLabel";
+import { RetailerTile } from "@/components/products/PrivateLabel";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
 import { inquiryHref } from "@/components/products/format";
@@ -46,7 +38,6 @@ const crumbs: Crumb[] = [
 ];
 
 export default function PrivateLabelPage() {
-  const products = visiblePlProducts();
   return (
     <>
       <PageHero
@@ -105,37 +96,6 @@ export default function PrivateLabelPage() {
           Zincir adları ve logoları ilgili şirketlerin tescilli markalarıdır ve izinleriyle kullanılmaktadır.
         </p>
       </Section>
-
-      {/* Marka sahipleri */}
-      {brandOwners.length ? (
-        <Section labelledBy="pl-brands-title" tone="strong">
-          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-16">
-            <SectionHeading id="pl-brands-title" eyebrow="MARKALAR İÇİN ÜRETİM" title="Marka sahipleri için üretim." />
-            <p className="max-w-lg text-base leading-7 text-muted-foreground">
-              Perakende zincirlerinin yanı sıra, kendi markalarıyla satış yapan firmalar için de üretim yapıyoruz.
-            </p>
-          </div>
-          <div className="mt-9 grid gap-5 lg:grid-cols-2">
-            {brandOwners.map((o) => (
-              <BrandOwnerCard key={o.slug} owner={o} />
-            ))}
-          </div>
-        </Section>
-      ) : null}
-
-      {/* Raflardaki ürünler */}
-      {products.length ? (
-        <Section labelledBy="pl-shelf-title">
-          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-16">
-            <SectionHeading id="pl-shelf-title" eyebrow="RAFLARDA" title="Müşterilerimizin markalarıyla ürettiklerimizden." />
-            <p className="max-w-lg text-base leading-7 text-muted-foreground">
-              Ürün görselleri ilgili zincir ve markaların izniyle kullanılmaktadır; ürün çeşitleri ve ambalajlar müşterilerimizin
-              listelerine göre değişebilir.
-            </p>
-          </div>
-          <PlProductGroups products={products} />
-        </Section>
-      ) : null}
 
       {/* Ürün grupları */}
       <Section labelledBy="pl-products-title" tone="muted">

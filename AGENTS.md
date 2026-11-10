@@ -48,11 +48,10 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Company facts: Saniteks is a Sanifoam group company; head office İstanbul, production Hendek (Sakarya). Use only
   verifiable group facts — no employee counts or plant areas. Sanifoam group policies apply to Saniteks. The Veliköy URS
   ISO certificates expired in September 2025, so `validCertificates()` hides them; list renewed ones only when supplied.
-- Private label (`/urunler/ozel-marka-uretimi`): the retailers allow their official names, logos and product photos.
-  Brand → chain: Clean & Fun = A101, Mr Green = BİM, Mintax = ŞOK, Benri = Gratis, Carrefour = CarrefourSA,
-  ARO / METRO Professional / Fine Dreaming = Metro, Housera / Proera = Koçtaş. Banat (Bella) is shown as a brand owner.
-  Never show Vileda (Glitzi, Miraclean); DEVA and ECE are not shown. The Mintax photo stays out (ŞOK's product page names
-  another manufacturer, Provel). CarrefourSA has no logo file yet and is shown as text.
+- Private label (`/urunler/ozel-marka-uretimi`): shows only the retailers we produce for, by official name and logo
+  (A101, BİM, FİLE, ŞOK, Metro, Gratis, CarrefourSA, Koçtaş — permitted by the retailers). Owner decision 2026-11-10:
+  no brand owners (Banat/Bella removed) and no photos or names of customers' private-label products. Never show Vileda
+  (Glitzi, Miraclean), DEVA or ECE. CarrefourSA has no logo file yet and is shown as text.
 - Logo: the cube was recoloured from light green to sponge yellow (front `#EFE532`, side `#D9C21A`, dark-green top).
   The live site still has the green version — never bring it back. Files: `public/images/logo/saniteks-logo.png`,
   `public/images/icons/saniteks-*.png` and `src/app/favicon.ico` (favicons transparent; the Apple touch icon keeps a white
