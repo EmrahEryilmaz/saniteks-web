@@ -48,12 +48,6 @@ case "$action" in
     # Plesk's Git deployment adds and deletes files but does not refresh files that already exist, so every release
     # goes into a folder of its own and app.js (plesk-launcher.js) starts the newest one. See that file.
     name="$(date -u +%Y%m%d%H%M%S)-${rev:0:7}"
-    if [ "${LEGACY_ROOT:-false}" = true ]; then
-      # Transitional: also keep the old layout (package at the root, startup file server.js) so the site stays up
-      # until "Uygulamayı Başlatma Dosyası" is switched to app.js in Plesk.
-      cp -a "$bundle"/. "$work"/
-      mark_restart "$rev"
-    fi
     mkdir -p "$work/releases/$name" "$work/public"
     cp -a "$bundle"/. "$work/releases/$name"/
     printf '%s\n' "$name" > "$work/releases/$name/zz-ready"
