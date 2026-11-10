@@ -8,7 +8,7 @@
 #
 # Environment: GITHUB_TOKEN + GITHUB_REPOSITORY (set by Actions; the job needs `contents: write`),
 # optional RELEASE_BRANCH (default "yayin") and RELEASE_REMOTE (override the push URL, for local tests).
-# Every commit rewrites tmp/restart.txt, so Phusion Passenger restarts the app after Plesk deploys the files.
+# Layout on the branch: app.js (stable launcher) + releases/<timestamp>-<commit>/<package> + public/.keep.
 set -euo pipefail
 
 action="${1:-}"
@@ -45,10 +45,23 @@ case "$action" in
   deploy)
     [ -f "$bundle/server.js" ] || { echo "::error::Pakette server.js yok: $bundle"; exit 1; }
     find "$work" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-    cp -a "$bundle"/. "$work"/
+    # Plesk's Git deployment adds and deletes files but does not refresh files that already exist, so every release
+    # goes into a folder of its own and app.js (plesk-launcher.js) starts the newest one. See that file.
+    name="$(date -u +%Y%m%d%H%M%S)-${rev:0:7}"
+    if [ "${LEGACY_ROOT:-false}" = true ]; then
+      # Transitional: also keep the old layout (package at the root, startup file server.js) so the site stays up
+      # until "Uygulamayı Başlatma Dosyası" is switched to app.js in Plesk.
+      cp -a "$bundle"/. "$work"/
+      mark_restart "$rev"
+    fi
+    mkdir -p "$work/releases/$name" "$work/public"
+    cp -a "$bundle"/. "$work/releases/$name"/
+    printf '%s\n' "$name" > "$work/releases/$name/zz-ready"
+    cp "$(dirname "$0")/plesk-launcher.js" "$work/app.js"
+    # The document root (public/) must exist; static files are served by the app from the release folder.
+    [ -e "$work/public/.keep" ] || : > "$work/public/.keep"
     # Store every file byte-for-byte (no line-ending conversion on the server's checkout).
     printf '* -text\n' > "$work/.gitattributes"
-    mark_restart "$rev"
     git -C "$work" add --all --force .
     git -C "$work" commit --quiet -m "Yayın ${rev}"
     ;;

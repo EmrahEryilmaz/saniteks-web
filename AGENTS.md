@@ -68,5 +68,8 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   `npm run package:plesk`. The owner deploys — never deploy or change the server without an explicit go.
 - Secrets (SMTP credentials etc.) live only in the Plesk environment; never commit `.env*` files.
 - Deploys: GitHub Actions commits the built package to the `yayin` branch; the Plesk Git extension pulls it into
-  `/saniteks-web/app` (DEPLOY.md › Yöntem C). Passenger there ignores `tmp/restart.txt`, so the startup `server.js` is a
-  wrapper (written by `scripts/prepare-standalone.mjs`) that exits when `REVISION` changes; keep it.
+  `/saniteks-web/app` (DEPLOY.md › Yöntem C). That deployment adds and deletes files but does NOT refresh files that
+  already exist, so each release lives in `releases/<timestamp>-<commit>/` and the Plesk startup file is `app.js`
+  (`.github/scripts/plesk-launcher.js`, must stay byte-identical), which runs the newest release and exits when a newer
+  one appears. To inspect the live site from here, push a branch named `tani/...` with a curl workflow (GitHub runners
+  can reach the site; this sandbox cannot).
