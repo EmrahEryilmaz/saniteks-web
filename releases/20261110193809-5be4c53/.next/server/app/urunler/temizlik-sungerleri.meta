@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/urunler/layout,_N_T_/urunler/[kategori]/layout,_N_T_/urunler/[kategori]/page,_N_T_/urunler/temizlik-sungerleri"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/_index",
+    "/urunler/$d$kategori/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 0,
+    "slots": {
+      "children": {
+        "hints": 64,
+        "slots": {
+          "children": {
+            "hints": 96,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/4bab06cbed022e991b62314cedfb2184f70f1b1d9c2fdcf48b72ce1eb4df5a74/$/urunler/temizlik-sungerleri",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/urunler/[kategori]/page"
+    },
+    "isFallback": false
+  }
+}

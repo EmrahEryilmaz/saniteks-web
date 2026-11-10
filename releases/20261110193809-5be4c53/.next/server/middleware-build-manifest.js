@@ -1,0 +1,212 @@
+globalThis.__BUILD_MANIFEST = {
+  "pages": {
+    "/_app": []
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/0cz1d0mv5g_q7.js"
+  ],
+  "lowPriorityFiles": [
+    "static/_ym5Yl1gbSJglpzYTpfPy/_buildManifest.js",
+    "static/_ym5Yl1gbSJglpzYTpfPy/_ssgManifest.js",
+    "static/_ym5Yl1gbSJglpzYTpfPy/_clientMiddlewareManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/2_xf99yxhp4od.js",
+    "static/chunks/1f0kui785itr3.js",
+    "static/chunks/0tbjpdo5bcf9u.js",
+    "static/chunks/2b23rnl5a4r7f.js",
+    "static/chunks/turbopack-2u1d16houkiyo.js"
+  ],
+  "rootMainFilesTree": {},
+  "pagesChunkGroupBootstrapParams": {
+    "/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/_not-found/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/_global-error/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/iletisim/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/insan-kaynaklari/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kabiliyetler/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kalite/[slug]/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kataloglar/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kurumsal/grup-sirketleri/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kurumsal/hakkinda/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kurumsal/uretim-tesisleri/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/kvkk-aydinlatma-metni/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/surdurulebilirlik/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/urunler/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/urunler/[kategori]/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/urunler/[kategori]/[urun]/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    },
+    "/urunler/ozel-marka-uretimi/page": {
+      "otherChunks": [
+        "static/chunks/2_xf99yxhp4od.js",
+        "static/chunks/1f0kui785itr3.js",
+        "static/chunks/0tbjpdo5bcf9u.js",
+        "static/chunks/2b23rnl5a4r7f.js"
+      ],
+      "runtimeModuleIds": [
+        94553
+      ]
+    }
+  },
+  "chunkLoadingGlobal": "TURBOPACK"
+};
