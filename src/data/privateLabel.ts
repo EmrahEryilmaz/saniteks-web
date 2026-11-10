@@ -2,10 +2,10 @@
  * Private label (özel marka) production — /urunler/ozel-marka-uretimi.
  *
  * Customer list supplied by Saniteks (2026-11). The retailers have permitted the use of their official
- * names and logos on this site (company statement, 2026-11-09). Logo files live in
- * public/images/private-label/logos; product photos in public/images/private-label/products.
+ * names and logos on this site (company statement, 2026-11-09). Logo files live in public/images/private-label/logos.
+ * Company decision 2026-11-10: only the retailer names/logos are shown — no brand owners (Banat removed) and no
+ * photos of customers' private-label products.
  */
-import { partnerLogos, plProductData } from "./privateLabelProducts";
 import { categories, categoryHref } from "./products";
 
 export const privateLabelPath = "/urunler/ozel-marka-uretimi";
@@ -19,6 +19,16 @@ export type Retailer = {
   logo?: Logo;
 };
 
+const retailerLogos: Record<string, Logo> = {
+  a101: { src: "/images/private-label/logos/a101.svg", width: 735, height: 219 },
+  bim: { src: "/images/private-label/logos/bim.png", width: 303, height: 187 },
+  file: { src: "/images/private-label/logos/file.svg", width: 276, height: 99 },
+  sok: { src: "/images/private-label/logos/sok.svg", width: 20, height: 13 },
+  metro: { src: "/images/private-label/logos/metro.svg", width: 500, height: 250 },
+  gratis: { src: "/images/private-label/logos/gratis.png", width: 800, height: 442 },
+  koctas: { src: "/images/private-label/logos/koctas.png", width: 252, height: 300 },
+};
+
 export const retailers: Retailer[] = [
   { slug: "a101", name: "A101", segment: "İndirim marketi" },
   { slug: "bim", name: "BİM", segment: "İndirim marketi" },
@@ -29,51 +39,7 @@ export const retailers: Retailer[] = [
   // Official CarrefourSA logo file could not be downloaded (403); the tile shows the name until it is added.
   { slug: "carrefoursa", name: "CarrefourSA", segment: "Süpermarket ve hipermarket" },
   { slug: "koctas", name: "Koçtaş", segment: "Yapı market ve ev" },
-].map((r) => ({ ...r, logo: partnerLogos[r.slug] }));
-
-/**
- * Brand owners Saniteks produces for (contract manufacturing under their brand). Company decision 2026-11-09:
- * Banat (Bella) is shown with permission; Vileda is intentionally not listed.
- */
-export type BrandOwner = Retailer & { brands: string[]; description: string };
-
-export const brandOwners: BrandOwner[] = [
-  {
-    slug: "banat",
-    name: "Banat",
-    segment: "Kişisel bakım ve ev ürünleri",
-    brands: ["Bella"],
-    description: "Banat'ın Bella markalı bulaşık ve çok amaçlı süngerlerini üretiyoruz.",
-  },
-].map((b) => ({ ...b, logo: partnerLogos[b.slug] }));
-
-/** Retailer or brand owner by slug. */
-export function getRetailer(slug: string): Retailer | undefined {
-  return retailers.find((r) => r.slug === slug) ?? brandOwners.find((b) => b.slug === slug);
-}
-
-/**
- * Private-label products as sold by the retailers.
- * `manufacturerVerified`: the retailer's product page names Sanifoam/Saniteks as manufacturer.
- * `confirmedByCompany`: Saniteks confirmed the product is theirs. Only products with either flag are shown.
- */
-export type PlProduct = {
-  retailer: string;
-  name: string;
-  ownBrand?: string;
-  image: string;
-  imageAlt: string;
-  /** Where the photo was taken from (for reference; not linked on the site). */
-  sourceUrl: string;
-  barcode?: string;
-  retailerArticle?: string;
-  manufacturerVerified: boolean;
-  confirmedByCompany: boolean;
-};
-
-export const plProducts: PlProduct[] = plProductData;
-
-export const visiblePlProducts = () => plProducts.filter((p) => p.manufacturerVerified || p.confirmedByCompany);
+].map((r) => ({ ...r, logo: retailerLogos[r.slug] }));
 
 /** Product groups offered for private label (raw materials are supplied unbranded, so excluded). */
 export const privateLabelCategories = categories
