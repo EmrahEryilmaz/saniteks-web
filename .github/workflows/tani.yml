@@ -1,0 +1,31 @@
+# Temporary read-only diagnostics of the live site (runs only on tani/** branches).
+name: Tanı
+on:
+  push:
+    branches: ["tani/**"]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Canlı siteyi incele
+        run: |
+          set +e
+          B=https://www.saniteks.com.tr
+          for u in "/urunler/ozel-marka-uretimi" "/urunler/ozel-marka-uretimi?tani=$RANDOM" "/"; do
+            echo "=================== GET $u"
+            curl -sS -m 30 -D h.txt -o b.html "$B$u"; echo "curl exit=$?"
+            grep -iE "^HTTP|^server|^x-powered|^cache-control|^age|^x-nextjs|^x-cache|^etag|^date|^last-modified|^via|^x-proxy|^content-length" h.txt
+            echo "-- h2:"; grep -oE '<h2[^>]*>[^<]*' b.html | sed 's/<h2[^>]*>//' | head -20
+            echo "-- markers: CleanFun=$(grep -c 'Clean &amp; Fun' b.html) Banat=$(grep -c Banat b.html) iconsOld=$(grep -c 'href="/icons/' b.html) iconsNew=$(grep -c '/images/icons/' b.html) favicon=$(grep -c 'favicon.ico' b.html)"
+            echo "-- static chunk refs:"; grep -oE '/_next/static/[A-Za-z0-9_./-]+' b.html | sort -u | head -8
+            echo "-- buildId:"; grep -oE '"b":"[^"]+"' b.html | head -2
+          done
+          echo "=================== assets"
+          for u in /favicon.ico /images/icons/saniteks-icon-32.png /icons/saniteks-icon-32.png /images/private-label/products/a101-clean-fun-bulasik-kurutma-mati-42x35.webp /images/private-label/logos/banat.png /manifest.webmanifest /README.md /package.json /next-server.js /REVISION; do
+            printf "%s -> " "$u"; curl -sS -m 30 -o /dev/null -w "%{http_code} %{content_type} %{size_download}B\n" "$B$u"
+          done
+          echo "=================== manifest"; curl -sS -m 30 "$B/manifest.webmanifest" | head -c 600; echo
+          echo "=================== apex"; curl -sS -m 30 -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://saniteks.com.tr/urunler/ozel-marka-uretimi
