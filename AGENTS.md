@@ -67,3 +67,6 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Hosting: Plesk (nginx + Phusion Passenger, shared with sanifoam.com.tr), `output: "standalone"`; see `DEPLOY.md` and
   `npm run package:plesk`. The owner deploys — never deploy or change the server without an explicit go.
 - Secrets (SMTP credentials etc.) live only in the Plesk environment; never commit `.env*` files.
+- Deploys: GitHub Actions commits the built package to the `yayin` branch; the Plesk Git extension pulls it into
+  `/saniteks-web/app` (DEPLOY.md › Yöntem C). Passenger there ignores `tmp/restart.txt`, so the startup `server.js` is a
+  wrapper (written by `scripts/prepare-standalone.mjs`) that exits when `REVISION` changes; keep it.

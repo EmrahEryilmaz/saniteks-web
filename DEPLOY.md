@@ -112,8 +112,9 @@ Kod GitHub'da değiştirilir; derleme ve yükleme GitHub Actions'ta yapılır. B
    **Şimdi çek** düğmesi yeterlidir.
 4. **Geçiş:** Plesk › alan adı › *Node.js*: *Uygulama Kökü* `/saniteks-web/app`, *Belge kökü*
    `/saniteks-web/app/public`, başlangıç dosyası `server.js`; *Uygulamayı yeniden başlat*. Ardından aşağıdaki kontrol
-   listesini uygulayın. Bundan sonraki yayınlarda Passenger, `tmp/restart.txt` değiştiği için kendiliğinden yeniden
-   başlar.
+   listesini uygulayın. Bundan sonraki yayınlarda uygulama kendiliğinden yeni sürüme geçer: başlangıç dosyası `server.js`,
+   `REVISION` dosyasının değiştiğini 5 sn içinde fark edip süreci kapatır, Passenger yeni sürümü bir sonraki istekte
+   başlatır (bu sunucuda `tmp/restart.txt` tek başına yetmiyor).
 
 ### Bir kerelik kurulum — FTP (barındırma izin verirse)
 
