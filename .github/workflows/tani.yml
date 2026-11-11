@@ -10,26 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: sanifoam.com.tr incele
+      - name: Canlı siteyi incele
         run: |
           set +e
-          B=https://www.sanifoam.com.tr
-          curl -sSL -m 40 -A "Mozilla/5.0" -D h.txt -o home.html "$B/"; grep -iE "^HTTP|^location|^server|^x-powered" h.txt
-          python3 - <<'EOF'
-          import re,html
-          s=open('home.html',encoding='utf-8',errors='replace').read()
-          print('LEN',len(s)); print('TITLE',re.findall(r'<title[^>]*>(.*?)</title>',s,re.S)[:1])
-          print('DESC',re.findall(r'<meta[^>]+name="description"[^>]+content="([^"]*)"',s)[:1])
-          print('NEXT', '/_next/' in s, 'lang', re.findall(r'<html[^>]*lang="([^"]+)"',s))
-          links=[]
-          for h,t in re.findall(r'<a[^>]+href="([^"#]+)"[^>]*>(.*?)</a>',s,re.S):
-              t=html.unescape(re.sub(r'<[^>]+>',' ',t)); t=' '.join(t.split())
-              if (h,t) not in links: links.append((h,t))
-          print('--- LINKS'); [print(h,'|',t[:80]) for h,t in links[:140]]
-          print('--- HEADINGS')
-          for tag,t in re.findall(r'<(h[1-3])[^>]*>(.*?)</\1>',s,re.S):
-              t=html.unescape(re.sub(r'<[^>]+>',' ',t)); print(tag,' '.join(t.split())[:140])
-          print('--- saniteks mentions'); [print(' ',x[:200]) for x in re.findall(r'[^<>]{0,80}[Ss]aniteks[^<>]{0,80}',s)[:12]]
-          EOF
-          for u in /sitemap.xml /kurumsal /kurumsal/grup-sirketleri /markalar /urunler /en; do printf "%s -> " $u; curl -sS -m 30 -A "Mozilla/5.0" -o /dev/null -w "%{http_code} %{redirect_url}\n" "$B$u"; done
-          echo "--- sitemap"; curl -sSL -m 30 -A "Mozilla/5.0" "$B/sitemap.xml" | grep -oE '<loc>[^<]+' | sed 's/<loc>//' | head -120
+          B=https://www.saniteks.com.tr
+          for u in "/urunler" "/" "/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri"; do
+            echo "=================== GET $u"
+            curl -sS -m 30 -D h.txt -o b.html "$B$u"; grep -iE "^HTTP|^content-length" h.txt
+            echo "-- markers: newCat=$(grep -c 'category-sponges-2026' b.html) newSku=$(grep -c 'super-tekli-oluklu-2026' b.html) oldTitle=$(grep -c 'Rulo Non-Woven Temizlik' b.html) favicon=$(grep -c 'favicon.ico' b.html)"
+            bad=0; for c in $(grep -oE '/_next/static/[A-Za-z0-9_./-]+\.(js|css)' b.html | sort -u); do code=$(curl -sS -m 30 -o /dev/null -w "%{http_code}" "$B$c"); [ "$code" = 200 ] || { bad=$((bad+1)); echo "MISSING $code $c"; }; done; echo "-- missing js/css: $bad"
+          done
+          echo "=================== assets"
+          for u in /favicon.ico /images/icons/saniteks-icon-32.png /images/logo/saniteks-logo.png /images/catalog/106-0-202-24-2026.webp /images/products/category-sponges-2026.webp /images/products/category-cloths.webp /documents/catalogs/sanifoam-sanitex-product-catalog-en.pdf /manifest.webmanifest /sitemap.xml /robots.txt /iletisim /kataloglar /urunler/ozel-marka-uretimi /app.js /server.js /package.json "/_next/image?url=%2Fimages%2Fcatalog%2F106-0-202-24-2026.webp&w=640&q=75"; do
+            printf "%s -> " "$u"; curl -sS -m 30 -o /dev/null -w "%{http_code} %{content_type} %{size_download}B\n" "$B$u"
+          done
+          printf "old image redirect -> "; curl -sS -m 30 -o /dev/null -w "%{http_code} %{redirect_url}\n" "$B/images/catalog/106-0-202-24.webp"
