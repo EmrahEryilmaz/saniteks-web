@@ -87,7 +87,24 @@ export type Category = {
   products: ProductType[];
 };
 
-const img = (slug: string) => `/images/catalog/${slug}.webp`;
+/**
+ * SKUs with a new studio photo (supplied by Saniteks, 2026-11). The file name carries a "-2026" suffix because
+ * /images is cached for 30 days; the old catalogue cut-outs were removed (redirects in next.config.ts).
+ */
+const NEW_PHOTOS = new Set([
+  "super-tekli-oluklu",
+  "101-0-750-48",
+  "101-0-304-36",
+  "110-0-050-20",
+  "125-0-115-80",
+  "101-0-303-36",
+  "104-0-102-80t",
+  "105-0-105-168t",
+  "103-0-003-20",
+  "106-0-202-24",
+]);
+
+const img = (slug: string) => `/images/catalog/${slug}${NEW_PHOTOS.has(slug) ? "-2026" : ""}.webp`;
 
 /* ------------------------------------------------------------------ */
 /* Shared colour palettes                                              */
@@ -297,7 +314,7 @@ const olukluTemizlikSungeri: ProductType = {
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
       image: img("super-tekli-oluklu"),
-      imageAlt: "Süper tekli paket oluklu bulaşık süngeri",
+      imageAlt: "Tırnak koruyuculu süper tekli oluklu bulaşık süngeri ve ambalajı",
     },
     {
       slug: "100-0-350-30",
@@ -479,7 +496,7 @@ const cokAmacliTemizlikBezi: ProductType = {
       packaging: "koli",
       extra: [{ label: "Gramaj", value: "140 gr/m²" }],
       image: img("110-0-050-20"),
-      imageAlt: "Çiçek baskılı süper 3'lü temizlik bezi ve ambalajı",
+      imageAlt: "Çiçek baskılı süper 3'lü temizlik bezi ambalajı",
     },
     {
       slug: "110-0-001-20",
@@ -840,7 +857,7 @@ const ovucuKece: ProductType = {
       caseSize: "54,5 × 67 × 14 cm",
       packaging: "naylon-torba",
       image: img("125-0-115-80"),
-      imageAlt: "Renkli 5'li ovma fiberi ambalajı",
+      imageAlt: "Renkli 5'li ovma fiberi ambalajı ve beş farklı renkte ovma keçesi",
     },
   ],
 };
@@ -867,7 +884,7 @@ const naturelKece: ProductType = {
       productSize: "11 × 7 × 2 cm",
       extra: [{ label: "Paket içeriği", value: "2 adet" }],
       image: img("101-0-303-36"),
-      imageAlt: "Kâğıt bantlı ambalajda natürel lifli sünger",
+      imageAlt: "Kâğıt bantlı ambalajında natürel lifli süngerler ve yanında iki sünger",
     },
   ],
 };
@@ -924,7 +941,7 @@ const ovalFormluSunger: ProductType = {
       caseSize: "117 × 41 × 36 cm",
       packaging: "naylon-torba",
       image: img("105-0-105-168t"),
-      imageAlt: "Yeşil oval oto süngeri",
+      imageAlt: "Ambalajında mavi oval oto süngeri",
     },
   ],
 };
@@ -954,7 +971,7 @@ const kavramaFormluSunger: ProductType = {
       caseSize: "40 × 23 × 16 cm",
       packaging: "koli",
       image: img("103-0-003-20"),
-      imageAlt: "Pembe, yeşil ve sarı dalgalı konfor süngerleri",
+      imageAlt: "Mavi ve pembe dalgalı konfor süngerleri ve ambalajı",
     },
     {
       slug: "104-0-103-100",
@@ -1381,8 +1398,8 @@ export const categories: Category[] = [
       "Temizlik süngerleri, yüzeyle temas eden katman ve elde kullanımı destekleyen gövde formuyla farklı uygulamalara uyum sağlayan seçenekler sunar.",
       "Klasik ve oluklu biçimler, kullanım alışkanlığına göre değerlendirilebilir. Ürün seçiminde biçim, doku ve kullanım alanı birlikte düşünülür.",
     ],
-    image: "/images/products/category-sponges.webp",
-    imageAlt: "Farklı şekillerde temizlik süngerleri",
+    image: "/images/products/category-sponges-2026.webp",
+    imageAlt: "Sanitex bulaşık süngeri paketleri: ekonomik 5'li paketler, tırnak koruyuculu sünger ve file kaplı sünger",
     products: [klasikTemizlikSungeri, olukluTemizlikSungeri, endustriyelTemizlikSungeri],
   },
   {
@@ -1405,8 +1422,8 @@ export const categories: Category[] = [
       "Ovucu materyaller, yapışmış ve yanmış kalıntılar gibi zorlu kirlerde yüzeyle güçlü temas kurmaya yönelik ovucu keçe, natürel keçe, ovma teli ve benzeri ovucu ürünleri kapsar.",
       "Lif ve tel yapısı, yoğunluk ve form, kullanılacak yüzey ile kirin türüne göre değerlendirilir. İhtiyaca uygun seçeneği birlikte belirleyebiliriz.",
     ],
-    image: "/images/products/category-scourers.webp",
-    imageAlt: "Farklı boyutlarda spiral metal ovma telleri",
+    image: "/images/products/category-scourers-2026.webp",
+    imageAlt: "Sanitex renkli fiber keçe paketi ve natürel lifli süngerler",
     products: [ovmaTeli, ovucuKece, naturelKece],
   },
   {
@@ -1417,8 +1434,8 @@ export const categories: Category[] = [
       "Özel formlu süngerler, standart dikdörtgen biçimlerin dışında farklı tutuş ve yüzey temas ihtiyaçlarına yönelik form alternatiflerini kapsar.",
       "Oval ve kavrama profilli biçimler, ürün formunun kullanım şekliyle birlikte değerlendirilebildiği seçenekler sunar.",
     ],
-    image: "/images/products/category-specialty.webp",
-    imageAlt: "Çeşitli formlarda kesilmiş süngerler",
+    image: "/images/products/category-specialty-2026.webp",
+    imageAlt: "Sanitex banyo süngeri, konfor süngeri ve oto süngeri",
     products: [ovalFormluSunger, kavramaFormluSunger, banyoVeBakimSungerleri, sihirliSunger, evVeMutfakYardimcilari],
   },
   {
