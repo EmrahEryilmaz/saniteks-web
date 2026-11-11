@@ -42,7 +42,7 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Scope: only the 5 product groups (no detergents or personal care). Show code, size and case info; never barcodes.
 - The current range is the shipping list `saniteks ürünler.xlsx` (business data, deliberately kept out of the repo).
   Catalogue SKUs missing from it carry `madeToOrder` ("Talep üzerine üretim") via `MADE_TO_ORDER` in `products.ts`.
-- Category slug `hammadde` is titled "Rulo Non-Woven Temizlik Bezi ve Ovucu Keçe Üretimleri" (slug kept so links do not
+- Category slug `hammadde` is titled "Plaka ve Rulo Ürünler" (owner decision 2026-11-11; slug kept so links do not
   break; it still contains Tabaka Hammadde and Dökme Ürünler). Its imagery is the owner's own photo
   (`public/images/products/hammadde/rulo-nonwoven-kece*.webp`); recoloured-photo and procedural 3D versions were rejected.
 - Company facts: Saniteks is a Sanifoam group company; head office İstanbul, production Hendek (Sakarya). Use only

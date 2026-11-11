@@ -1440,11 +1440,11 @@ export const categories: Category[] = [
   },
   {
     slug: "hammadde",
-    name: "Rulo Non-Woven Temizlik Bezi ve Ovucu Keçe Üretimleri",
-    shortDescription: "Kendi tesisimizde rulo halinde ürettiğimiz non-woven temizlik bezi ve ovucu keçe ile tabaka hammaddeler.",
+    name: "Plaka ve Rulo Ürünler",
+    shortDescription: "Kendi tesisimizde ürettiğimiz, rulo halinde non-woven temizlik bezi ve ovucu keçe ile plaka ürünler.",
     intro: [
       "Saniteks, temizlik ürünlerinde kullanılan non-woven temizlik bezi ve ovucu keçeyi kendi tesisinde rulo halinde üretir. Bu ruloları farklı ürünler geliştiren üreticilere de tedarik ediyoruz.",
-      "Ürünlerimiz rulo ve tabaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.",
+      "Ürünlerimiz rulo ve plaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.",
     ],
     image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
     imageAlt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
