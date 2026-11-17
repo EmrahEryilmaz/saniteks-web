@@ -47,7 +47,7 @@ export default function ProductsPage() {
     nameEn: s.nameEn,
     productSize: s.productSize,
     image: s.image,
-    imageAlt: s.imageAlt,
+    imageAlt: s.imageAlt ?? s.name,
     madeToOrder: s.madeToOrder,
     categorySlug: s.category.slug,
     categoryName: s.category.name,

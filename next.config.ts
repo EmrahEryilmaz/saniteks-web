@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
       // The corporate section now has sub-pages (Hakkında, Grup Şirketleri, Üretim Tesisleri) like sanifoam.com.tr.
       { source: "/kurumsal", destination: "/kurumsal/hakkinda", permanent: true },
       { source: "/kalite", destination: "/kalite/kalite-politikamiz", permanent: true },
+      // Product pages merged when the catalogue was rebuilt around the 2026 studio photos.
+      { source: "/urunler/ovucu-materyaller/naturel-kece", destination: "/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri", permanent: true },
+      { source: "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)", destination: "/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri", permanent: true },
+      { source: "/urunler/ozel-formlu-sungerler/sihirli-sunger", destination: "/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari", permanent: true },
+      { source: "/urunler/hammadde/rulo-hammadde", destination: "/urunler/hammadde/rulo-ve-plaka-kece", permanent: true },
       // Logo/icons were recoloured (yellow cube) and renamed so cached green copies are never served.
       { source: "/images/logo/logo.png", destination: "/images/logo/saniteks-logo.png", permanent: true },
       // Icons live under /images/icons: on the Plesk/Apache host "/icons/" is a server-wide alias for Apache's own icon
@@ -36,13 +41,17 @@ const nextConfig: NextConfig = {
       { source: "/icons/icon-512.png", destination: "/images/icons/saniteks-icon-512.png", permanent: true },
       { source: "/icons/apple-icon.png", destination: "/images/icons/saniteks-apple-icon.png", permanent: true },
       { source: "/icons/:file(saniteks-.*\\.png)", destination: "/images/icons/:file", permanent: true },
-      // Catalogue cut-outs replaced by studio photos (2026-11); new files carry a "-2026" suffix.
+      // Catalogue cut-outs replaced by the 2026 studio photos (/images/urunler/<code>-<n>.webp). Only the removed files
+      // are listed: redirects run before public files, so a broader pattern would hide catalogue images still in use.
       {
-        source:
-          "/images/catalog/:slug(super-tekli-oluklu|101-0-750-48|101-0-304-36|110-0-050-20|125-0-115-80|101-0-303-36|104-0-102-80t|105-0-105-168t|103-0-003-20|106-0-202-24).webp",
-        destination: "/images/catalog/:slug-2026.webp",
+        source: "/images/catalog/:slug(100-0-350-30|100-0-400-16|100-0-600-c|100-0-800-120t|100-0-850-60t|100-0-876-60t|101-0-302-72|101-0-303-36|101-0-304-36|101-0-350-40|101-0-376-24|101-0-410-30|101-0-750-48|101-0-800-66t|101-0-850-36t|102-0-090-16|102-0-101-16|102-0-102-16|102-0-600-60|103-0-003-20|103-0-200-40|103-0-302-45|104-0-102-80t|104-0-103-100|104-0-104-90|105-0-105-168t|105-0-204-168t|106-0-001-36|106-0-020-50|106-0-202-24|106-0-500-18|110-0-001-20|110-0-002-20|110-0-050-20|110-0-201-20|110-0-650-c|110-0-663-c|110-0-840-12|110-0-841-12|110-0-842-12|113-0-001-48|114-0-001-50|114-0-003-50|114-0-100-50|116-0-005-50|125-0-105-100|125-0-114-120|125-0-115-80|125-0-502-90|230-0-975){-2026}?.webp",
+        destination: "/images/urunler/:slug-1.webp",
         permanent: true,
       },
+      { source: "/images/catalog/rulo-kece.webp", destination: "/images/products/hammadde/ovucu-kece-rulo.webp", permanent: true },
+      { source: "/images/catalog/rulo-temizlik-bezi-20-80.webp", destination: "/images/products/hammadde/non-woven-bez-rulo.webp", permanent: true },
+      { source: "/images/catalog/super-tekli-duz.webp", destination: "/images/urunler/101-0-001-50-1.webp", permanent: true },
+      { source: "/images/catalog/super-tekli-oluklu{-2026}?.webp", destination: "/images/urunler/100-0-125-40-1.webp", permanent: true },
       { source: "/images/products/category-sponges.webp", destination: "/images/products/category-sponges-2026.webp", permanent: true },
       { source: "/images/products/category-scourers.webp", destination: "/images/products/category-scourers-2026.webp", permanent: true },
     ];

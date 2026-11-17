@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ProductType, Sku } from "@/data/products";
 import { cx, focusStyle } from "@/components/ui/styles";
+import { SkuPhotos } from "./SkuPhotos";
 import { inquiryHref, madeToOrderLabel, skuInquirySubject, skuSpecRows } from "./format";
 
 /** Neutral tile for items without a catalogue photo yet. */
@@ -19,19 +20,23 @@ export function SkuCard({ sku, product }: { sku: Sku; product: Pick<ProductType,
   const titleId = `${sku.slug}-title`;
   return (
     <article id={sku.slug} aria-labelledby={titleId} className="flex h-full scroll-mt-28 flex-col overflow-hidden rounded-sm border border-border bg-surface shadow-sm target:border-primary target:ring-2 target:ring-primary">
-      <div className="relative aspect-4/3 w-full border-b border-border bg-white">
-        {sku.image ? (
-          <Image
-            src={sku.image}
-            alt={sku.imageAlt}
-            fill
-            sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 90vw"
-            className="object-contain p-6"
-          />
-        ) : (
-          <SkuImagePlaceholder />
-        )}
-      </div>
+      {sku.photos?.length ? (
+        <SkuPhotos photos={sku.photos} label={sku.name} />
+      ) : (
+        <div className="relative aspect-4/3 w-full border-b border-border bg-white">
+          {sku.image ? (
+            <Image
+              src={sku.image}
+              alt={sku.imageAlt ?? sku.name}
+              fill
+              sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 90vw"
+              className="object-contain p-6"
+            />
+          ) : (
+            <SkuImagePlaceholder />
+          )}
+        </div>
+      )}
       <div className="flex flex-1 flex-col p-5 md:p-6">
         {sku.line || sku.madeToOrder ? (
           <div className="mb-3 flex flex-wrap gap-2">

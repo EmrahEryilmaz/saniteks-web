@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { categories, categoryHref, getProduct, productHref } from "@/data/products";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
-import { inquiryHref, productMeta } from "@/components/products/format";
+import { inquiryHref, productMeta, skuCountLabel } from "@/components/products/format";
 import { ProductHero } from "@/components/products/ProductHero";
 import { SkuCard } from "@/components/products/SkuCard";
 import { SkuTable } from "@/components/products/SkuTable";
@@ -107,8 +107,8 @@ export default async function ProductPage({ params }: Props) {
         <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-14">
           <SectionHeading
             id="product-skus-title"
-            eyebrow="PAKET SEÇENEKLERİ"
-            title={skuCount === 1 ? "Ürün bilgileri." : `${skuCount} paket seçeneği.`}
+            eyebrow={product.skuKind === "variety" ? "ÇEŞİTLER" : "PAKET SEÇENEKLERİ"}
+            title={skuCount === 1 ? "Ürün bilgileri." : `${skuCountLabel(product)}.`}
           />
           <p className="max-w-lg text-base leading-7 text-muted-foreground">
             Ürün kodu, ölçü ve koli bilgileri aşağıda yer alır. Sipariş, numune veya özel üretim talepleriniz için ilgili seçenekten bize ulaşın.
@@ -135,7 +135,7 @@ export default async function ProductPage({ params }: Props) {
         </Section>
       ) : null}
 
-      {skuCount > 1 ? (
+      {skuCount > 1 && product.skuKind !== "variety" ? (
         <Section labelledBy="product-table-title" className={product.colorOptions || product.matrix ? "border-t border-border" : undefined}>
           <SectionHeading
             id="product-table-title"

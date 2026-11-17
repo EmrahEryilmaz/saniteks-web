@@ -9,6 +9,10 @@
  *  - Saniteks shipping list "saniteks ürünler.xlsx" (2026-11) — current codes, names, sizes (dimension codes such as
  *    907045 = 90×70×45 mm, 380400140 = 38×40 cm / 140 gr/m²), new items; catalogue items missing from it are
  *    flagged madeToOrder ("talep üzerine üretim").
+ *  - Saniteks studio photos (2026-11, branch "urun_gorselleri"): 111 photos of 52 packaged products, named by product
+ *    code, converted to /images/urunler/<code>-<n>.webp (see PHOTOS below).
+ *  - ERP stock lists (2026-11) — names, dimension codes, and the roll/plate qualities and colours summarised under
+ *    "Plaka ve Rulo Ürünler" (customer-specific prints and brands are deliberately left out).
  * Barcodes are intentionally omitted (several are duplicated in the source catalogue).
  * Measurements use Turkish decimal commas.
  */
@@ -37,12 +41,16 @@ export type Sku = {
   packaging?: Packaging;
   /** Additional rows (weight, composition, grammage …). */
   extra?: SpecRow[];
-  /** Catalogue packshot; omitted for items without a photo yet (a neutral placeholder is shown). */
+  /** Main photo (the first of `photos`, or an old catalogue packshot); omitted → a neutral placeholder is shown. */
   image?: string;
-  imageAlt: string;
+  imageAlt?: string;
+  /** Every studio photo of the SKU in display order (packaging first). Filled from PHOTOS below. */
+  photos?: Photo[];
   /** Not in the current shipping list (2026-11): offered as "talep üzerine üretim". Set by MADE_TO_ORDER below. */
   madeToOrder?: boolean;
 };
+
+export type Photo = { src: string; alt: string };
 
 export type ColorOption = { name: string; hex: string; code?: string };
 
@@ -71,6 +79,8 @@ export type ProductType = {
   /** "styled" = editorial photo (cover); "catalog" = packshot on white (contain). */
   imageStyle: "styled" | "catalog";
   skus: Sku[];
+  /** "variety": the SKUs are kinds of a material (rolls, sheets …), not packs: counted as "çeşit", no comparison table. */
+  skuKind?: "pack" | "variety";
   colorOptions?: ColorOptionGroup;
   matrix?: SpecMatrix;
 };
@@ -87,24 +97,11 @@ export type Category = {
   products: ProductType[];
 };
 
-/**
- * SKUs with a new studio photo (supplied by Saniteks, 2026-11). The file name carries a "-2026" suffix because
- * /images is cached for 30 days; the old catalogue cut-outs were removed (redirects in next.config.ts).
- */
-const NEW_PHOTOS = new Set([
-  "super-tekli-oluklu",
-  "101-0-750-48",
-  "101-0-304-36",
-  "110-0-050-20",
-  "125-0-115-80",
-  "101-0-303-36",
-  "104-0-102-80t",
-  "105-0-105-168t",
-  "103-0-003-20",
-  "106-0-202-24",
-]);
+/** Old catalogue cut-outs (2016), still used by items without a studio photo. */
+const img = (slug: string) => `/images/catalog/${slug}.webp`;
 
-const img = (slug: string) => `/images/catalog/${slug}${NEW_PHOTOS.has(slug) ? "-2026" : ""}.webp`;
+/** Studio photo n (1-based) of a product code, e.g. photo("101.0.303-36", 3). */
+const photo = (code: string, n: number) => `/images/urunler/${code.toLowerCase().replace(/\./g, "-")}-${n}.webp`;
 
 /* ------------------------------------------------------------------ */
 /* Shared colour palettes                                              */
@@ -114,7 +111,7 @@ const FIBER = {
   // Hex values sampled from the catalogue swatches.
   green: { name: "Yeşil", hex: "#009400" },
   purple: { name: "Mor", hex: "#9f00ff" },
-  lightGreen: { name: "Açık yeşil", hex: "#b4fb36" },
+  lightGreen: { name: "Fıstık yeşili", hex: "#b4fb36" },
   blue: { name: "Mavi", hex: "#0071ca" },
   white: { name: "Beyaz", hex: "#ffffff" },
   red: { name: "Kırmızı", hex: "#c81517" },
@@ -126,6 +123,28 @@ const FIBER = {
   turquoise: { name: "Turkuaz", hex: "#19b4e6" },
   glitterBlack: { name: "Simli siyah", hex: "#3a3a3a" },
   brick: { name: "Kiremit", hex: "#b4452a" },
+  // Felt colours from the 2026-11 roll list (approximate).
+  fuchsia: { name: "Fuşya", hex: "#d2207c" },
+  violet: { name: "Menekşe", hex: "#7d4fb0" },
+  burgundy: { name: "Bordo", hex: "#7a1f2e" },
+  walnutGreen: { name: "Ceviz yeşili", hex: "#4a5a2a" },
+  fluoGreen: { name: "Flor yeşil", hex: "#7cf03c" },
+  natural: { name: "Natürel", hex: "#c8a46a" },
+  glitterGreen: { name: "Simli yeşil", hex: "#2f6b34" },
+} satisfies Record<string, ColorOption>;
+
+/** Non-woven cloth colours (approximate). */
+const CLOTH = {
+  yellow: { name: "Sarı", hex: "#f6d21e" },
+  blue: { name: "Mavi", hex: "#3d8fd8" },
+  pink: { name: "Pembe", hex: "#f07aa6" },
+  candyPink: { name: "Şeker pembe", hex: "#f9b6cf" },
+  green: { name: "Yeşil", hex: "#2e9e4f" },
+  appleGreen: { name: "Elma yeşili", hex: "#9acd32" },
+  orange: { name: "Turuncu", hex: "#f39020" },
+  turquoise: { name: "Turkuaz", hex: "#22b8c8" },
+  white: { name: "Beyaz", hex: "#ffffff" },
+  black: { name: "Siyah", hex: "#1a1a1a" },
 } satisfies Record<string, ColorOption>;
 
 /** Fibre colour alternatives printed next to the "Süper Tekli Paket" items; code = series + colour + case qty. */
@@ -151,16 +170,15 @@ function fiberOptions(series: "100.0" | "101.0", caseQty: number): ColorOption[]
 const klasikTemizlikSungeri: ProductType = {
   slug: "klasik-temizlik-sungeri",
   categorySlug: "temizlik-sungerleri",
-  name: "Klasik Temizlik Süngeri",
-  shortDescription: "Dikdörtgen gövde ve yüzey katmanını bir araya getiren temel sünger biçimi.",
+  name: "Düz Bulaşık Süngeri",
+  shortDescription: "Düz dikdörtgen sünger gövde ve ovucu keçe yüzeyden oluşan temel bulaşık süngeri.",
   description: [
-    "Klasik temizlik süngeri, düz dikdörtgen gövdesi ve ovucu keçe yüzeyiyle günlük bulaşık ve mutfak temizliğinin temel ürünüdür.",
+    "Düz bulaşık süngeri, dikdörtgen sünger gövdesi ve ovucu keçe yüzeyiyle günlük bulaşık ve mutfak temizliğinin temel ürünüdür.",
     "Tekli paketten 10'lu pakete, standart yeşil keçeden renkli ekonomik serilere kadar farklı paket ve ölçü seçenekleriyle sunulur. Süper tekli pakette keçe rengi dokuz farklı renk arasından seçilebilir.",
-    "Aynı gövde ailesinde, keçe yerine file kaplı yüzeye sahip Ultra Parlak bulaşık süngeri de yer alır.",
   ],
-  highlights: ["Düz dikdörtgen gövde", "Ovucu keçe veya file kaplı yüzey", "Süper, standart ve ekonomik seriler", "Dokuz keçe rengi seçeneği"],
+  highlights: ["Düz dikdörtgen gövde", "Ovucu keçe yüzey", "Süper, standart ve ekonomik seriler", "Dokuz keçe rengi seçeneği"],
   image: "/images/products/temizlik-sungerleri/classic-cleaning-sponge.webp",
-  imageAlt: "Yeşil gövdeli klasik temizlik süngerleri",
+  imageAlt: "Yeşil gövdeli düz bulaşık süngerleri",
   imageStyle: "styled",
   colorOptions: {
     title: "Keçe renk alternatifleri",
@@ -178,8 +196,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "50",
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
-      image: img("super-tekli-duz"),
-      imageAlt: "Süper tekli paket düz bulaşık süngeri",
     },
     {
       slug: "101-0-302-72",
@@ -191,8 +207,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "72",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("101-0-302-72"),
-      imageAlt: "Standart yeşil 2'li düz sünger paketi",
     },
     {
       slug: "101-0-350-40",
@@ -204,8 +218,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "40",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("101-0-350-40"),
-      imageAlt: "Standart yeşil 3'lü düz sünger paketi",
     },
     {
       slug: "101-0-376-24",
@@ -217,8 +229,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "24",
       caseSize: "40 × 29 × 22 cm",
       packaging: "koli",
-      image: img("101-0-376-24"),
-      imageAlt: "Büyük yeşil 3'lü düz sünger paketi",
     },
     {
       slug: "101-0-410-30",
@@ -230,8 +240,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "30",
       caseSize: "46 × 36 × 47 cm",
       packaging: "koli",
-      image: img("101-0-410-30"),
-      imageAlt: "Standart yeşil 10'lu düz sünger paketi",
     },
     {
       slug: "101-0-800-66t",
@@ -243,8 +251,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "66",
       caseSize: "56 × 67 × 13 cm",
       packaging: "naylon-torba",
-      image: img("101-0-800-66t"),
-      imageAlt: "Ekonomik düz 5'li renkli sünger paketi",
     },
     {
       slug: "101-0-750-48",
@@ -256,8 +262,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "48",
       caseSize: "46 × 36 × 47 cm",
       packaging: "koli",
-      image: img("101-0-750-48"),
-      imageAlt: "Ekonomik düz büyük 5'li renkli sünger paketi",
     },
     {
       slug: "101-0-850-36t",
@@ -269,17 +273,6 @@ const klasikTemizlikSungeri: ProductType = {
       packsPerCase: "36",
       caseSize: "54 × 58 × 18,5 cm",
       packaging: "naylon-torba",
-      image: img("101-0-850-36t"),
-      imageAlt: "Ekonomik düz 10'lu renkli sünger paketi",
-    },
-    {
-      slug: "101-0-304-36",
-      code: "101.0.304-36",
-      name: "Ultra Parlak Bulaşık Süngeri",
-      nameEn: "Colors Soft Sponge",
-      productSize: "13,7 × 8 × 3 cm",
-      image: img("101-0-304-36"),
-      imageAlt: "File kaplı yeşil Ultra Parlak bulaşık süngeri, bantlı ambalajında",
     },
   ],
 };
@@ -287,10 +280,10 @@ const klasikTemizlikSungeri: ProductType = {
 const olukluTemizlikSungeri: ProductType = {
   slug: "oluklu-temizlik-sungeri",
   categorySlug: "temizlik-sungerleri",
-  name: "Oluklu Temizlik Süngeri",
+  name: "Oluklu Bulaşık Süngeri",
   shortDescription: "Yan yüzeyindeki oluklarla farklı bir kavrama formu sunan sünger seçeneği.",
   description: [
-    "Oluklu temizlik süngeri, yan yüzeyindeki kavrama oluğu sayesinde elde daha rahat tutulan bir gövde formu sunar; üst yüzeydeki ovucu keçe zorlu kirlerde etkili temas sağlar.",
+    "Oluklu bulaşık süngeri, yan yüzeyindeki kavrama oluğu sayesinde elde daha rahat tutulan bir gövde formu sunar; üst yüzeydeki ovucu keçe zorlu kirlerde etkili temas sağlar.",
     "Süper ve ekonomik seriler; tekli, 3'lü, 5'li, 8'li ve 10'lu paket seçenekleriyle hazırlanır. Ekonomik tekli seçenek çuvalda toplu sevkiyata uygundur.",
   ],
   highlights: ["Kavrama oluklu gövde", "Ovucu keçe yüzey", "Tekliden 10'lu pakete", "Dokuz keçe rengi seçeneği"],
@@ -305,16 +298,14 @@ const olukluTemizlikSungeri: ProductType = {
   skus: [
     {
       slug: "super-tekli-oluklu",
-      code: "100.0.001-40",
-      name: "Süper Tekli Paket",
+      code: "100.0.125-40",
+      name: "Süper Tekli Paket – Fıstık Yeşili Keçe",
       nameEn: "Super Single Pack",
       line: "Süper",
       productSize: "9 × 7 × 4,5 cm",
       packsPerCase: "40",
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
-      image: img("super-tekli-oluklu"),
-      imageAlt: "Tırnak koruyuculu süper tekli oluklu bulaşık süngeri ve ambalajı",
     },
     {
       slug: "100-0-350-30",
@@ -326,8 +317,6 @@ const olukluTemizlikSungeri: ProductType = {
       packsPerCase: "30",
       caseSize: "40 × 34 × 25 cm",
       packaging: "koli",
-      image: img("100-0-350-30"),
-      imageAlt: "Süper yeşil 3'lü oluklu sünger paketi",
     },
     {
       slug: "100-0-400-16",
@@ -339,8 +328,6 @@ const olukluTemizlikSungeri: ProductType = {
       packsPerCase: "16",
       caseSize: "57 × 24 × 19 cm",
       packaging: "koli",
-      image: img("100-0-400-16"),
-      imageAlt: "Süper yeşil 5'li oluklu sünger paketi",
     },
     {
       slug: "100-0-600-c",
@@ -352,8 +339,6 @@ const olukluTemizlikSungeri: ProductType = {
       packsPerCase: "35 × 60 (2.100 adet / çuval)",
       caseSize: "120 × 150 × 35 cm",
       packaging: "cuval",
-      image: img("100-0-600-c"),
-      imageAlt: "Ekonomik oluklu tekli sünger paketi",
     },
     {
       slug: "100-0-800-120t",
@@ -365,8 +350,6 @@ const olukluTemizlikSungeri: ProductType = {
       packsPerCase: "120",
       caseSize: "82 × 62 × 21 cm",
       packaging: "naylon-torba",
-      image: img("100-0-800-120t"),
-      imageAlt: "Ekonomik oluklu 5'li sünger paketi",
     },
     {
       slug: "100-0-850-60t",
@@ -378,21 +361,62 @@ const olukluTemizlikSungeri: ProductType = {
       packsPerCase: "60",
       caseSize: "100 × 69 × 21 cm",
       packaging: "naylon-torba",
-      image: img("100-0-850-60t"),
-      imageAlt: "Ekonomik oluklu 10'lu sünger paketi",
     },
     {
       slug: "100-0-876-60t",
       code: "100.0.876-60T",
-      name: "Ekonomik Oluklu 8'li Paket",
+      name: "Ekonomik Oluklu 8'li Paket (Blues)",
       nameEn: "Economic with Grip, 8 pcs/pack",
       line: "Ekonomik",
       productSize: "9 × 7 × 4,5 cm",
       packsPerCase: "60",
       caseSize: "73 × 57 × 35 cm",
       packaging: "naylon-torba",
-      image: img("100-0-876-60t"),
-      imageAlt: "Ekonomik oluklu 8'li sünger paketi",
+    },
+  ],
+};
+
+const ozelBulasikSungerleri: ProductType = {
+  slug: "ozel-bulasik-sungerleri",
+  categorySlug: "temizlik-sungerleri",
+  name: "Özel Bulaşık Süngerleri",
+  shortDescription: "Natürel lifli, file kaplı ve selülozik konfor yüzeyli bulaşık süngerleri.",
+  description: [
+    "Bu grupta standart yeşil keçe yerine farklı yüzeylerle hazırlanan bulaşık süngerleri yer alır.",
+    "Natürel bulaşık süngeri doğal lif görünümlü ovucu yüzeyiyle kâğıt bantlı ambalajda; Ultra Parlak bulaşık süngeri file kaplı yüzeyiyle; Konfor bulaşık süngeri ise dalgalı formlu selülozik gövdesiyle 2'li paketlerde sunulur.",
+  ],
+  highlights: ["Doğal lif görünümlü yüzey", "File kaplı yüzey", "Dalgalı formlu selülozik gövde", "2'li paketler"],
+  image: photo("101.0.303-36", 3),
+  imageAlt: "Kâğıt bantlı ambalajında natürel bulaşık süngerleri ve yanında iki sünger",
+  imageStyle: "catalog",
+  skus: [
+    {
+      slug: "101-0-303-36",
+      code: "101.0.303-36",
+      name: "Natürel Bulaşık Süngeri 2'li",
+      nameEn: "Natural Scrubber Sponge, 2 pcs/pack",
+      productSize: "11 × 7 × 2 cm",
+      packsPerCase: "36",
+      extra: [{ label: "Paket içeriği", value: "2 adet" }],
+    },
+    {
+      slug: "101-0-304-36",
+      code: "101.0.304-36",
+      name: "Ultra Parlak Bulaşık Süngeri",
+      nameEn: "Ultra Shine Scrubber Sponge",
+      productSize: "13,7 × 8 × 3 cm",
+      packsPerCase: "36",
+    },
+    {
+      slug: "103-0-003-20",
+      code: "103.0.003-20",
+      name: "Konfor Bulaşık Süngeri 2'li",
+      nameEn: "Cellulosic Comfort Sponge, 2 pcs/pack",
+      line: "Konfor",
+      productSize: "11 × 7 × 3,5 cm",
+      packsPerCase: "20",
+      caseSize: "40 × 23 × 16 cm",
+      packaging: "koli",
     },
   ],
 };
@@ -407,8 +431,8 @@ const endustriyelTemizlikSungeri: ProductType = {
     "4'lü paketler kullanım alanına göre renk koduyla ayrışır: yeşil keçe mutfak, mavi keçe banyo, pembe keçe hassas alanlar içindir. Büyük tekli paket 14 × 11 × 8 cm ölçüsündeki kalın gövdesiyle ayrışır.",
   ],
   highlights: ["Büyük gövde ölçüleri", "Mutfak, banyo ve hassas yüzey ayrımı", "Renk kodlu kullanım"],
-  image: img("102-0-600-60"),
-  imageAlt: "Süper endüstriyel büyük tekli sünger paketi",
+  image: photo("102.0.090-16", 1),
+  imageAlt: "Süper endüstriyel 4'lü sünger paketi",
   imageStyle: "catalog",
   skus: [
     {
@@ -421,8 +445,6 @@ const endustriyelTemizlikSungeri: ProductType = {
       packsPerCase: "60",
       caseSize: "46 × 36 × 47 cm",
       packaging: "koli",
-      image: img("102-0-600-60"),
-      imageAlt: "Süper endüstriyel büyük tekli sünger paketi",
     },
     {
       slug: "102-0-090-16",
@@ -434,8 +456,6 @@ const endustriyelTemizlikSungeri: ProductType = {
       packsPerCase: "16",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("102-0-090-16"),
-      imageAlt: "Yeşil keçeli süper endüstriyel 4'lü mutfak süngeri",
     },
     {
       slug: "102-0-101-16",
@@ -447,8 +467,6 @@ const endustriyelTemizlikSungeri: ProductType = {
       packsPerCase: "16",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("102-0-101-16"),
-      imageAlt: "Mavi keçeli süper endüstriyel 4'lü banyo süngeri",
     },
     {
       slug: "102-0-102-16",
@@ -460,8 +478,6 @@ const endustriyelTemizlikSungeri: ProductType = {
       packsPerCase: "16",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("102-0-102-16"),
-      imageAlt: "Pembe keçeli süper endüstriyel 4'lü hassas yüzey süngeri",
     },
   ],
 };
@@ -495,8 +511,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       caseSize: "40 × 20 × 21 cm",
       packaging: "koli",
       extra: [{ label: "Gramaj", value: "140 gr/m²" }],
-      image: img("110-0-050-20"),
-      imageAlt: "Çiçek baskılı süper 3'lü temizlik bezi ambalajı",
     },
     {
       slug: "110-0-001-20",
@@ -509,8 +523,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       caseSize: "40 × 20 × 21 cm",
       packaging: "koli",
       extra: [{ label: "Gramaj", value: "140 gr/m²" }],
-      image: img("110-0-001-20"),
-      imageAlt: "Sarı standart 3'lü temizlik bezi ve ambalajı",
     },
     {
       slug: "110-0-002-20",
@@ -522,8 +534,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       packsPerCase: "20",
       caseSize: "40 × 20 × 21 cm",
       packaging: "koli",
-      image: img("110-0-002-20"),
-      imageAlt: "Pembe, mavi ve sarı standart temizlik bezleri ve ambalajı",
     },
     {
       slug: "110-0-201-20",
@@ -535,8 +545,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       packsPerCase: "20",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("110-0-201-20"),
-      imageAlt: "Sarı standart 5'li temizlik bezi ve ambalajı",
     },
     {
       slug: "110-0-650-c",
@@ -549,8 +557,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       caseSize: "68 × 21 × 92 cm",
       packaging: "naylon-torba",
       extra: [{ label: "Gramaj", value: "100 gr/m²" }],
-      image: img("110-0-650-c"),
-      imageAlt: "Sarı avantaj 3'lü temizlik bezi ve ambalajı",
     },
     {
       slug: "110-0-663-c",
@@ -562,20 +568,6 @@ const cokAmacliTemizlikBezi: ProductType = {
       packsPerCase: "250",
       caseSize: "68 × 21 × 92 cm",
       packaging: "naylon-torba",
-      image: img("110-0-663-c"),
-      imageAlt: "Üç renkli avantaj 3'lü temizlik bezi ve ambalajı",
-    },
-    {
-      slug: "113-0-001-48",
-      code: "113.0.001-48",
-      name: "3'lü Sünger Bez",
-      nameEn: "Sponge Cloth, 3 pcs/pack",
-      productSize: "16 × 18 cm",
-      packsPerCase: "48",
-      caseSize: "38 × 25 × 23 cm",
-      packaging: "koli",
-      image: img("113-0-001-48"),
-      imageAlt: "Sarı, turuncu ve mavi sünger bezler ve ambalajı",
     },
   ],
 };
@@ -607,8 +599,6 @@ const ruloTemizlikBezi: ProductType = {
         { label: "Gramaj", value: "100 gr/m²" },
         { label: "Yaprak sayısı", value: "15 yaprak" },
       ],
-      image: img("110-0-840-12"),
-      imageAlt: "Sarı perforeli rulo temizlik bezi ve ambalajı",
     },
     {
       slug: "110-0-841-12",
@@ -623,8 +613,6 @@ const ruloTemizlikBezi: ProductType = {
         { label: "Gramaj", value: "100 gr/m²" },
         { label: "Yaprak sayısı", value: "15 yaprak" },
       ],
-      image: img("110-0-841-12"),
-      imageAlt: "Mavi perforeli rulo temizlik bezi ve ambalajı",
     },
     {
       slug: "110-0-842-12",
@@ -639,8 +627,6 @@ const ruloTemizlikBezi: ProductType = {
         { label: "Gramaj", value: "100 gr/m²" },
         { label: "Yaprak sayısı", value: "15 yaprak" },
       ],
-      image: img("110-0-842-12"),
-      imageAlt: "Pembe perforeli rulo temizlik bezi ve ambalajı",
     },
   ],
 };
@@ -648,17 +634,27 @@ const ruloTemizlikBezi: ProductType = {
 const camVeMikrofiberBez: ProductType = {
   slug: "cam-ve-mikrofiber-bez",
   categorySlug: "temizlik-bezleri",
-  name: "Cam ve Mikrofiber Bez",
+  name: "Sünger Bez, Mikrofiber ve Cam Bezi",
   shortDescription: "Parlak yüzeyler ve iz bırakmadan temizlik için cam ve mikrofiber bez seçenekleri.",
   description: [
     "Cam bezi; cam, ayna ve parlak yüzeylerde kullanım için hazırlanan düz dokulu bir bezdir. Mikrofiber bez ise ince lif yapısıyla tozu ve kiri tutmaya yönelik bir seçenektir.",
     "Her iki ürün de günlük ev temizliğinde farklı yüzeylere eşlik edecek şekilde tekli ve çok renkli paketlerle sunulur.",
   ],
   highlights: ["Cam ve parlak yüzeyler", "İnce lifli mikrofiber yapı", "Tekli ve çok renkli paket"],
-  image: img("116-0-005-50"),
+  image: photo("116.0.005-50", 2),
   imageAlt: "Mavi, sarı ve pembe mikrofiber bezler ve ambalajı",
   imageStyle: "catalog",
   skus: [
+    {
+      slug: "113-0-001-48",
+      code: "113.0.001-48",
+      name: "3'lü Sünger Bez",
+      nameEn: "Sponge Cloth, 3 pcs/pack",
+      productSize: "16 × 18 cm",
+      packsPerCase: "48",
+      caseSize: "38 × 25 × 23 cm",
+      packaging: "koli",
+    },
     {
       slug: "112-0-002-60",
       code: "112.0.002-60",
@@ -679,8 +675,6 @@ const camVeMikrofiberBez: ProductType = {
       packsPerCase: "50",
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
-      image: img("116-0-005-50"),
-      imageAlt: "Mavi, sarı ve pembe mikrofiber bezler ve ambalajı",
     },
   ],
 };
@@ -695,8 +689,8 @@ const yerBezi: ProductType = {
     "Çiçek desenli, yeşil kareli ve mavi kareli seçenekler tekli ambalajda sunulur. Aynı dokular rulo hammadde olarak da üretilmektedir.",
   ],
   highlights: ["38 × 50 cm ve 40 × 50 cm", "Çiçek desenli, yeşil ve mavi kareli", "Tekli ambalaj"],
-  image: img("114-0-003-50"),
-  imageAlt: "Çiçek desenli yer bezi ve ambalajı",
+  image: photo("114.0.003-50", 1),
+  imageAlt: "Çiçek desenli yer bezi ambalajı",
   imageStyle: "catalog",
   skus: [
     {
@@ -708,8 +702,6 @@ const yerBezi: ProductType = {
       packsPerCase: "50",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("114-0-003-50"),
-      imageAlt: "Çiçek desenli yer bezi ve ambalajı",
     },
     {
       slug: "114-0-001-50",
@@ -720,8 +712,6 @@ const yerBezi: ProductType = {
       packsPerCase: "50",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("114-0-001-50"),
-      imageAlt: "Yeşil kareli yer bezi ve ambalajı",
     },
     {
       slug: "114-0-100-50",
@@ -732,8 +722,6 @@ const yerBezi: ProductType = {
       packsPerCase: "50",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("114-0-100-50"),
-      imageAlt: "Mavi kareli yer bezi ve ambalajı",
     },
   ],
 };
@@ -819,8 +807,6 @@ const ovucuKece: ProductType = {
       packsPerCase: "100",
       caseSize: "50 × 42 × 15 cm",
       packaging: "naylon-torba",
-      image: img("125-0-105-100"),
-      imageAlt: "Simli siyah 3'lü ovma fiberi ambalajı",
     },
     {
       slug: "125-0-114-120",
@@ -831,8 +817,6 @@ const ovucuKece: ProductType = {
       packsPerCase: "120",
       caseSize: "54 × 64 × 14 cm",
       packaging: "naylon-torba",
-      image: img("125-0-114-120"),
-      imageAlt: "Yeşil 3'lü ovma fiberi ambalajı",
     },
     {
       slug: "125-0-502-90",
@@ -844,8 +828,6 @@ const ovucuKece: ProductType = {
       packsPerCase: "90",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("125-0-502-90"),
-      imageAlt: "Avantaj 3'lü ovma fiberi ambalajı",
     },
     {
       slug: "125-0-115-80",
@@ -856,35 +838,6 @@ const ovucuKece: ProductType = {
       packsPerCase: "80",
       caseSize: "54,5 × 67 × 14 cm",
       packaging: "naylon-torba",
-      image: img("125-0-115-80"),
-      imageAlt: "Renkli 5'li ovma fiberi ambalajı ve beş farklı renkte ovma keçesi",
-    },
-  ],
-};
-
-const naturelKece: ProductType = {
-  slug: "naturel-kece",
-  categorySlug: "ovucu-materyaller",
-  name: "Natürel Keçe",
-  shortDescription: "Doğal lif görünümlü yüzeyiyle çevreye duyarlı ovucu keçe seçeneği.",
-  description: [
-    "Natürel keçe, doğal lif görünümlü ovucu yüzeyi sünger gövdeyle birleştiren bir temizlik süngeridir.",
-    "Kâğıt bantlı ambalajda, 2'li paket olarak sunulur.",
-  ],
-  highlights: ["Doğal lif görünümlü yüzey", "Kâğıt bantlı ambalaj", "2'li paket"],
-  image: "/images/products/ovucu-materyaller/natural-scouring-pad.webp",
-  imageAlt: "Yeşil yapraklar arasında ambalajlı natürel keçeli sünger",
-  imageStyle: "styled",
-  skus: [
-    {
-      slug: "101-0-303-36",
-      code: "101.0.303-36",
-      name: "Natürel Lifli Sünger",
-      nameEn: "Naturel Fiber Sponge",
-      productSize: "11 × 7 × 2 cm",
-      extra: [{ label: "Paket içeriği", value: "2 adet" }],
-      image: img("101-0-303-36"),
-      imageAlt: "Kâğıt bantlı ambalajında natürel lifli süngerler ve yanında iki sünger",
     },
   ],
 };
@@ -893,19 +846,19 @@ const naturelKece: ProductType = {
 /* 4. Özel Formlu Süngerler                                            */
 /* ------------------------------------------------------------------ */
 
-const ovalFormluSunger: ProductType = {
-  slug: "oval-formlu-sunger",
+const banyoVeBakimSungerleri: ProductType = {
+  slug: "banyo-ve-bakim-sungerleri",
   categorySlug: "ozel-formlu-sungerler",
-  name: "Oval Formlu Sünger",
-  shortDescription: "Yuvarlatılmış hatlarıyla ayrışan oval sünger biçimi.",
+  name: "Banyo ve Bakım Süngerleri",
+  shortDescription: "Masajlı ve selülozik banyo süngerleri, banyo eldiveni ve makyaj temizleme süngeri.",
   description: [
-    "Oval formlu süngerler, köşesiz ve yuvarlatılmış hatlarıyla vücut ve araç yüzeyleri gibi kavisli alanlarda rahat bir kullanım sunar.",
-    "Masajlı oval banyo süngeri, selülozik oval banyo süngeri ve oval oto süngeri bu formun farklı kullanım alanlarındaki karşılıklarıdır.",
+    "Banyo ve bakım süngerleri, kişisel kullanım için şekillendirilmiş formlardan oluşur: oval ve kelebek formlu masajlı banyo süngerleri, selülozik oval banyo süngeri, ele geçirilerek kullanılan masajlı banyo eldiveni ve yüz için ince, yumuşak makyaj temizleme süngerleri.",
+    "Makyaj temizleme süngerleri yıldız ve çiçek gibi farklı kesim formlarıyla 4'lü pakette sunulur. Doğal selülozik süngerden balık ve ördek şekilli banyo süngerleri de bu grupta yer alır.",
   ],
-  highlights: ["Köşesiz oval form", "Banyo ve oto kullanımı", "Masajlı ve selülozik seçenekler"],
-  image: "/images/products/ozel-formlu-sungerler/oval-shaped-sponge.webp",
-  imageAlt: "Oval biçimli yeşil temizlik süngeri",
-  imageStyle: "styled",
+  highlights: ["Oval ve kelebek formlu masajlı süngerler", "Selülozik banyo süngerleri", "Masajlı banyo eldiveni", "İnce makyaj temizleme süngeri"],
+  image: photo("104.0.102-80T", 3),
+  imageAlt: "Masajlı oval banyo süngeri ve ambalajı",
+  imageStyle: "catalog",
   skus: [
     {
       slug: "104-0-102-80t",
@@ -916,8 +869,6 @@ const ovalFormluSunger: ProductType = {
       packsPerCase: "80",
       caseSize: "52 × 68 × 14 cm",
       packaging: "naylon-torba",
-      image: img("104-0-102-80t"),
-      imageAlt: "Masajlı oval banyo süngeri ve ambalajı",
     },
     {
       slug: "103-0-200-40",
@@ -928,50 +879,6 @@ const ovalFormluSunger: ProductType = {
       packsPerCase: "40",
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
-      image: img("103-0-200-40"),
-      imageAlt: "Selülozik oval banyo süngeri ambalajı",
-    },
-    {
-      slug: "105-0-105-168t",
-      code: "105.0.105-168T",
-      name: "Oval Oto Süngeri",
-      nameEn: "Oval Car Sponge",
-      productSize: "16 × 10,5 × 6 cm",
-      packsPerCase: "168",
-      caseSize: "117 × 41 × 36 cm",
-      packaging: "naylon-torba",
-      image: img("105-0-105-168t"),
-      imageAlt: "Ambalajında mavi oval oto süngeri",
-    },
-  ],
-};
-
-const kavramaFormluSunger: ProductType = {
-  slug: "kavrama-formlu-sunger",
-  categorySlug: "ozel-formlu-sungerler",
-  name: "Kavrama Formlu Sünger",
-  shortDescription: "Yan profili kavrama alanı oluşturacak biçimde şekillenen sünger seçeneği.",
-  description: [
-    "Kavrama formlu süngerlerde gövdenin yan profili, el ile tutulan bölgede doğal bir girinti oluşturacak biçimde kesilir; bu sayede sünger kullanım sırasında elde daha dengeli durur.",
-    "Dalgalı formlu selülozik konfor süngeri, kelebek formlu masajlı banyo süngeri ve şampuanlı oto süngeri bu form ailesinde yer alır.",
-  ],
-  highlights: ["Girintili kavrama profili", "Mutfak, banyo ve oto kullanımı", "Selülozik ve masajlı seçenekler"],
-  image: "/images/products/ozel-formlu-sungerler/grip-shaped-sponge.webp",
-  imageAlt: "Kavrama profiline sahip yeşil temizlik süngeri",
-  imageStyle: "styled",
-  skus: [
-    {
-      slug: "103-0-003-20",
-      code: "103.0.003-20",
-      name: "Konfor Sünger 2'li Paket",
-      nameEn: "Cellulosic Comfort Sponge, 2 pcs/pack",
-      line: "Konfor",
-      productSize: "11 × 7 × 3,5 cm",
-      packsPerCase: "20",
-      caseSize: "40 × 23 × 16 cm",
-      packaging: "koli",
-      image: img("103-0-003-20"),
-      imageAlt: "Mavi ve pembe dalgalı konfor süngerleri ve ambalajı",
     },
     {
       slug: "104-0-103-100",
@@ -982,38 +889,7 @@ const kavramaFormluSunger: ProductType = {
       packsPerCase: "100",
       caseSize: "65 × 60 × 15 cm",
       packaging: "naylon-torba",
-      image: img("104-0-103-100"),
-      imageAlt: "Masajlı kelebek banyo süngerleri ve ambalajı",
     },
-    {
-      slug: "105-0-204-168t",
-      code: "105.0.204-168T",
-      name: "Şampuanlı Oto Süngeri",
-      nameEn: "Car Sponge with Shampoo",
-      productSize: "16 × 10,5 × 5,8 cm",
-      packsPerCase: "168",
-      caseSize: "117 × 41 × 36 cm",
-      packaging: "naylon-torba",
-      image: img("105-0-204-168t"),
-      imageAlt: "Şampuanlı oto süngeri ve ambalajı",
-    },
-  ],
-};
-
-const banyoVeBakimSungerleri: ProductType = {
-  slug: "banyo-ve-bakim-sungerleri",
-  categorySlug: "ozel-formlu-sungerler",
-  name: "Banyo ve Bakım Süngerleri",
-  shortDescription: "Banyo eldiveni ve makyaj temizleme süngeri gibi kişisel kullanıma yönelik formlar.",
-  description: [
-    "Banyo ve bakım süngerleri, kişisel kullanım için şekillendirilmiş formlardan oluşur: ele geçirilerek kullanılan masajlı banyo eldiveni ve yüz için ince, yumuşak makyaj temizleme süngerleri.",
-    "Makyaj temizleme süngerleri yıldız ve çiçek gibi farklı kesim formlarıyla 4'lü pakette sunulur. Doğal selülozik süngerden balık ve ördek şekilli banyo süngerleri de bu grupta yer alır.",
-  ],
-  highlights: ["Masajlı banyo eldiveni", "İnce makyaj temizleme süngeri", "Balık ve ördek şekilli selülozik süngerler", "Farklı kesim formları"],
-  image: img("104-0-104-90"),
-  imageAlt: "Masajlı banyo eldiveni ve ambalajı",
-  imageStyle: "catalog",
-  skus: [
     {
       slug: "104-0-104-90",
       code: "104.0.104-90",
@@ -1023,8 +899,6 @@ const banyoVeBakimSungerleri: ProductType = {
       packsPerCase: "90",
       caseSize: "46 × 36 × 47 cm",
       packaging: "koli",
-      image: img("104-0-104-90"),
-      imageAlt: "Masajlı banyo eldiveni ve ambalajı",
     },
     {
       slug: "103-0-302-45",
@@ -1035,8 +909,6 @@ const banyoVeBakimSungerleri: ProductType = {
       packsPerCase: "45",
       caseSize: "23 × 40 × 16 cm",
       packaging: "koli",
-      image: img("103-0-302-45"),
-      imageAlt: "Yıldız ve çiçek formlu makyaj temizleme süngerleri",
     },
     {
       slug: "103-0-508",
@@ -1057,32 +929,39 @@ const banyoVeBakimSungerleri: ProductType = {
   ],
 };
 
-const sihirliSunger: ProductType = {
-  slug: "sihirli-sunger",
+const otoSungerleri: ProductType = {
+  slug: "oto-sungerleri",
   categorySlug: "ozel-formlu-sungerler",
-  name: "Sihirli Sünger",
-  shortDescription: "Yalnızca su ile ıslatılarak yüzeydeki lekeleri silmeye yönelik melamin sünger.",
+  name: "Oto Süngerleri",
+  shortDescription: "Araç yıkamaya yönelik, iri gözenekli büyük oval süngerler.",
   description: [
-    "Sihirli sünger (leke silme süngeri), melamin köpük yapısıyla duvar, kapı, mutfak dolabı ve benzeri yüzeylerdeki lekeleri yalnızca su ile ıslatılarak silmeye yöneliktir.",
-    "Hassas ve parlak yüzeylerde kullanmadan önce görünmeyen küçük bir alanda deneme yapılması önerilir. 2'li pakette sunulur.",
+    "Oto süngerleri, köşesiz oval formu ve iri gözenekli yapısıyla araç gövdesi gibi geniş ve kavisli yüzeylerin yıkanmasına yöneliktir.",
+    "Oval oto süngeri ve şampuanlı oto süngeri, naylon torbada toplu sevkiyata uygun olarak hazırlanır.",
   ],
-  highlights: ["Melamin köpük yapı", "Yalnızca su ile kullanım", "2'li paket"],
-  image: img("106-0-202-24"),
-  imageAlt: "Beyaz sihirli süngerler ve ambalajı",
+  highlights: ["Köşesiz oval form", "İri gözenekli yapı", "Şampuanlı seçenek"],
+  image: photo("105.0.105-168T", 1),
+  imageAlt: "Ambalajında mavi oval oto süngeri",
   imageStyle: "catalog",
   skus: [
     {
-      slug: "106-0-202-24",
-      code: "106.0.202-24",
-      name: "Sihirli Sünger",
-      nameEn: "Magic Sponge",
-      productSize: "11 × 7 × 3 cm",
-      packsPerCase: "24",
-      caseSize: "23 × 40 × 16 cm",
-      packaging: "koli",
-      extra: [{ label: "Paket içeriği", value: "2 adet" }],
-      image: img("106-0-202-24"),
-      imageAlt: "Beyaz sihirli süngerler ve ambalajı",
+      slug: "105-0-105-168t",
+      code: "105.0.105-168T",
+      name: "Oval Oto Süngeri",
+      nameEn: "Oval Car Sponge",
+      productSize: "16 × 10,5 × 6 cm",
+      packsPerCase: "168",
+      caseSize: "117 × 41 × 36 cm",
+      packaging: "naylon-torba",
+    },
+    {
+      slug: "105-0-204-168t",
+      code: "105.0.204-168T",
+      name: "Şampuanlı Oto Süngeri",
+      nameEn: "Car Sponge with Shampoo",
+      productSize: "16 × 10,5 × 5,8 cm",
+      packsPerCase: "168",
+      caseSize: "117 × 41 × 36 cm",
+      packaging: "naylon-torba",
     },
   ],
 };
@@ -1091,39 +970,47 @@ const evVeMutfakYardimcilari: ProductType = {
   slug: "ev-ve-mutfak-yardimcilari",
   categorySlug: "ozel-formlu-sungerler",
   name: "Ev ve Mutfak Yardımcıları",
-  shortDescription: "Damlalık, küf matı ve kapı eşik süngeri gibi evde farklı ihtiyaçlara yönelik ürünler.",
+  shortDescription: "Bulaşık kurutma süngeri, lekesil sünger, küf matı ve kapı eşik süngeri gibi evde farklı ihtiyaçlara yönelik ürünler.",
   description: [
-    "Bu grupta temizlik rutininin yanında evde farklı ihtiyaçlara eşlik eden ürünler yer alır: bulaşıkların süzülmesi için damlalıklar, buzdolabı rafları için küf matı ve kapı altındaki boşluğu kapatan kendinden yapışkanlı eşik süngeri.",
+    "Bu grupta temizlik rutininin yanında evde farklı ihtiyaçlara eşlik eden ürünler yer alır: bulaşıkların süzülmesi için kurutma süngeri ve bulaşık altlığı, yalnızca su ile ıslatılarak kullanılan melamin lekesil sünger, buzdolabı rafları için küf matı ve kapı altındaki boşluğu kapatan kendinden yapışkanlı eşik süngeri.",
+    "Lekesil süngeri hassas ve parlak yüzeylerde kullanmadan önce görünmeyen küçük bir alanda deneme yapılması önerilir.",
     "Ölçüler ve paketleme bilgileri her ürün için aşağıda ayrıca verilmiştir.",
   ],
-  highlights: ["Sünger ve non-woven damlalık", "Buzdolabı küf matı", "Kendinden yapışkanlı kapı eşik süngeri"],
-  image: img("106-0-001-36"),
-  imageAlt: "Renkli oluklu damlalıklar ve ambalajı",
+  highlights: ["Bulaşık kurutma süngeri ve altlığı", "Melamin lekesil sünger", "Buzdolabı küf matı", "Kendinden yapışkanlı kapı eşik süngeri"],
+  image: photo("106.0.001-36", 2),
+  imageAlt: "Turuncu, kırmızı, mavi ve sarı oluklu bulaşık kurutma süngerleri",
   imageStyle: "catalog",
   skus: [
     {
       slug: "106-0-001-36",
       code: "106.0.001-36",
-      name: "Damlalık",
-      nameEn: "Draining Board",
+      name: "Bulaşık Kurutma Süngeri",
+      nameEn: "Dish Drying Sponge Mat",
       productSize: "40 × 60 × 1,5 cm",
       packsPerCase: "36",
       caseSize: "116 × 41 × 34 cm",
       packaging: "naylon-torba",
-      image: img("106-0-001-36"),
-      imageAlt: "Renkli oluklu damlalıklar ve ambalajı",
     },
     {
       slug: "106-0-020-50",
       code: "106.0.020-50",
-      name: "Non-Woven Damlalık",
-      nameEn: "Non-Woven Draining Board",
+      name: "Desenli Bulaşık Altlığı",
+      nameEn: "Patterned Non-Woven Dish Drying Mat",
       productSize: "48 × 34 cm",
       packsPerCase: "50",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("106-0-020-50"),
-      imageAlt: "Desenli non-woven damlalık ambalajı",
+    },
+    {
+      slug: "106-0-202-24",
+      code: "106.0.202-24",
+      name: "Lekesil Sünger 2'li (Sihirli Sünger)",
+      nameEn: "Magic Eraser Sponge, 2 pcs/pack",
+      productSize: "11 × 7 × 3 cm",
+      packsPerCase: "24",
+      caseSize: "23 × 40 × 16 cm",
+      packaging: "koli",
+      extra: [{ label: "Paket içeriği", value: "2 adet" }],
     },
     {
       slug: "106-0-500-18",
@@ -1134,8 +1021,6 @@ const evVeMutfakYardimcilari: ProductType = {
       packsPerCase: "18",
       caseSize: "34 × 40 × 25 cm",
       packaging: "koli",
-      image: img("106-0-500-18"),
-      imageAlt: "Yeşil buzdolabı küf matı ve ambalajı",
     },
     {
       slug: "230-0-975",
@@ -1146,106 +1031,197 @@ const evVeMutfakYardimcilari: ProductType = {
       packsPerCase: "30",
       caseSize: "90 × 45 × 20 cm",
       packaging: "naylon-torba",
-      image: img("230-0-975"),
-      imageAlt: "Kapı altına yerleştirilmiş eşik süngeri",
     },
   ],
 };
 
 /* ------------------------------------------------------------------ */
-/* 5. Hammadde                                                         */
+/* 5. Plaka ve Rulo Ürünler (slug "hammadde")                         */
 /* ------------------------------------------------------------------ */
 
-const ruloHammadde: ProductType = {
-  slug: "rulo-hammadde",
+/*
+ * Summarised from the ERP lists of felt (126.0.xxx) and non-woven cloth (800.4.xxx) rolls (2026-11): grammage, colour
+ * and form only. Customer-specific prints and brands, seconds and defective stock are deliberately left out.
+ * Felt series codes carry the grammage: ST 25 = 250 gr/m², STA 55 = 550 gr/m² (matches the 2016 catalogue table).
+ */
+const ruloVePlakaKece: ProductType = {
+  slug: "rulo-ve-plaka-kece",
   categorySlug: "hammadde",
-  name: "Rulo Hammadde",
-  shortDescription: "Rulo halinde üretilen, farklı ürünlere işlenebilen dokulu hammadde.",
+  name: "Ovucu Keçe – Rulo ve Plaka",
+  shortDescription: "250–1000 gr/m² ovucu keçe; rulo, plaka ve kesilmiş formlarda, geniş renk seçeneğiyle.",
   description: [
-    "Rulo hammaddelerimiz; ovucu keçe, temizlik bezi ve yer bezi üretiminde kullanılan dokulu malzemelerden oluşur ve farklı ürünlere işlenmek üzere rulo halinde tedarik edilir.",
-    "Ovucu keçe rulolarında gramaj ve renk; temizlik ve yer bezi rulolarında ise viskon–polyester oranı ve gramaj ihtiyaca göre birlikte değerlendirilir.",
+    "Ovucu keçeyi (ovma fiberi) kendi tesisimizde üretiyor; bulaşık süngeri, ovma fiberi ve benzeri ürünleri üreten firmalara rulo, plaka veya kesilmiş olarak tedarik ediyoruz.",
+    "Keçeler ST ve STA serilerinde, 250 gr/m²'den 1000 gr/m²'ye kadar farklı gramajlarda üretilir. Seri kodundaki sayı gramajı gösterir: STA 55, 550 gr/m² keçedir. Her gramajda üretilebilen renkler aşağıdaki tabloda yer alır.",
+    "Standart rulo eni 1,02 m'dir; 2 m geniş en ile 40 cm ve 68 cm dar en seçenekleri de hazırlanabilir. Gramaj, renk ve ölçü ihtiyaca göre birlikte değerlendirilir.",
   ],
-  highlights: ["250–800 gr/m² ovucu keçe", "Viskon–polyester bez ruloları", "Rulo yer bezi dokuları", "Renk ve gramaj seçenekleri"],
-  image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
-  imageAlt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
+  highlights: ["250–1000 gr/m² gramaj", "Yirmiye yakın renk", "1,02 m standart rulo eni", "Plaka ve kesilmiş form"],
+  image: "/images/products/hammadde/ovucu-kece-rulolari-4x3.webp",
+  imageAlt: "Natürel ve yeşil ovucu keçe ruloları, yanında natürel, beyaz, gri, açık yeşil, yeşil, mavi, kırmızı, fuşya ve mor dar keçe ruloları",
   imageStyle: "styled",
+  skuKind: "variety",
   matrix: {
-    title: "Rulo keçe gramaj ve renk seçenekleri",
-    note: "Ovucu keçe ruloları aşağıdaki gramaj ve renk kombinasyonlarıyla üretilebilir.",
+    title: "Ovucu keçe gramaj ve renk seçenekleri",
+    note: "Keçeler aşağıdaki gramaj ve renk kombinasyonlarıyla üretilebilir. Listede olmayan bir kombinasyon için bize ulaşın.",
     rows: [
-      { label: "250 gr/m²", colors: [FIBER.green, FIBER.blue, FIBER.red, FIBER.yellow, FIBER.black] },
-      { label: "370 gr/m²", colors: [FIBER.green, FIBER.blue, FIBER.red, FIBER.yellow, FIBER.black] },
-      { label: "550 gr/m²", colors: [FIBER.darkGreen] },
-      { label: "600 gr/m²", colors: [FIBER.white, FIBER.turquoise] },
-      { label: "650 gr/m²", colors: [FIBER.purple, FIBER.lightGreen, FIBER.red, FIBER.orange, FIBER.pink] },
-      { label: "700 gr/m²", colors: [FIBER.glitterBlack] },
-      { label: "750 gr/m²", colors: [FIBER.darkGreen, FIBER.green] },
-      { label: "800 gr/m²", colors: [FIBER.darkGreen, FIBER.brick] },
+      { label: "250 gr/m²", colors: [FIBER.green, FIBER.red, FIBER.blue, FIBER.yellow, FIBER.black, FIBER.white] },
+      { label: "300 gr/m²", colors: [FIBER.green, FIBER.red, FIBER.blue, FIBER.yellow, FIBER.black, FIBER.orange, FIBER.fuchsia] },
+      {
+        label: "350–370 gr/m²",
+        colors: [FIBER.green, FIBER.darkGreen, FIBER.lightGreen, FIBER.red, FIBER.blue, FIBER.yellow, FIBER.black, FIBER.orange, FIBER.fuchsia, FIBER.white],
+      },
+      { label: "400–450 gr/m²", colors: [FIBER.green, FIBER.white] },
+      {
+        label: "550 gr/m²",
+        colors: [
+          FIBER.green, FIBER.lightGreen, FIBER.walnutGreen, FIBER.fluoGreen, FIBER.red, FIBER.blue, FIBER.yellow,
+          FIBER.black, FIBER.orange, FIBER.turquoise, FIBER.fuchsia, FIBER.violet, FIBER.purple, FIBER.natural, FIBER.white,
+        ],
+      },
+      { label: "600 gr/m²", colors: [FIBER.white] },
+      {
+        label: "650 gr/m²",
+        colors: [FIBER.green, FIBER.lightGreen, FIBER.red, FIBER.blue, FIBER.yellow, FIBER.black, FIBER.orange, FIBER.fuchsia, FIBER.violet, FIBER.purple, FIBER.burgundy],
+      },
+      { label: "700 gr/m²", colors: [FIBER.green, FIBER.black, FIBER.glitterGreen, FIBER.glitterBlack] },
+      { label: "750 gr/m²", colors: [FIBER.green, FIBER.walnutGreen, FIBER.red, FIBER.blue, FIBER.black] },
+      { label: "800 gr/m²", colors: [FIBER.green, FIBER.walnutGreen, FIBER.red, FIBER.brick, FIBER.black] },
+      { label: "950–1000 gr/m²", colors: [FIBER.green, FIBER.red, FIBER.blue, FIBER.yellow] },
     ],
   },
   skus: [
     {
       slug: "rulo-kece",
-      name: "Rulo Keçe",
-      nameEn: "Fiber in Roll",
+      name: "Rulo Ovucu Keçe",
+      nameEn: "Scouring Fiber in Roll",
       extra: [
-        { label: "Gramaj", value: "250 – 800 gr/m²" },
+        { label: "Gramaj", value: "250 – 1000 gr/m²" },
+        { label: "Rulo eni", value: "1,02 m" },
+        { label: "Rulo boyu", value: "65 / 75 / 95 m (gramaja göre)" },
         { label: "Renk", value: "Gramaja göre (tabloya bakın)" },
-        { label: "Rulo ölçüsü", value: "1–1,02 m en, 65–75 m boy" },
       ],
-      image: img("rulo-kece"),
-      imageAlt: "Kırmızı, mavi ve yeşil rulo keçeler",
-    },
-    // Felt rolls from the 2026-11 shipping list (STA/ST = felt type; roll width × length as stated).
-    ...(
-      [
-        ["126.0.301", "Yeşil Keçe Rulo – STA 30", "Green Fiber Roll – STA 30", "Yeşil", "1,02 × 75 m"],
-        ["126.0.375", "Yeşil Keçe Rulo – STA 37", "Green Fiber Roll – STA 37", "Yeşil", "1,02 × 75 m"],
-        ["126.0.552", "Kırmızı Keçe Rulo – STA 55", "Red Fiber Roll – STA 55", "Kırmızı", "1,02 × 65 m"],
-        ["126.0.555", "Yeşil Keçe Rulo – STA 55", "Green Fiber Roll – STA 55", "Yeşil", "1,02 × 65 m"],
-        ["126.0.650", "Beyaz Inox Keçe Rulo – ST 60", "White Inox Fiber Roll – ST 60", "Beyaz", "1 × 65 m"],
-      ] as const
-    ).map(([code, name, nameEn, colour, roll]) => ({
-      slug: code.replace(/\./g, "-"),
-      code,
-      name,
-      nameEn,
-      extra: [
-        { label: "Renk", value: colour },
-        { label: "Rulo ölçüsü", value: roll },
-      ],
-      image: img("rulo-kece"),
-      imageAlt: "Rulo halindeki ovucu keçeler",
-    })),
-    {
-      slug: "rulo-temizlik-bezi-20-80",
-      name: "Rulo Temizlik Bezi – %20 Viskon",
-      nameEn: "Cleaning Cloth in Roll – 20% Viscose",
-      extra: [
-        { label: "Kompozisyon", value: "%20 viskon, %80 polyester" },
-        { label: "Gramaj", value: "100 gr/m²" },
-      ],
-      image: img("rulo-temizlik-bezi-20-80"),
-      imageAlt: "Sarı, mavi ve pembe temizlik bezi ruloları",
+      image: "/images/products/hammadde/ovucu-kece-rulo.webp",
+      imageAlt: "Natürel ve yeşil ovucu keçe ruloları",
     },
     {
-      slug: "rulo-temizlik-bezi-50-50",
-      name: "Rulo Temizlik Bezi – %50 Viskon",
-      nameEn: "Cleaning Cloth in Roll – 50% Viscose",
+      slug: "genis-ve-dar-en-rulo-kece",
+      name: "Geniş ve Dar En Rulo Keçe",
+      nameEn: "Scouring Fiber in Wide and Narrow Rolls",
       extra: [
-        { label: "Kompozisyon", value: "%50 viskon, %50 polyester" },
-        { label: "Gramaj", value: "100 / 120 / 140 gr/m²" },
+        { label: "Geniş en", value: "2 m × 50 – 80 m" },
+        { label: "Dar en", value: "40 cm ve 68 cm × 65 – 75 m" },
+        { label: "Gramaj", value: "370 – 550 gr/m²" },
+      ],
+      image: "/images/products/hammadde/ovucu-kece-dar-rulolar.webp",
+      imageAlt: "Yan yana dizilmiş dokuz renkte dar en ovucu keçe ruloları",
+    },
+    {
+      slug: "kece-plakasi",
+      name: "Ovucu Keçe Plakası",
+      nameEn: "Scouring Fiber Sheet",
+      extra: [
+        { label: "Plaka ölçüsü", value: "100 × 150 cm, 100 × 200 cm, 102 × 102 cm, 100 × 167 cm" },
+        { label: "Gramaj", value: "250 – 750 gr/m²" },
+        { label: "Renk", value: "Yeşil, kırmızı, mavi, sarı, siyah, beyaz" },
+      ],
+      image: "/images/products/hammadde/ovucu-kece-plakasi.webp",
+      imageAlt: "Zemine serilmiş 1 × 2 m yeşil ovucu keçe plakası",
+    },
+    {
+      slug: "inox-kece",
+      name: "Inox Keçe",
+      nameEn: "Inox Scouring Fiber",
+      extra: [
+        { label: "Gramaj", value: "550 ve 600 gr/m²" },
+        { label: "Form", value: "Rulo (1,02 × 65 m) ve plaka (100 × 167 cm)" },
+        { label: "Renk", value: "Beyaz, tozlu beyaz, fıstık yeşili, fuşya, kırmızı, mavi, menekşe" },
+      ],
+      image: "/images/products/hammadde/inox-kece-plakasi.webp",
+      imageAlt: "Üzerinde tava ve tencere bulunan, zemine serilmiş beyaz Inox keçe plakası",
+    },
+    {
+      slug: "formlu-ve-kesilmis-kece",
+      name: "Formlu ve Kesilmiş Keçe",
+      nameEn: "Shaped and Cut Scouring Fiber",
+      extra: [
+        { label: "Papyon form", value: "550 gr/m²; fıstık yeşili, fuşya, menekşe, turuncu" },
+        { label: "Kesilmiş", value: "16 × 7,5 cm; 250 ve 370 gr/m² siyah" },
+      ],
+      image: "/images/products/hammadde/ovucu-kece-kesilmis.webp",
+      imageAlt: "Kesilmiş keçe parçası ve keçe lamineli bulaşık süngeri",
+    },
+  ],
+};
+
+const ruloNonWovenBez: ProductType = {
+  slug: "rulo-non-woven-bez",
+  categorySlug: "hammadde",
+  name: "Non-Woven Temizlik Bezi – Rulo",
+  shortDescription: "80–320 gr/m² non-woven temizlik, yer ve mop bezi; düz, baskılı ve mikro lifli rulolar.",
+  description: [
+    "Non-woven (dokusuz) temizlik bezini kendi tesisimizde üretiyor; temizlik bezi, yer bezi ve mop üreten firmalara istenen ende dilimlenmiş rulolar halinde tedarik ediyoruz.",
+    "Bezler 80 gr/m²'den 320 gr/m²'ye kadar farklı gramajlarda, %20'den %80'e farklı viskon–polyester oranlarıyla üretilir. Düz renkli, baskılı (çiçek, damla, ekose, gökkuşağı desenleri), gofreli ve %30 mikro lifli seçenekler bulunur.",
+    "Rulolar ihtiyaca göre 27 cm'den 210 cm'ye kadar farklı enlerde dilimlenir; rulo boyu genellikle 300 m'dir. Gramaj, renk, desen ve ölçü ihtiyaca göre birlikte değerlendirilir.",
+  ],
+  highlights: ["80–320 gr/m² gramaj", "%20–80 viskon oranı", "Düz, baskılı ve mikro lifli", "27–210 cm rulo eni"],
+  image: "/images/products/hammadde/non-woven-bez-rulolari-4x3.webp",
+  imageAlt: "Sarı, beyaz, mavi, pembe ve antrasit non-woven temizlik bezi ruloları, uçları açılmış",
+  imageStyle: "styled",
+  skuKind: "variety",
+  matrix: {
+    title: "Temizlik bezi gramaj ve renk seçenekleri",
+    note: "Rulo temizlik bezleri aşağıdaki gramaj ve renk kombinasyonlarıyla üretilebilir. Baskılı ve desenli seçenekler ağırlıklı olarak 100–160 gr/m² aralığındadır.",
+    rows: [
+      { label: "80–90 gr/m²", colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink, CLOTH.green, CLOTH.orange] },
+      { label: "100–105 gr/m²", colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink, CLOTH.green, CLOTH.orange, CLOTH.white, CLOTH.black] },
+      { label: "110–115 gr/m²", colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink] },
+      {
+        label: "120–125 gr/m²",
+        colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink, CLOTH.candyPink, CLOTH.green, CLOTH.appleGreen, CLOTH.orange, CLOTH.turquoise, CLOTH.white, CLOTH.black],
+      },
+      { label: "130–135 gr/m²", colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink, CLOTH.green, CLOTH.orange, CLOTH.white] },
+      {
+        label: "140 gr/m²",
+        colors: [CLOTH.yellow, CLOTH.blue, CLOTH.pink, CLOTH.candyPink, CLOTH.green, CLOTH.appleGreen, CLOTH.orange, CLOTH.turquoise, CLOTH.white],
+      },
+      { label: "160–180 gr/m²", colors: [CLOTH.yellow, CLOTH.orange, CLOTH.white] },
+      { label: "200–250 gr/m²", colors: [CLOTH.yellow, CLOTH.blue, CLOTH.green, CLOTH.white] },
+      { label: "320 gr/m²", colors: [CLOTH.white] },
+    ],
+  },
+  skus: [
+    {
+      slug: "rulo-temizlik-bezi-duz",
+      name: "Düz Renkli Rulo Temizlik Bezi",
+      nameEn: "Plain Coloured Cleaning Cloth in Roll",
+      extra: [
+        { label: "Gramaj", value: "80 – 240 gr/m²" },
+        { label: "Kompozisyon", value: "%20 – %80 viskon, kalanı polyester" },
+        { label: "Rulo eni", value: "27 – 210 cm (dilimlenmiş)" },
+        { label: "Rulo boyu", value: "Genellikle 300 m" },
+      ],
+      image: "/images/products/hammadde/non-woven-bez-rulo.webp",
+      imageAlt: "Mavi, pembe, beyaz ve antrasit non-woven temizlik bezi ruloları",
+    },
+    {
+      slug: "rulo-temizlik-bezi-baskili",
+      name: "Baskılı ve Desenli Rulo Temizlik Bezi",
+      nameEn: "Printed Cleaning Cloth in Roll",
+      extra: [
+        { label: "Desen", value: "Çiçek, damla, ekose, gökkuşağı; gofreli yüzey" },
+        { label: "Gramaj", value: "100 – 160 gr/m²" },
+        { label: "Zemin rengi", value: "Sarı, beyaz, mavi, pembe, turuncu, yeşil" },
       ],
       image: img("rulo-temizlik-bezi-50-50"),
-      imageAlt: "Düz ve baskılı temizlik bezi ruloları",
+      imageAlt: "Düz ve çiçek baskılı temizlik bezi ruloları",
     },
     {
-      slug: "rulo-temizlik-bezi-70-30",
-      name: "Rulo Temizlik Bezi – %70 Viskon",
-      nameEn: "Cleaning Cloth in Roll – 70% Viscose",
+      slug: "rulo-temizlik-bezi-mikro",
+      name: "Mikro Lifli Rulo Temizlik Bezi",
+      nameEn: "Microfibre-Blend Cleaning Cloth in Roll",
       extra: [
-        { label: "Kompozisyon", value: "%70 viskon, %30 polyester" },
-        { label: "Gramaj", value: "120 / 140 gr/m²" },
+        { label: "Kompozisyon", value: "%30 mikro lif içeren karışım" },
+        { label: "Gramaj", value: "100 – 230 gr/m²" },
+        { label: "Renk", value: "Sarı, elma yeşili; düz veya baskılı" },
       ],
       image: img("rulo-temizlik-bezi-70-30"),
       imageAlt: "Sarı, mavi ve pembe temizlik bezi ruloları",
@@ -1283,14 +1259,35 @@ const ruloHammadde: ProductType = {
       image: img("rulo-yer-bezi-30-70"),
       imageAlt: "Mavi kareli yer bezi rulosu, bezi ve mop uygulaması",
     },
+    {
+      slug: "mop-ve-paspas-rulo-bezi",
+      name: "Mop ve Paspas Rulo Bezi",
+      nameEn: "Mop and Floor Mat Cloth in Roll",
+      extra: [
+        { label: "Mop bezi", value: "180 – 250 gr/m²; beyaz, yeşil baskılı, çiçek desenli" },
+        { label: "Paspas bezi", value: "220 gr/m² baskılı; %60 viskon, %15 lowmelt, %25 polyester" },
+      ],
+      image: img("rulo-yer-bezi-60-40"),
+      imageAlt: "Yer bezi rulosu, bezi ve mop uygulaması",
+    },
+    {
+      slug: "bulasik-altligi-rulosu",
+      name: "Bulaşık Altlığı Rulosu",
+      nameEn: "Dish Drying Mat Material in Roll",
+      extra: [
+        { label: "Gramaj", value: "320 gr/m²" },
+        { label: "Renk", value: "Beyaz" },
+        { label: "Rulo eni", value: "200 cm" },
+      ],
+    },
   ],
 };
 
 const tabakaHammadde: ProductType = {
   slug: "tabaka-hammadde",
   categorySlug: "hammadde",
-  name: "Tabaka Hammadde",
-  shortDescription: "Düzenli tabakalar halinde hazırlanan, ölçüye göre kesilebilen hammadde.",
+  name: "Sünger Plakaları",
+  shortDescription: "Keçe lamineli sünger plakaları ve selülozik sünger plakaları; ölçüye göre kesime uygun.",
   description: [
     "Keçe lamineli sünger plakaları, sünger gövde ile ovucu keçenin lamine edilerek tabaka halinde hazırlandığı yarı mamullerdir.",
     "Plakalar, bulaşık süngeri ve benzeri ürünlerin üretiminde istenen ölçüye göre kesilmek üzere tedarik edilir. Keçe rengi, sünger rengi ve kalınlık ihtiyaca göre birlikte değerlendirilir.",
@@ -1300,6 +1297,7 @@ const tabakaHammadde: ProductType = {
   image: "/images/products/hammadde/sheet-raw-material.webp",
   imageAlt: "Üst üste yerleştirilmiş tabaka hammaddeler",
   imageStyle: "styled",
+  skuKind: "variety",
   skus: [
     {
       slug: "kece-lamineli-plaka",
@@ -1348,6 +1346,7 @@ const dokmeUrunler: ProductType = {
   image: "/images/products/category-cloths.webp",
   imageAlt: "Katlanmış ve rulo halinde temizlik bezleri",
   imageStyle: "styled",
+  skuKind: "variety",
   skus: [
     {
       slug: "111-0-999",
@@ -1396,11 +1395,11 @@ export const categories: Category[] = [
     shortDescription: "Farklı kullanım alanları için sünger seçenekleri.",
     intro: [
       "Temizlik süngerleri, yüzeyle temas eden katman ve elde kullanımı destekleyen gövde formuyla farklı uygulamalara uyum sağlayan seçenekler sunar.",
-      "Klasik ve oluklu biçimler, kullanım alışkanlığına göre değerlendirilebilir. Ürün seçiminde biçim, doku ve kullanım alanı birlikte düşünülür.",
+      "Düz ve oluklu biçimler, natürel, file kaplı ve selülozik özel seçenekler ile endüstriyel boylar kullanım alışkanlığına göre değerlendirilebilir. Ürün seçiminde biçim, doku ve kullanım alanı birlikte düşünülür.",
     ],
     image: "/images/products/category-sponges-2026.webp",
     imageAlt: "Sanitex bulaşık süngeri paketleri: ekonomik 5'li paketler, tırnak koruyuculu sünger ve file kaplı sünger",
-    products: [klasikTemizlikSungeri, olukluTemizlikSungeri, endustriyelTemizlikSungeri],
+    products: [klasikTemizlikSungeri, olukluTemizlikSungeri, ozelBulasikSungerleri, endustriyelTemizlikSungeri],
   },
   {
     slug: "temizlik-bezleri",
@@ -1417,14 +1416,14 @@ export const categories: Category[] = [
   {
     slug: "ovucu-materyaller",
     name: "Ovucu Materyaller",
-    shortDescription: "Zorlu kirler için ovucu keçe, natürel keçe ve ovma teli seçenekleri.",
+    shortDescription: "Zorlu kirler için ovucu keçe ve ovma teli seçenekleri.",
     intro: [
-      "Ovucu materyaller, yapışmış ve yanmış kalıntılar gibi zorlu kirlerde yüzeyle güçlü temas kurmaya yönelik ovucu keçe, natürel keçe, ovma teli ve benzeri ovucu ürünleri kapsar.",
+      "Ovucu materyaller, yapışmış ve yanmış kalıntılar gibi zorlu kirlerde yüzeyle güçlü temas kurmaya yönelik ovucu keçe (ovma fiberi), ovma teli ve benzeri ovucu ürünleri kapsar.",
       "Lif ve tel yapısı, yoğunluk ve form, kullanılacak yüzey ile kirin türüne göre değerlendirilir. İhtiyaca uygun seçeneği birlikte belirleyebiliriz.",
     ],
     image: "/images/products/category-scourers-2026.webp",
     imageAlt: "Sanitex renkli fiber keçe paketi ve natürel lifli süngerler",
-    products: [ovmaTeli, ovucuKece, naturelKece],
+    products: [ovucuKece, ovmaTeli],
   },
   {
     slug: "ozel-formlu-sungerler",
@@ -1432,45 +1431,66 @@ export const categories: Category[] = [
     shortDescription: "Kullanım ihtiyacına göre şekillenen alternatifler.",
     intro: [
       "Özel formlu süngerler, standart dikdörtgen biçimlerin dışında farklı tutuş ve yüzey temas ihtiyaçlarına yönelik form alternatiflerini kapsar.",
-      "Oval ve kavrama profilli biçimler, ürün formunun kullanım şekliyle birlikte değerlendirilebildiği seçenekler sunar.",
+      "Banyo ve bakım, oto ve ev–mutfak kullanımına yönelik oval, kelebek, dalgalı ve özel kesim formlar, ürün formunun kullanım şekliyle birlikte değerlendirilebildiği seçenekler sunar.",
     ],
     image: "/images/products/category-specialty-2026.webp",
     imageAlt: "Sanitex banyo süngeri, konfor süngeri ve oto süngeri",
-    products: [ovalFormluSunger, kavramaFormluSunger, banyoVeBakimSungerleri, sihirliSunger, evVeMutfakYardimcilari],
+    products: [banyoVeBakimSungerleri, otoSungerleri, evVeMutfakYardimcilari],
   },
   {
     slug: "hammadde",
-    name: "Rulo Non-Woven Temizlik Bezi ve Ovucu Keçe Üretimleri",
-    shortDescription: "Kendi tesisimizde rulo halinde ürettiğimiz non-woven temizlik bezi ve ovucu keçe ile tabaka hammaddeler.",
+    name: "Plaka ve Rulo Ürünler",
+    shortDescription: "Kendi tesisimizde ürettiğimiz, rulo halinde non-woven temizlik bezi ve ovucu keçe ile plaka ürünler.",
     intro: [
       "Saniteks, temizlik ürünlerinde kullanılan non-woven temizlik bezi ve ovucu keçeyi kendi tesisinde rulo halinde üretir. Bu ruloları farklı ürünler geliştiren üreticilere de tedarik ediyoruz.",
-      "Ürünlerimiz rulo ve tabaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.",
+      "Ürünlerimiz rulo ve plaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.",
     ],
     image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
     imageAlt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
     bannerImage: "/images/products/hammadde/rulo-nonwoven-kece.webp",
-    products: [ruloHammadde, tabakaHammadde, dokmeUrunler],
+    products: [ruloVePlakaKece, ruloNonWovenBez, tabakaHammadde, dokmeUrunler],
   },
 ];
 
 /**
- * Catalogue SKUs that are not in the 2026-11 shipping list. Kept on the site as "talep üzerine üretim"
- * (company decision); remove a code here once it is back in regular production.
+ * Studio photos per product code (files /images/urunler/<code>-<n>.webp, n = 1…). One letter per photo, in display
+ * order: P = packaging, U = product, C = packaging with product, L = in use. Converted from the originals on the
+ * "urun_gorselleri" branch; a changed photo gets a new file name (/images is cached for 30 days).
  */
-const MADE_TO_ORDER = new Set([
-  "100.0.600-C", "100.0.876-60T", "101.0.350-40", "101.0.376-24",
-  "102.0.600-60", "102.0.090-16", "102.0.101-16", "102.0.102-16",
-  "110.0.002-20", "110.0.201-20", "110.0.663-C", "113.0.001-48", "112.0.002-60", "116.0.005-50",
-  "114.0.003-50", "114.0.001-50", "114.0.100-50",
-  "120.0.101-60", "120.0.401-60", "120.0.910",
-  "125.0.105-100", "125.0.114-120", "125.0.502-90", "125.0.115-80",
-  "103.0.200-40", "103.0.302-45", "104.0.103-100", "104.0.104-90", "105.0.105-168T", "105.0.204-168T",
-  "106.0.001-36", "106.0.020-50", "106.0.500-18", "230.0.975",
-]);
+const PHOTOS: Record<string, string> = {
+  "100.0.125-40": "PUC", "100.0.350-30": "PU", "100.0.400-16": "PU", "100.0.600-C": "PU", "100.0.800-120T": "PU",
+  "100.0.850-60T": "PU", "100.0.876-60T": "PU", "101.0.001-50": "PU", "101.0.302-72": "PU", "101.0.303-36": "PUC",
+  "101.0.304-36": "PU", "101.0.350-40": "PU", "101.0.376-24": "PU", "101.0.410-30": "PU", "101.0.750-48": "PU",
+  "101.0.800-66T": "PU", "101.0.850-36T": "PU", "102.0.090-16": "PU", "102.0.101-16": "PU", "102.0.102-16": "PU",
+  "102.0.600-60": "PU", "103.0.003-20": "PUC", "103.0.200-40": "PU", "103.0.302-45": "PU", "104.0.102-80T": "PUC",
+  "104.0.103-100": "PU", "104.0.104-90": "PU", "105.0.105-168T": "PU", "105.0.204-168T": "PU", "106.0.001-36": "PU",
+  "106.0.020-50": "PU", "106.0.202-24": "PUC", "106.0.500-18": "PU", "110.0.001-20": "PU", "110.0.002-20": "PU",
+  "110.0.050-20": "PU", "110.0.201-20": "PU", "110.0.650-C": "PU", "110.0.663-C": "PU", "110.0.840-12": "PU",
+  "110.0.841-12": "PU", "110.0.842-12": "PU", "113.0.001-48": "PU", "114.0.001-50": "PU", "114.0.003-50": "PU",
+  "114.0.100-50": "PU", "116.0.005-50": "PU", "125.0.105-100": "PU", "125.0.114-120": "PU", "125.0.115-80": "PUC",
+  "125.0.502-90": "PU", "230.0.975": "LUU",
+};
+
+const PHOTO_ROLE: Record<string, string> = { P: "ambalaj", U: "ürün", C: "ambalaj ve ürün", L: "kullanımda" };
+
+/**
+ * Catalogue SKUs that are not in the 2026-11 shipping list and have no 2026 studio photo (the products photographed
+ * in 2026 are treated as current). Kept on the site as "talep üzerine üretim" (company decision); remove a code here
+ * once it is back in regular production.
+ */
+const MADE_TO_ORDER = new Set(["112.0.002-60", "120.0.101-60", "120.0.401-60", "120.0.910"]);
 
 for (const category of categories) {
   for (const product of category.products) {
-    for (const sku of product.skus) if (sku.code && MADE_TO_ORDER.has(sku.code)) sku.madeToOrder = true;
+    for (const sku of product.skus) {
+      if (sku.code && MADE_TO_ORDER.has(sku.code)) sku.madeToOrder = true;
+      const roles = sku.code ? PHOTOS[sku.code] : undefined;
+      if (roles) {
+        sku.photos = [...roles].map((role, i) => ({ src: photo(sku.code!, i + 1), alt: `${sku.name}: ${PHOTO_ROLE[role]}` }));
+        sku.image = sku.photos[0].src;
+        sku.imageAlt = sku.photos[0].alt;
+      }
+    }
     // Current products first, made-to-order ones after (stable order within each group).
     product.skus.sort((a, b) => Number(Boolean(a.madeToOrder)) - Number(Boolean(b.madeToOrder)));
   }

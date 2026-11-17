@@ -26,14 +26,17 @@ export const capabilities: Capability[] = [
       "Sünger ve temizlik ürünlerinde kullanılan dokulu yüzey hammaddelerini kendi tesisimizde üretiyoruz.",
       "Ovucu keçe farklı gramaj ve renk kombinasyonlarıyla; temizlik ve yer bezi ruloları ise farklı viskon–polyester oranlarıyla hazırlanır. Bu hammaddeler kendi ürünlerimizde kullanıldığı gibi, farklı ürünler geliştiren üreticilere de tedarik edilir.",
     ],
-    facts: ["Ovucu keçe: 250–800 gr/m²", "Temizlik bezi: 100–140 gr/m²", "Yer bezi: 180–200 gr/m²", "%20–70 viskon oranları"],
+    facts: ["Ovucu keçe: 250–1000 gr/m²", "Temizlik bezi: 80–240 gr/m²", "Yer ve mop bezi: 180–250 gr/m²", "%20–80 viskon oranları"],
     image: {
       src: "/images/corporate/nonwoven-production-process.webp",
       alt: "Nonwoven tekstil malzemesinin üretim sürecinden yakın görünüm",
       width: 1600,
       height: 1200,
     },
-    related: [{ href: "/urunler/hammadde/rulo-hammadde", label: "Rulo hammadde" }],
+    related: [
+      { href: "/urunler/hammadde/rulo-ve-plaka-kece", label: "Rulo ve plaka ovucu keçe" },
+      { href: "/urunler/hammadde/rulo-non-woven-bez", label: "Rulo non-woven temizlik bezi" },
+    ],
   },
   {
     id: "laminasyon",
@@ -51,8 +54,8 @@ export const capabilities: Capability[] = [
       height: 1200,
     },
     related: [
-      { href: "/urunler/hammadde/tabaka-hammadde", label: "Tabaka hammadde" },
-      { href: "/urunler/temizlik-sungerleri/klasik-temizlik-sungeri", label: "Klasik temizlik süngeri" },
+      { href: "/urunler/hammadde/tabaka-hammadde", label: "Sünger plakaları" },
+      { href: "/urunler/temizlik-sungerleri/klasik-temizlik-sungeri", label: "Düz bulaşık süngeri" },
     ],
   },
   {
@@ -71,9 +74,9 @@ export const capabilities: Capability[] = [
       height: 900,
     },
     related: [
-      { href: "/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri", label: "Oluklu temizlik süngeri" },
-      { href: "/urunler/ozel-formlu-sungerler/kavrama-formlu-sunger", label: "Kavrama formlu sünger" },
-      { href: "/urunler/ozel-formlu-sungerler/oval-formlu-sunger", label: "Oval formlu sünger" },
+      { href: "/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri", label: "Oluklu bulaşık süngeri" },
+      { href: "/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri", label: "Banyo ve bakım süngerleri" },
+      { href: "/urunler/ozel-formlu-sungerler/oto-sungerleri", label: "Oto süngerleri" },
     ],
   },
   {
