@@ -1123,6 +1123,8 @@ const ruloVePlakaKece: ProductType = {
         { label: "Gramaj", value: "250 – 750 gr/m²" },
         { label: "Renk", value: "Yeşil, kırmızı, mavi, sarı, siyah, beyaz" },
       ],
+      image: "/images/products/hammadde/ovucu-kece-plakasi.webp",
+      imageAlt: "Zemine serilmiş 1 × 2 m yeşil ovucu keçe plakası",
     },
     {
       slug: "inox-kece",
