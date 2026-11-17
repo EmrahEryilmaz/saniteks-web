@@ -48,6 +48,7 @@ const nextConfig: NextConfig = {
         destination: "/images/urunler/:slug-1.webp",
         permanent: true,
       },
+      { source: "/images/catalog/rulo-kece.webp", destination: "/images/products/hammadde/ovucu-kece-rulo.webp", permanent: true },
       { source: "/images/catalog/super-tekli-duz.webp", destination: "/images/urunler/101-0-001-50-1.webp", permanent: true },
       { source: "/images/catalog/super-tekli-oluklu{-2026}?.webp", destination: "/images/urunler/100-0-125-40-1.webp", permanent: true },
       { source: "/images/products/category-sponges.webp", destination: "/images/products/category-sponges-2026.webp", permanent: true },

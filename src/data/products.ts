@@ -1055,8 +1055,8 @@ const ruloVePlakaKece: ProductType = {
     "Standart rulo eni 1,02 m'dir; 2 m geniş en ile 40 cm ve 68 cm dar en seçenekleri de hazırlanabilir. Gramaj, renk ve ölçü ihtiyaca göre birlikte değerlendirilir.",
   ],
   highlights: ["250–1000 gr/m² gramaj", "Yirmiye yakın renk", "1,02 m standart rulo eni", "Plaka ve kesilmiş form"],
-  image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
-  imageAlt: "Yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları ile non-woven temizlik bezi ruloları",
+  image: "/images/products/hammadde/ovucu-kece-rulolari-4x3.webp",
+  imageAlt: "Natürel ve yeşil ovucu keçe ruloları, yanında natürel, beyaz, gri, açık yeşil, yeşil, mavi, kırmızı, fuşya ve mor dar keçe ruloları",
   imageStyle: "styled",
   skuKind: "variety",
   matrix: {
@@ -1099,8 +1099,8 @@ const ruloVePlakaKece: ProductType = {
         { label: "Rulo boyu", value: "65 / 75 / 95 m (gramaja göre)" },
         { label: "Renk", value: "Gramaja göre (tabloya bakın)" },
       ],
-      image: img("rulo-kece"),
-      imageAlt: "Kırmızı, mavi ve yeşil rulo keçeler",
+      image: "/images/products/hammadde/ovucu-kece-rulo.webp",
+      imageAlt: "Natürel ve yeşil ovucu keçe ruloları",
     },
     {
       slug: "genis-ve-dar-en-rulo-kece",
@@ -1111,8 +1111,8 @@ const ruloVePlakaKece: ProductType = {
         { label: "Dar en", value: "40 cm ve 68 cm × 65 – 75 m" },
         { label: "Gramaj", value: "370 – 550 gr/m²" },
       ],
-      image: img("rulo-kece"),
-      imageAlt: "Rulo halindeki ovucu keçeler",
+      image: "/images/products/hammadde/ovucu-kece-dar-rulolar.webp",
+      imageAlt: "Yan yana dizilmiş dokuz renkte dar en ovucu keçe ruloları",
     },
     {
       slug: "kece-plakasi",
@@ -1142,6 +1142,8 @@ const ruloVePlakaKece: ProductType = {
         { label: "Papyon form", value: "550 gr/m²; fıstık yeşili, fuşya, menekşe, turuncu" },
         { label: "Kesilmiş", value: "16 × 7,5 cm; 250 ve 370 gr/m² siyah" },
       ],
+      image: "/images/products/hammadde/ovucu-kece-kesilmis.webp",
+      imageAlt: "Kesilmiş keçe parçası ve keçe lamineli bulaşık süngeri",
     },
   ],
 };
