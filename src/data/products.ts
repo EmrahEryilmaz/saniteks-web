@@ -1135,6 +1135,8 @@ const ruloVePlakaKece: ProductType = {
         { label: "Form", value: "Rulo (1,02 × 65 m) ve plaka (100 × 167 cm)" },
         { label: "Renk", value: "Beyaz, tozlu beyaz, fıstık yeşili, fuşya, kırmızı, mavi, menekşe" },
       ],
+      image: "/images/products/hammadde/inox-kece-plakasi.webp",
+      imageAlt: "Üzerinde tava ve tencere bulunan, zemine serilmiş beyaz Inox keçe plakası",
     },
     {
       slug: "formlu-ve-kesilmis-kece",
