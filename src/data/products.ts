@@ -1159,8 +1159,8 @@ const ruloNonWovenBez: ProductType = {
     "Rulolar ihtiyaca göre 27 cm'den 210 cm'ye kadar farklı enlerde dilimlenir; rulo boyu genellikle 300 m'dir. Gramaj, renk, desen ve ölçü ihtiyaca göre birlikte değerlendirilir.",
   ],
   highlights: ["80–320 gr/m² gramaj", "%20–80 viskon oranı", "Düz, baskılı ve mikro lifli", "27–210 cm rulo eni"],
-  image: "/images/products/temizlik-bezleri/rolled-cleaning-cloth.webp",
-  imageAlt: "Kısmen açılmış rulo temizlik bezi",
+  image: "/images/products/hammadde/non-woven-bez-rulolari-4x3.webp",
+  imageAlt: "Sarı, beyaz, mavi, pembe ve antrasit non-woven temizlik bezi ruloları, uçları açılmış",
   imageStyle: "styled",
   skuKind: "variety",
   matrix: {
@@ -1195,8 +1195,8 @@ const ruloNonWovenBez: ProductType = {
         { label: "Rulo eni", value: "27 – 210 cm (dilimlenmiş)" },
         { label: "Rulo boyu", value: "Genellikle 300 m" },
       ],
-      image: img("rulo-temizlik-bezi-20-80"),
-      imageAlt: "Sarı, mavi ve pembe temizlik bezi ruloları",
+      image: "/images/products/hammadde/non-woven-bez-rulo.webp",
+      imageAlt: "Mavi, pembe, beyaz ve antrasit non-woven temizlik bezi ruloları",
     },
     {
       slug: "rulo-temizlik-bezi-baskili",
