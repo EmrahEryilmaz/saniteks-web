@@ -5,11 +5,10 @@ import { categoryHref } from "@/data/products";
 import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { containerClass, cx, textLinkClass } from "@/components/ui/styles";
-import { inquiryHref } from "./format";
+import { inquiryHref, skuCountLabel } from "./format";
 
 /** Product detail top band: image left, category link + title + lead + "Bilgi alın" right. */
 export function ProductHero({ category, product, crumbs }: { category: Category; product: ProductType; crumbs: Crumb[] }) {
-  const skuCount = product.skus.length;
   return (
     <section aria-labelledby="product-title" className="border-b border-border bg-surface-strong">
       <div className={cx(containerClass, "py-7 md:py-9")}>
@@ -53,7 +52,7 @@ export function ProductHero({ category, product, crumbs }: { category: Category;
             <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href={inquiryHref(product.name)}>Bilgi alın</ButtonLink>
               <a className={cx(textLinkClass, "inline-flex min-h-11 items-center gap-3 font-semibold")} href="#paket-secenekleri">
-                {skuCount} {skuCount === 1 ? "seçenek" : "paket seçeneği"}
+                {skuCountLabel(product)}
                 <span aria-hidden="true">↓</span>
               </a>
             </div>

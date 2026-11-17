@@ -28,11 +28,17 @@ export function skuSpecRows(sku: Sku, product: Pick<ProductType, "colorOptions">
   return rows;
 }
 
-/** Meta line for product type cards: "7 paket seçeneği", or "Talep üzerine üretim" if nothing is in regular production. */
-export function productMeta(product: Pick<ProductType, "skus">) {
+/** "7 paket seçeneği" / "5 çeşit" / "1 seçenek". */
+export function skuCountLabel(product: Pick<ProductType, "skus" | "skuKind">) {
   const n = product.skus.length;
+  if (n === 1) return "1 seçenek";
+  return `${n} ${product.skuKind === "variety" ? "çeşit" : "paket seçeneği"}`;
+}
+
+/** Meta line for product type cards: the option count, or "Talep üzerine üretim" if nothing is in regular production. */
+export function productMeta(product: Pick<ProductType, "skus" | "skuKind">) {
   if (product.skus.every((s) => s.madeToOrder)) return "Talep üzerine üretim";
-  return `${n} ${n === 1 ? "seçenek" : "paket seçeneği"}`;
+  return skuCountLabel(product);
 }
 
 export const madeToOrderLabel = "Talep üzerine üretim";
