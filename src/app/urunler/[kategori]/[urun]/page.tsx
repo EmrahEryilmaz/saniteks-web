@@ -1,91 +1,140 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categories, categoryHref, getProduct, productHref } from "@/data/products";
+import { categories, categoryHref, categorySkus, getSku, skuHref } from "@/data/products";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
-import { inquiryHref, productMeta, skuCountLabel } from "@/components/products/format";
-import { ProductHero } from "@/components/products/ProductHero";
-import { SkuCard } from "@/components/products/SkuCard";
-import { SkuTable } from "@/components/products/SkuTable";
+import { inquiryHref, madeToOrderLabel, skuInquirySubject, skuSpecRows } from "@/components/products/format";
+import { ProductGallery } from "@/components/products/ProductGallery";
+import { ShopProductCard } from "@/components/products/ShopProductCard";
 import { ColorOptionList, SpecMatrixTable } from "@/components/products/Swatch";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, type Crumb } from "@/components/ui/Breadcrumbs";
-import { CtaSection } from "@/components/ui/CtaSection";
-import { ProductCard } from "@/components/ui/ProductCard";
+import { Breadcrumbs, breadcrumbJsonLd, type Crumb } from "@/components/ui/Breadcrumbs";
+import { ArrowLink, ButtonLink } from "@/components/ui/ButtonLink";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { cx } from "@/components/ui/styles";
+import { containerClass, cx, textLinkClass } from "@/components/ui/styles";
 
 type Props = { params: Promise<{ kategori: string; urun: string }> };
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return categories.flatMap((c) => c.products.map((p) => ({ kategori: c.slug, urun: p.slug })));
+  return categories.flatMap((c) => categorySkus(c).map(({ sku }) => ({ kategori: c.slug, urun: sku.slug })));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { kategori, urun } = await params;
-  const found = getProduct(kategori, urun);
+  const found = getSku(kategori, urun);
   if (!found) return {};
-  const { product } = found;
-  const path = productHref(product);
+  const { category, product, sku } = found;
+  const path = skuHref(category.slug, sku.slug);
+  const title = sku.code ? `${sku.name} (${sku.code})` : sku.name;
+  const description = [sku.productSize && `Ölçü ${sku.productSize}`, sku.packsPerCase && `koli içi ${sku.packsPerCase}`, product.shortDescription]
+    .filter(Boolean)
+    .join(" · ");
   return {
-    title: product.name,
-    description: product.shortDescription,
+    title,
+    description,
     alternates: { canonical: path },
     openGraph: pageOpenGraph({
-      title: `${product.name} | Saniteks`,
-      description: product.shortDescription,
+      title: `${title} | Saniteks`,
+      description,
       url: path,
-      image: { url: product.image, alt: product.imageAlt },
+      image: sku.image ? { url: sku.image, alt: sku.imageAlt ?? sku.name } : { url: category.image, alt: category.imageAlt },
     }),
   };
 }
 
-export default async function ProductPage({ params }: Props) {
+/** Product detail page of one SKU (shop-style): gallery, specs and inquiry, then group description and similar items. */
+export default async function SkuPage({ params }: Props) {
   const { kategori, urun } = await params;
-  const found = getProduct(kategori, urun);
+  const found = getSku(kategori, urun);
   if (!found) notFound();
-  const { category, product } = found;
+  const { category, product, sku } = found;
 
-  const path = productHref(product);
+  const path = skuHref(category.slug, sku.slug);
   const crumbs: Crumb[] = [
     { label: "Ana Sayfa", href: "/" },
     { label: "Ürünler", href: "/urunler" },
     { label: category.name, href: categoryHref(category) },
-    { label: product.name },
+    { label: sku.name },
   ];
-  const related = category.products.filter((p) => p.slug !== product.slug);
-  const skuCount = product.skus.length;
+  const rows = skuSpecRows(sku);
+  const photos = sku.photos ?? (sku.image ? [{ src: sku.image, alt: sku.imageAlt ?? sku.name }] : []);
+  // Same product group first, then the rest of the category.
+  const siblings = categorySkus(category).filter((e) => e.sku.slug !== sku.slug);
+  const similar = [...siblings.filter((e) => e.product.slug === product.slug), ...siblings.filter((e) => e.product.slug !== product.slug)].slice(0, 4);
 
-  const itemListJsonLd = {
+  const productJsonLd = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: product.name,
-    numberOfItems: skuCount,
-    itemListElement: product.skus.map((sku, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      item: {
-        "@type": "Product",
-        name: sku.name,
-        ...(sku.code ? { sku: sku.code, mpn: sku.code } : {}),
-        ...(sku.image ? { image: new URL(sku.image, site.url).toString() } : {}),
-        url: new URL(`${path}#${sku.slug}`, site.url).toString(),
-        brand: { "@type": "Brand", name: site.name },
-        category: `${category.name} > ${product.name}`,
-        ...(sku.productSize ? { size: sku.productSize } : {}),
-      },
-    })),
+    "@type": "Product",
+    name: sku.name,
+    ...(sku.code ? { sku: sku.code, mpn: sku.code } : {}),
+    ...(photos.length ? { image: photos.map((p) => new URL(p.src, site.url).toString()) } : {}),
+    url: new URL(path, site.url).toString(),
+    description: product.description[0],
+    brand: { "@type": "Brand", name: site.name },
+    category: `${category.name} > ${product.name}`,
+    ...(sku.productSize ? { size: sku.productSize } : {}),
   };
 
   return (
     <>
-      <ProductHero category={category} product={product} crumbs={crumbs} />
+      <section aria-labelledby="product-title" className="border-b border-border bg-surface">
+        <div className={cx(containerClass, "py-7 md:py-9")}>
+          <Breadcrumbs items={crumbs} />
+          <div className="grid gap-8 py-5 md:py-7 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+            <div className="min-w-0">
+              <ProductGallery photos={photos} label={sku.name} />
+            </div>
+            <div className="min-w-0 lg:pt-2">
+              <Link className={cx(textLinkClass, "inline-flex min-h-11 items-center text-sm font-semibold")} href={categoryHref(category)}>
+                {category.name}
+              </Link>
+              <p className="text-xs font-semibold tracking-widest text-subtle-foreground uppercase">{product.name}</p>
+              <h1 id="product-title" className="mt-3 text-3xl leading-tight font-semibold tracking-[-0.02em] break-words md:text-4xl">
+                {sku.name}
+              </h1>
+              <p lang="en" className="mt-2 text-base text-subtle-foreground">
+                {sku.nameEn}
+              </p>
+              {sku.line || sku.madeToOrder ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {sku.line ? (
+                    <span className="rounded-sm bg-primary px-2.5 py-1 text-xs font-semibold tracking-widest text-primary-foreground">
+                      {sku.line.toLocaleUpperCase("tr")}
+                    </span>
+                  ) : null}
+                  {sku.madeToOrder ? (
+                    <span className="rounded-sm border border-border-strong bg-surface-strong px-2.5 py-1 text-xs font-semibold tracking-widest text-muted-foreground">
+                      {madeToOrderLabel.toLocaleUpperCase("tr")}
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
+              {rows.length ? (
+                <dl className="mt-7 divide-y divide-border border-y border-border text-sm md:text-base">
+                  {rows.map((row) => (
+                    <div key={row.label} className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-4 py-3">
+                      <dt className="text-muted-foreground">{row.label}</dt>
+                      <dd className="min-w-0 font-semibold tabular-nums break-words">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
+              <p className="mt-6 max-w-lg text-base leading-7 text-muted-foreground">{product.shortDescription}</p>
+              <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <ButtonLink href={inquiryHref(skuInquirySubject(sku))}>Bilgi alın</ButtonLink>
+                <ArrowLink href={`${categoryHref(category)}#${sku.slug}`}>Tüm {category.name.toLocaleLowerCase("tr")}</ArrowLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <Section labelledBy="product-overview-title" containerClassName="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <SectionHeading id="product-overview-title" eyebrow="ÜRÜNE YAKINDAN BAKIŞ" title={`${product.name} hakkında.`} />
+      <Section labelledBy="product-about-title" containerClassName="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <SectionHeading id="product-about-title" eyebrow="ÜRÜN HAKKINDA" title={`${product.name}.`} size="md" />
         <div className="min-w-0">
           <div className="max-w-xl space-y-4 text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
             {product.description.map((p) => (
@@ -103,81 +152,37 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </Section>
 
-      <Section labelledBy="product-skus-title" id="paket-secenekleri" tone="muted">
-        <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-14">
-          <SectionHeading
-            id="product-skus-title"
-            eyebrow={product.skuKind === "variety" ? "ÇEŞİTLER" : "PAKET SEÇENEKLERİ"}
-            title={skuCount === 1 ? "Ürün bilgileri." : `${skuCountLabel(product)}.`}
-          />
-          <p className="max-w-lg text-base leading-7 text-muted-foreground">
-            Ürün kodu, ölçü ve koli bilgileri aşağıda yer alır. Sipariş, numune veya özel üretim talepleriniz için ilgili seçenekten bize ulaşın.
-          </p>
-        </div>
-        <div className={cx("mt-9 grid gap-6", skuCount > 1 && "md:grid-cols-2 xl:grid-cols-3", skuCount === 1 && "max-w-md")}>
-          {product.skus.map((sku) => (
-            <SkuCard key={sku.slug} sku={sku} product={product} />
-          ))}
-        </div>
-      </Section>
-
-      {product.colorOptions ? (
-        <Section labelledBy="product-colors-title">
-          <SectionHeading id="product-colors-title" eyebrow="KEÇE RENKLERİ" title={`${product.colorOptions.title}.`} lead={product.colorOptions.note} />
-          <ColorOptionList group={product.colorOptions} />
+      {sku.colorOptions ? (
+        <Section labelledBy="product-colors-title" className="border-t border-border">
+          <SectionHeading id="product-colors-title" eyebrow="KEÇE RENKLERİ" title={`${sku.colorOptions.title}.`} lead={sku.colorOptions.note} size="md" />
+          <ColorOptionList group={sku.colorOptions} />
         </Section>
       ) : null}
 
       {product.matrix ? (
-        <Section labelledBy="product-matrix-title">
-          <SectionHeading id="product-matrix-title" eyebrow="RENK VE GRAMAJ" title={`${product.matrix.title}.`} lead={product.matrix.note} />
+        <Section labelledBy="product-matrix-title" className="border-t border-border">
+          <SectionHeading id="product-matrix-title" eyebrow="RENK VE GRAMAJ" title={`${product.matrix.title}.`} lead={product.matrix.note} size="md" />
           <SpecMatrixTable matrix={product.matrix} />
         </Section>
       ) : null}
 
-      {skuCount > 1 && product.skuKind !== "variety" ? (
-        <Section labelledBy="product-table-title" className={product.colorOptions || product.matrix ? "border-t border-border" : undefined}>
-          <SectionHeading
-            id="product-table-title"
-            eyebrow="TEKNİK BİLGİLER"
-            title="Seçenekleri karşılaştırın."
-            lead="Tablo dar ekranlarda yatay kaydırılabilir."
-          />
-          <SkuTable product={product} />
-        </Section>
-      ) : null}
-
-      {related.length ? (
-        <Section labelledBy="related-products-title" tone="muted">
-          <SectionHeading id="related-products-title" eyebrow="İLGİLİ ÜRÜNLER" title="Aynı kategoriden diğer seçenekler." size="md" />
-          <div className={cx("mt-8 grid gap-6 md:grid-cols-2", related.length === 1 ? "lg:max-w-2xl" : "xl:grid-cols-3")}>
-            {related.map((p) => (
-              <div key={p.slug}>
-                <ProductCard
-                  href={productHref(p)}
-                  name={p.name}
-                  description={p.shortDescription}
-                  image={p.image}
-                  imageAlt={p.imageAlt}
-                  imageStyle={p.imageStyle}
-                  meta={productMeta(p)}
-                />
-              </div>
-            ))}
+      {similar.length ? (
+        <Section labelledBy="similar-products-title" tone="muted">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <SectionHeading id="similar-products-title" eyebrow="BENZER ÜRÜNLER" title={`${category.name} kategorisinden.`} size="md" />
+            <ArrowLink href={categoryHref(category)}>Tümünü görün</ArrowLink>
           </div>
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:gap-5 xl:grid-cols-4">
+            {similar.map((entry) => (
+              <li key={entry.sku.slug} className="min-w-0">
+                <ShopProductCard entry={entry} />
+              </li>
+            ))}
+          </ul>
         </Section>
       ) : null}
 
-      <CtaSection
-        id="product-contact-title"
-        tone="dark"
-        eyebrow="ÜRÜN HAKKINDA"
-        title={`${product.name} hakkında bilgi alın.`}
-        text="Ürün hakkında ayrıntılı bilgi almak ve ihtiyacınızı paylaşmak için ekibimizle iletişime geçin."
-        action={{ href: inquiryHref(product.name), label: "Bilgi alın" }}
-      />
-
-      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path), itemListJsonLd]} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path), productJsonLd]} />
     </>
   );
 }

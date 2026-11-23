@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { productTypePaths } from "./src/data/products";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -28,11 +29,14 @@ const nextConfig: NextConfig = {
       // The corporate section now has sub-pages (Hakkında, Grup Şirketleri, Üretim Tesisleri) like sanifoam.com.tr.
       { source: "/kurumsal", destination: "/kurumsal/hakkinda", permanent: true },
       { source: "/kalite", destination: "/kalite/kalite-politikamiz", permanent: true },
-      // Product pages merged when the catalogue was rebuilt around the 2026 studio photos.
-      { source: "/urunler/ovucu-materyaller/naturel-kece", destination: "/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri", permanent: true },
-      { source: "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)", destination: "/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri", permanent: true },
-      { source: "/urunler/ozel-formlu-sungerler/sihirli-sunger", destination: "/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari", permanent: true },
-      { source: "/urunler/hammadde/rulo-hammadde", destination: "/urunler/hammadde/rulo-ve-plaka-kece", permanent: true },
+      // Product-type pages (/urunler/<category>/<type>) were folded into the shop-style category pages; every product
+      // now has its own page /urunler/<category>/<sku>. products.ts guarantees no SKU slug equals a type slug.
+      ...productTypePaths.map(({ category, type }) => ({ source: `/urunler/${category}/${type}`, destination: `/urunler/${category}`, permanent: true })),
+      // Older product-type pages that no longer exist at all.
+      { source: "/urunler/ovucu-materyaller/naturel-kece", destination: "/urunler/dogal-urunler", permanent: true },
+      { source: "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)", destination: "/urunler/ozel-formlu-sungerler", permanent: true },
+      { source: "/urunler/ozel-formlu-sungerler/sihirli-sunger", destination: "/urunler/ozel-formlu-sungerler/106-0-202-24", permanent: true },
+      { source: "/urunler/hammadde/rulo-hammadde", destination: "/urunler/hammadde", permanent: true },
       // Logo/icons were recoloured (yellow cube) and renamed so cached green copies are never served.
       { source: "/images/logo/logo.png", destination: "/images/logo/saniteks-logo.png", permanent: true },
       // Icons live under /images/icons: on the Plesk/Apache host "/icons/" is a server-wide alias for Apache's own icon
@@ -52,8 +56,10 @@ const nextConfig: NextConfig = {
       { source: "/images/catalog/rulo-temizlik-bezi-20-80.webp", destination: "/images/products/hammadde/non-woven-bez-rulo.webp", permanent: true },
       { source: "/images/catalog/super-tekli-duz.webp", destination: "/images/urunler/101-0-001-50-1.webp", permanent: true },
       { source: "/images/catalog/super-tekli-oluklu{-2026}?.webp", destination: "/images/urunler/100-0-125-40-1.webp", permanent: true },
-      { source: "/images/products/category-sponges.webp", destination: "/images/products/category-sponges-2026.webp", permanent: true },
-      { source: "/images/products/category-scourers.webp", destination: "/images/products/category-scourers-2026.webp", permanent: true },
+      // Category images replaced by compositions of the unpackaged studio photos (2026-11-23).
+      { source: "/images/products/category-sponges{-2026}?.webp", destination: "/images/products/kategori-temizlik-sungerleri.webp", permanent: true },
+      { source: "/images/products/category-scourers{-2026}?.webp", destination: "/images/products/kategori-ovucu-materyaller.webp", permanent: true },
+      { source: "/images/products/category-specialty-2026.webp", destination: "/images/products/kategori-ozel-formlu-sungerler.webp", permanent: true },
     ];
   },
 };

@@ -1,4 +1,4 @@
-import type { Packaging, ProductType, Sku, SpecRow } from "@/data/products";
+import type { Packaging, Sku, SpecRow } from "@/data/products";
 
 const packagingNoun: Record<Packaging, string> = {
   koli: "Koli",
@@ -16,11 +16,10 @@ export function caseSizeLabel(packaging: Packaging = "koli") {
   return `${packagingNoun[packaging]} ölçüsü`;
 }
 
-/** Spec rows shown on a SKU card, in display order. */
-export function skuSpecRows(sku: Sku, product: Pick<ProductType, "colorOptions">): SpecRow[] {
+/** Every spec row of a SKU, in display order (product detail page). */
+export function skuSpecRows(sku: Sku): SpecRow[] {
   const rows: SpecRow[] = [];
   if (sku.code) rows.push({ label: "Ürün kodu", value: sku.code });
-  else if (product.colorOptions) rows.push({ label: "Ürün kodu", value: "Keçe rengine göre" });
   if (sku.productSize) rows.push({ label: "Ürün ölçüsü", value: sku.productSize });
   if (sku.packsPerCase) rows.push({ label: caseQtyLabel(sku.packaging), value: sku.packsPerCase });
   if (sku.caseSize) rows.push({ label: caseSizeLabel(sku.packaging), value: sku.caseSize });
@@ -28,17 +27,18 @@ export function skuSpecRows(sku: Sku, product: Pick<ProductType, "colorOptions">
   return rows;
 }
 
-/** "7 paket seçeneği" / "5 çeşit" / "1 seçenek". */
-export function skuCountLabel(product: Pick<ProductType, "skus" | "skuKind">) {
-  const n = product.skus.length;
-  if (n === 1) return "1 seçenek";
-  return `${n} ${product.skuKind === "variety" ? "çeşit" : "paket seçeneği"}`;
+/** The two or three rows shown on a product card in the category grid (code is shown separately). */
+export function skuCardRows(sku: Sku): SpecRow[] {
+  const rows: SpecRow[] = [];
+  if (sku.productSize) rows.push({ label: "Ölçü", value: sku.productSize });
+  if (sku.packsPerCase) rows.push({ label: caseQtyLabel(sku.packaging), value: sku.packsPerCase });
+  for (const row of sku.extra ?? []) if (rows.length < 3) rows.push(row);
+  return rows;
 }
 
-/** Meta line for product type cards: the option count, or "Talep üzerine üretim" if nothing is in regular production. */
-export function productMeta(product: Pick<ProductType, "skus" | "skuKind">) {
-  if (product.skus.every((s) => s.madeToOrder)) return "Talep üzerine üretim";
-  return skuCountLabel(product);
+/** "12 ürün" — the category grid count. */
+export function productCountLabel(n: number) {
+  return `${n} ürün`;
 }
 
 export const madeToOrderLabel = "Talep üzerine üretim";

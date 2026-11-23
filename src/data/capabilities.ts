@@ -34,8 +34,8 @@ export const capabilities: Capability[] = [
       height: 1200,
     },
     related: [
-      { href: "/urunler/hammadde/rulo-ve-plaka-kece", label: "Rulo ve plaka ovucu keçe" },
-      { href: "/urunler/hammadde/rulo-non-woven-bez", label: "Rulo non-woven temizlik bezi" },
+      { href: "/urunler/hammadde/rulo-kece", label: "Rulo ovucu keçe" },
+      { href: "/urunler/hammadde/rulo-temizlik-bezi-duz", label: "Rulo non-woven temizlik bezi" },
     ],
   },
   {
@@ -54,8 +54,8 @@ export const capabilities: Capability[] = [
       height: 1200,
     },
     related: [
-      { href: "/urunler/hammadde/tabaka-hammadde", label: "Sünger plakaları" },
-      { href: "/urunler/temizlik-sungerleri/klasik-temizlik-sungeri", label: "Düz bulaşık süngeri" },
+      { href: "/urunler/hammadde/kece-lamineli-plaka", label: "Keçe lamineli sünger plakası" },
+      { href: "/urunler/temizlik-sungerleri", label: "Temizlik süngerleri" },
     ],
   },
   {
@@ -74,9 +74,9 @@ export const capabilities: Capability[] = [
       height: 900,
     },
     related: [
-      { href: "/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri", label: "Oluklu bulaşık süngeri" },
-      { href: "/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri", label: "Banyo ve bakım süngerleri" },
-      { href: "/urunler/ozel-formlu-sungerler/oto-sungerleri", label: "Oto süngerleri" },
+      { href: "/urunler/temizlik-sungerleri/super-tekli-oluklu", label: "Oluklu bulaşık süngeri" },
+      { href: "/urunler/ozel-formlu-sungerler/104-0-102-80t", label: "Masajlı oval banyo süngeri" },
+      { href: "/urunler/ozel-formlu-sungerler/105-0-105-168t", label: "Oval oto süngeri" },
     ],
   },
   {
@@ -95,8 +95,8 @@ export const capabilities: Capability[] = [
       height: 1200,
     },
     related: [
-      { href: "/urunler/temizlik-bezleri/rulo-temizlik-bezi", label: "Rulo temizlik bezi" },
-      { href: "/urunler/temizlik-bezleri/cok-amacli-temizlik-bezi", label: "Çok amaçlı temizlik bezi" },
+      { href: "/urunler/temizlik-bezleri/110-0-840-12", label: "Perforeli rulo temizlik bezi" },
+      { href: "/urunler/temizlik-bezleri", label: "Temizlik bezleri" },
     ],
   },
 ];
