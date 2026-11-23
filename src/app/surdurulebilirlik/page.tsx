@@ -32,8 +32,13 @@ export const metadata: Metadata = corporateMetadata({
   image: heroImage,
 });
 
-/** Image of the Sanifoam environment statement; set once the owner supplies the file (sanifoam.com.tr is not reachable here). */
-const groupImage: PageImage | null = null;
+/** Banner of sanifoam.com.tr › Kalite › Çevre Politikamız (supplied by the owner; its baked-in title was removed). */
+const groupImage: PageImage = {
+  src: "/images/sustainability/sanifoam-pet-donusum.webp",
+  alt: "Doğaya atılmış PET şişelerden çıkan liflerin beyaz polyester yalıtım rulosuna dönüşümünü gösteren görsel",
+  width: 2000,
+  height: 460,
+};
 
 const priorities: { icon: LineIconName; title: string; text: string }[] = [
   {
@@ -112,13 +117,13 @@ export default function SurdurulebilirlikPage() {
       </Section>
 
       {/* Sanifoam group statement (sanifoam.com.tr › Kalite › Çevre Politikamız), supplied by the owner 2026-11-23. */}
-      <Section labelledBy="group-environment-title" tone="dark" containerClassName={groupImage ? "grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16" : undefined}>
+      <Section labelledBy="group-environment-title" tone="dark">
         <Reveal>
           <Eyebrow variant="dark">SANİFOAM GRUBU</Eyebrow>
           <h2 id="group-environment-title" className={cx(headingLgClass, "whitespace-pre-line")}>
             {"Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz"}
           </h2>
-          <div className="mt-6 max-w-2xl space-y-4 text-base leading-7 text-primary-foreground/85 md:text-lg md:leading-8">
+          <div className="mt-6 max-w-3xl space-y-4 text-base leading-7 text-primary-foreground/85 md:text-lg md:leading-8">
             <p>
               Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım
               ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.
@@ -129,18 +134,16 @@ export default function SurdurulebilirlikPage() {
             </p>
           </div>
         </Reveal>
-        {groupImage ? (
-          <div className="overflow-hidden rounded-sm">
-            <Image
-              src={groupImage.src}
-              alt={groupImage.alt}
-              width={groupImage.width}
-              height={groupImage.height}
-              sizes="(min-width: 1440px) 600px, (min-width: 1024px) 45vw, 100vw"
-              className="h-auto w-full"
-            />
-          </div>
-        ) : null}
+        <div className="mt-10 overflow-hidden rounded-sm">
+          <Image
+            src={groupImage.src}
+            alt={groupImage.alt}
+            width={groupImage.width}
+            height={groupImage.height}
+            sizes="(min-width: 1440px) 1312px, 100vw"
+            className="aspect-[2.6/1] h-auto w-full object-cover object-[88%_center] md:aspect-auto"
+          />
+        </div>
       </Section>
 
       <Section labelledBy="priorities-title" tone="muted">
