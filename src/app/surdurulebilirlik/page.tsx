@@ -5,23 +5,26 @@ import { NumberedSteps, type Step } from "@/components/corporate/NumberedSteps";
 import { corporateMetadata, type PageImage } from "@/components/corporate/pageMetadata";
 import { Reveal } from "@/components/home/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbJsonLd, type Crumb } from "@/components/ui/Breadcrumbs";
+import { Breadcrumbs, breadcrumbJsonLd, type Crumb } from "@/components/ui/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { cx, headingLgClass } from "@/components/ui/styles";
+import { containerClass, cx, headingLgClass } from "@/components/ui/styles";
 import { site } from "@/lib/site";
 
 const PATH = "/surdurulebilirlik";
 
 const crumbs: Crumb[] = [{ label: "Ana Sayfa", href: "/" }, { label: "Sürdürülebilirlik" }];
 
+/**
+ * Banner of sanifoam.com.tr › Kalite › Çevre Politikamız (supplied by the owner 2026-11-23): its baked-in title was
+ * inpainted and the image brightened on the owner's request.
+ */
 const heroImage: PageImage = {
-  src: "/images/products/hero-materials.webp",
-  alt: "Temizlik bezleri, süngerler ve farklı dokulardaki malzemeler",
-  width: 1920,
-  height: 1080,
+  src: "/images/sustainability/sanifoam-pet-donusum-acik.webp",
+  alt: "Doğaya atılmış PET şişelerden çıkan liflerin beyaz polyester yalıtım rulosuna dönüşümünü gösteren görsel",
+  width: 2000,
+  height: 460,
 };
 
 export const metadata: Metadata = corporateMetadata({
@@ -31,14 +34,6 @@ export const metadata: Metadata = corporateMetadata({
   path: PATH,
   image: heroImage,
 });
-
-/** Banner of sanifoam.com.tr › Kalite › Çevre Politikamız (supplied by the owner; its baked-in title was removed). */
-const groupImage: PageImage = {
-  src: "/images/sustainability/sanifoam-pet-donusum.webp",
-  alt: "Doğaya atılmış PET şişelerden çıkan liflerin beyaz polyester yalıtım rulosuna dönüşümünü gösteren görsel",
-  width: 2000,
-  height: 460,
-};
 
 const priorities: { icon: LineIconName; title: string; text: string }[] = [
   {
@@ -79,13 +74,39 @@ const goals = [
 export default function SurdurulebilirlikPage() {
   return (
     <>
-      <PageHero
-        crumbs={crumbs}
-        eyebrow="BUGÜNDEN YARINA"
-        title="Sürdürülebilirlik"
-        lead="Kaynaklara, insana ve geleceğe özen gösteren bir üretim anlayışı üzerine birlikte düşünelim."
-        image={heroImage}
-      />
+      {/* Sanifoam group statement (sanifoam.com.tr › Kalite › Çevre Politikamız), owner decision 2026-11-23. */}
+      <section aria-labelledby="page-title" className="border-b border-border bg-surface-strong">
+        <div className={cx(containerClass, "py-7 md:py-9")}>
+          <Breadcrumbs items={crumbs} />
+          <div className="py-5 md:py-7">
+            <p className="mb-5 border-l-2 border-primary pl-4 text-xs font-semibold tracking-widest text-link">SANİFOAM GRUBU</p>
+            <h1 id="page-title" className="text-4xl leading-tight font-semibold tracking-[-0.025em] whitespace-pre-line md:text-5xl lg:text-6xl">
+              {"Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz"}
+            </h1>
+            <div className="mt-6 max-w-3xl space-y-4 text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+              <p>
+                Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım
+                ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.
+              </p>
+              <p>
+                Hem mükemmel yalıtım değerleri elde ediyor hem de sıfır atık vizyonumuzla karbon ayak izimizi her geçen gün
+                küçültüyoruz. Sürdürülebilir bir gelecek için teknoloji üretiyoruz.
+              </p>
+            </div>
+          </div>
+          <div className="overflow-hidden rounded-sm border border-border">
+            <Image
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={heroImage.width}
+              height={heroImage.height}
+              preload
+              sizes="(min-width: 1440px) 1312px, 100vw"
+              className="aspect-[2.6/1] h-auto w-full object-cover object-[88%_center] md:aspect-auto"
+            />
+          </div>
+        </div>
+      </section>
 
       <Section labelledBy="approach-title" containerClassName="grid items-center gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="overflow-hidden rounded-sm">
@@ -114,36 +135,6 @@ export default function SurdurulebilirlikPage() {
             </p>
           </div>
         </Reveal>
-      </Section>
-
-      {/* Sanifoam group statement (sanifoam.com.tr › Kalite › Çevre Politikamız), supplied by the owner 2026-11-23. */}
-      <Section labelledBy="group-environment-title" tone="dark">
-        <Reveal>
-          <Eyebrow variant="dark">SANİFOAM GRUBU</Eyebrow>
-          <h2 id="group-environment-title" className={cx(headingLgClass, "whitespace-pre-line")}>
-            {"Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz"}
-          </h2>
-          <div className="mt-6 max-w-3xl space-y-4 text-base leading-7 text-primary-foreground/85 md:text-lg md:leading-8">
-            <p>
-              Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım
-              ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.
-            </p>
-            <p>
-              Hem mükemmel yalıtım değerleri elde ediyor hem de sıfır atık vizyonumuzla karbon ayak izimizi her geçen gün
-              küçültüyoruz. Sürdürülebilir bir gelecek için teknoloji üretiyoruz.
-            </p>
-          </div>
-        </Reveal>
-        <div className="mt-10 overflow-hidden rounded-sm">
-          <Image
-            src={groupImage.src}
-            alt={groupImage.alt}
-            width={groupImage.width}
-            height={groupImage.height}
-            sizes="(min-width: 1440px) 1312px, 100vw"
-            className="aspect-[2.6/1] h-auto w-full object-cover object-[88%_center] md:aspect-auto"
-          />
-        </div>
       </Section>
 
       <Section labelledBy="priorities-title" tone="muted">
