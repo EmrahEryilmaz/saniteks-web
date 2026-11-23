@@ -37,7 +37,7 @@ export default function CapabilitiesPage() {
         align="center"
         eyebrow="KABİLİYETLER"
         title="Üretim Kabiliyetlerimiz"
-        subtitle="Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz."
+        subtitle="Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim, konverting ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz."
         image={heroImage}
         tabs={capabilities.map((c) => ({ href: `#${c.id}`, label: c.label }))}
         tabsLabel="Kabiliyetler"

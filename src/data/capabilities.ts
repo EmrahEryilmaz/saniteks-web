@@ -103,13 +103,13 @@ export const capabilities: Capability[] = [
   },
   {
     id: "konverting",
-    label: "Konverting ve paketleme",
-    title: "Konverting ve Paketleme",
+    label: "Konverting",
+    title: "Konverting",
     paragraphs: [
-      "Rulo hammaddeleri perforeli rulo, katlanmış bez ve kesilmiş yaprak formlarına dönüştürüyor; ürünleri tekli paketten 12'li askılı karta kadar farklı ambalajlarda hazırlıyoruz.",
-      "Sevkiyat ürüne göre koli, naylon torba veya çuval ile yapılır. Kendi markalarımızın yanı sıra özel markalı üretim taleplerini de birlikte değerlendirebiliriz.",
+      "Sünger ve rulo hammaddeleri ihtiyaç duyulan ölçü ve formlara dönüştürüyoruz: sünger blokları dilimleniyor, rulo bezler perforeli rulo, katlanmış bez ve kesilmiş yaprak formlarına getiriliyor.",
+      "Ölçü, form ve kesim şekli kullanılacak ürüne göre birlikte belirlenir.",
     ],
-    facts: ["Perforeli rulo ve katlanmış bez", "Tekliden 12'li karta paket", "Koli, naylon torba, çuval"],
+    facts: ["Sünger dilimleme", "Perforeli rulo ve katlanmış bez", "Kesilmiş yaprak"],
     image: {
       src: "/images/corporate/konverting-kesim-hatti.webp",
       alt: "Sünger bloğunu dikey bıçakla dilimleyen otomatik kesim makinesi",
@@ -118,7 +118,27 @@ export const capabilities: Capability[] = [
     },
     related: [
       { href: "/urunler/temizlik-bezleri/110-0-840-12", label: "Perforeli rulo temizlik bezi" },
-      { href: "/urunler/temizlik-bezleri", label: "Temizlik bezleri" },
+      { href: "/urunler/hammadde/kece-lamineli-plaka", label: "Keçe lamineli sünger plakası" },
+    ],
+  },
+  {
+    id: "paketleme",
+    label: "Paketleme",
+    title: "Paketleme",
+    paragraphs: [
+      "Ürünleri tekli paketten 12'li askılı karta kadar farklı ambalajlarda hazırlıyoruz.",
+      "Sevkiyat ürüne göre koli, naylon torba veya çuval ile yapılır. Kendi markalarımızın yanı sıra özel markalı üretim taleplerini de birlikte değerlendirebiliriz.",
+    ],
+    facts: ["Tekliden 12'li karta paket", "Koli, naylon torba, çuval", "Özel marka üretimi"],
+    image: {
+      src: "/images/corporate/group/saniteks.webp",
+      alt: "Üretim hattında paketlemeye ilerleyen sarı gövdeli, yeşil keçeli bulaşık süngerleri",
+      width: 1024,
+      height: 346,
+    },
+    related: [
+      { href: "/urunler/ozel-marka-uretimi", label: "Özel marka üretimi" },
+      { href: "/urunler/temizlik-sungerleri", label: "Temizlik süngerleri" },
     ],
   },
 ];
