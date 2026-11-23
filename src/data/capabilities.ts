@@ -111,10 +111,10 @@ export const capabilities: Capability[] = [
     ],
     facts: ["Perforeli rulo ve katlanmış bez", "Tekliden 12'li karta paket", "Koli, naylon torba, çuval"],
     image: {
-      src: "/images/products/temizlik-bezleri/rolled-cleaning-cloth.webp",
-      alt: "Kısmen açılmış rulo temizlik bezi",
-      width: 1600,
-      height: 1200,
+      src: "/images/corporate/konverting-kesim-hatti.webp",
+      alt: "Sünger bloğunu dikey bıçakla dilimleyen otomatik kesim makinesi",
+      width: 384,
+      height: 278,
     },
     related: [
       { href: "/urunler/temizlik-bezleri/110-0-840-12", label: "Perforeli rulo temizlik bezi" },
