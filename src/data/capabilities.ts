@@ -19,23 +19,45 @@ export type Capability = {
 
 export const capabilities: Capability[] = [
   {
-    id: "non-woven",
-    label: "Non-woven ve keçe",
-    title: "Non-Woven ve Keçe Üretimi",
+    id: "non-woven-kece",
+    label: "Non-woven keçe",
+    title: "Non-Woven Keçe Üretimi",
     paragraphs: [
-      "Sünger ve temizlik ürünlerinde kullanılan dokulu yüzey hammaddelerini kendi tesisimizde üretiyoruz.",
-      "Ovucu keçe farklı gramaj ve renk kombinasyonlarıyla; temizlik ve yer bezi ruloları ise farklı viskon–polyester oranlarıyla hazırlanır. Bu hammaddeler kendi ürünlerimizde kullanıldığı gibi, farklı ürünler geliştiren üreticilere de tedarik edilir.",
+      "Bulaşık süngerlerinin ve ovma fiberlerinin ovucu yüzeyini oluşturan non-woven ovucu keçeyi kendi tesisimizde üretiyoruz.",
+      "Keçeler 250–1000 gr/m² aralığında, yirmiye yakın renkte üretilir; 1,02 m standart en ile 2 m geniş ve 40–68 cm dar enlerde rulo, plaka ya da kesilmiş form olarak hazırlanır. Kendi ürünlerimizde kullanıldığı gibi, farklı ürünler geliştiren üreticilere de tedarik edilir.",
     ],
-    facts: ["Ovucu keçe: 250–1000 gr/m²", "Temizlik bezi: 80–240 gr/m²", "Yer ve mop bezi: 180–250 gr/m²", "%20–80 viskon oranları"],
+    facts: ["250–1000 gr/m²", "Yirmiye yakın renk", "1,02 m standart rulo eni", "Rulo, plaka ve kesilmiş form"],
+    image: {
+      src: "/images/corporate/kece-uretim-hatti.webp",
+      alt: "Yeşil ovucu keçenin silindirler arasından geçtiği üretim hattı, arkada keçe ruloları",
+      width: 1024,
+      height: 768,
+    },
+    related: [
+      { href: "/urunler/hammadde/rulo-kece", label: "Rulo ovucu keçe" },
+      { href: "/urunler/hammadde/kece-plakasi", label: "Ovucu keçe plakası" },
+      { href: "/urunler/ovucu-materyaller", label: "Ovucu materyaller" },
+    ],
+  },
+  {
+    id: "non-woven-temizlik-bezi",
+    label: "Non-woven temizlik bezi",
+    title: "Non-Woven Temizlik Bezi Üretimi",
+    paragraphs: [
+      "Temizlik bezi, yer bezi ve mop bezinde kullanılan non-woven (dokusuz) bezi kendi tesisimizde rulo halinde üretiyoruz.",
+      "Bezler 80–320 gr/m² aralığında, %20'den %80'e farklı viskon–polyester oranlarıyla hazırlanır; düz renkli, baskılı (çiçek, damla, ekose desen), gofreli ve %30 mikro lifli seçenekler bulunur. Rulolar ihtiyaca göre 27 cm'den 210 cm'ye kadar farklı enlerde dilimlenir.",
+    ],
+    facts: ["80–320 gr/m²", "%20–80 viskon oranı", "Düz, baskılı ve mikro lifli", "27–210 cm rulo eni"],
     image: {
       src: "/images/corporate/nonwoven-production-process.webp",
-      alt: "Nonwoven tekstil malzemesinin üretim sürecinden yakın görünüm",
+      alt: "Non-woven temizlik bezi tülünün üretim hattında silindirler arasından geçişi",
       width: 1600,
       height: 1200,
     },
     related: [
-      { href: "/urunler/hammadde/rulo-kece", label: "Rulo ovucu keçe" },
       { href: "/urunler/hammadde/rulo-temizlik-bezi-duz", label: "Rulo non-woven temizlik bezi" },
+      { href: "/urunler/hammadde/rulo-temizlik-bezi-baskili", label: "Baskılı rulo temizlik bezi" },
+      { href: "/urunler/temizlik-bezleri", label: "Temizlik bezleri" },
     ],
   },
   {
@@ -68,10 +90,10 @@ export const capabilities: Capability[] = [
     ],
     facts: ["Düz ve oluklu formlar", "Oval ve kelebek formlar", "7,5 – 90 cm ürün ölçüleri"],
     image: {
-      src: "/images/products/category-specialty.webp",
-      alt: "Çeşitli formlarda kesilmiş süngerler",
-      width: 1200,
-      height: 900,
+      src: "/images/products/kategori-ozel-formlu-sungerler-foto.webp",
+      alt: "Oval oto süngeri, masajlı banyo süngerleri ve oluklu kurutma süngerleri gibi farklı formlarda kesilmiş süngerler",
+      width: 1024,
+      height: 768,
     },
     related: [
       { href: "/urunler/temizlik-sungerleri/super-tekli-oluklu", label: "Oluklu bulaşık süngeri" },

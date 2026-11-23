@@ -65,7 +65,7 @@ const nextConfig: NextConfig = {
       { source: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp", destination: "/images/products/kategori-plaka-ve-rulo-urunler-foto.webp", permanent: true },
       { source: "/images/products/category-sponges{-2026}?.webp", destination: "/images/products/kategori-temizlik-sungerleri-foto.webp", permanent: true },
       { source: "/images/products/category-scourers{-2026}?.webp", destination: "/images/products/kategori-ovucu-materyaller-foto.webp", permanent: true },
-      { source: "/images/products/category-specialty-2026.webp", destination: "/images/products/kategori-ozel-formlu-sungerler-foto.webp", permanent: true },
+      { source: "/images/products/category-specialty{-2026}?.webp", destination: "/images/products/kategori-ozel-formlu-sungerler-foto.webp", permanent: true },
     ];
   },
 };
