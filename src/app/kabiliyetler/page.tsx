@@ -15,7 +15,7 @@ import { cx, headingHomeClass, headingLgClass } from "@/components/ui/styles";
 
 const PATH = "/kabiliyetler";
 const DESCRIPTION =
-  "Saniteks üretim kabiliyetleri: non-woven ve keçe üretimi, laminasyon, sünger kesim ve şekillendirme, konverting ve paketleme.";
+  "Saniteks üretim kabiliyetleri: non-woven keçe üretimi, non-woven temizlik bezi üretimi, laminasyon, sünger kesim ve şekillendirme, konverting ve paketleme.";
 
 const heroImage = {
   src: "/images/products/hammadde/rulo-nonwoven-kece.webp",
@@ -37,7 +37,7 @@ export default function CapabilitiesPage() {
         align="center"
         eyebrow="KABİLİYETLER"
         title="Üretim Kabiliyetlerimiz"
-        subtitle="Hammaddeden ambalajlı ürüne: keçe ve bez üretimi, laminasyon, kesim ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz."
+        subtitle="Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim, konverting ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz."
         image={heroImage}
         tabs={capabilities.map((c) => ({ href: `#${c.id}`, label: c.label }))}
         tabsLabel="Kabiliyetler"
