@@ -7,63 +7,82 @@
  * certificates is Sanifoam Endüstri ve Tüketim Ürünleri San. Tic. A.Ş.
  */
 
+/** One policy / text block: heading, paragraphs and a principles card. */
+export type QualityBlock = {
+  /** Anchor id on the page (also the target of the old single-policy URLs). */
+  id: string;
+  /** Label of the in-page link on merged pages. */
+  navLabel?: string;
+  eyebrow: string;
+  heading: string;
+  paragraphs: string[];
+  principlesTitle: string;
+  principles: string[];
+};
+
 export type QualityPage = {
   slug: string;
   label: string;
   title: string;
   subtitle: string;
   description: string;
-  paragraphs: string[];
-  principlesTitle: string;
-  principles: string[];
+  blocks: QualityBlock[];
 };
 
 export const qualityPages: QualityPage[] = [
   {
-    slug: "kalite-politikamiz",
-    label: "Kalite Politikamız",
-    title: "Kalite Politikamız",
-    subtitle: "Sıfır hata, toplam kalite sorumluluğu.",
-    description: "Saniteks kalite politikası: sürekli iyileştirme, sıfır hata ilkesi ve toplam kalite sorumluluğu.",
-    paragraphs: [
-      "Saniteks, Sanifoam grubunun kalite politikasını benimser. Tüm çalışanlarımız, doğruyu bulmak için “Sürekli İyileştirme” prensibiyle hareket eder.",
-      "Müşteri memnuniyetini ve beklentilerini tümüyle karşılayan ürünler; en ekonomik şartlarda, “Sıfır Hata” ilkesiyle, sürekli ve güvenilir kalitede üretilir.",
-      "Tüm faaliyetlerimiz “Toplam Kalite Sorumluluğu” bilinciyle sürdürülür ve geliştirilir.",
+    // Owner decision 2026-11-23: the quality, environment and OHS policies share one page.
+    slug: "politikalarimiz",
+    label: "Politikalarımız",
+    title: "Politikalarımız",
+    subtitle: "Kalite, çevre ve iş sağlığı ve güvenliği politikalarımız bir arada.",
+    description:
+      "Saniteks kalite, çevre ve iş sağlığı ve güvenliği politikaları: sürekli iyileştirme, sıfır hata, çevreye duyarlı üretim ve güvenli çalışma ortamı.",
+    blocks: [
+      {
+        id: "kalite-politikamiz",
+        navLabel: "Kalite Politikamız",
+        eyebrow: "KALİTE POLİTİKAMIZ",
+        heading: "Sıfır hata, toplam kalite sorumluluğu.",
+        paragraphs: [
+          "Saniteks, Sanifoam grubunun kalite politikasını benimser. Tüm çalışanlarımız, doğruyu bulmak için “Sürekli İyileştirme” prensibiyle hareket eder.",
+          "Müşteri memnuniyetini ve beklentilerini tümüyle karşılayan ürünler; en ekonomik şartlarda, “Sıfır Hata” ilkesiyle, sürekli ve güvenilir kalitede üretilir.",
+          "Tüm faaliyetlerimiz “Toplam Kalite Sorumluluğu” bilinciyle sürdürülür ve geliştirilir.",
+        ],
+        principlesTitle: "Temel ilkeler",
+        principles: ["Sürekli iyileştirme prensibi", "Sıfır hata ilkesi", "Toplam kalite sorumluluğu", "Müşteri beklentisine uygun üretim"],
+      },
+      {
+        id: "cevre-politikamiz",
+        navLabel: "Çevre Politikamız",
+        eyebrow: "ÇEVRE POLİTİKAMIZ",
+        heading: "Çevreye duyarlı, sürdürülebilir üretim.",
+        paragraphs: [
+          "Saniteks, Sanifoam grubunun Çevre Politikası doğrultusunda çevre üzerinde oluşabilecek olumsuz etkileri azaltmayı ve önlemeyi hedefler. Ulusal ve uluslararası yasal düzenlemelere, çevreyle ilgili kanun, mevzuat ve diğer yükümlülüklere eksiksiz uyarız.",
+          "Endüstriyel kirliliği kaynağında en aza indirir, atıkları kontrol altında tutup azaltarak geri kazanımı özendirir; doğal kaynak ve enerji tüketimini kontrol altında tutarak kullanımını en aza indiririz.",
+          "Düzenlediğimiz eğitimlerle çalışanlarımızın ve tedarikçilerimizin çevre bilincini bir yaşam felsefesi olarak benimsemesini sağlar; çevre amaç ve hedeflerimizi oluşturarak sürekli gelişmeye katkıda bulunuruz.",
+        ],
+        principlesTitle: "Odak alanları",
+        principles: [
+          "Yasal düzenlemelere tam uyum",
+          "Atıkların azaltılması ve geri kazanım",
+          "Doğal kaynak ve enerji verimliliği",
+          "Çalışan ve tedarikçi çevre eğitimleri",
+        ],
+      },
+      {
+        id: "isg-politikamiz",
+        navLabel: "İSG Politikamız",
+        eyebrow: "İSG POLİTİKAMIZ",
+        heading: "Önce insan, önce güvenlik.",
+        paragraphs: [
+          "Saniteks olarak en değerli varlığımız çalışanlarımızdır. İş Sağlığı ve Güvenliği (İSG) standartlarını yasal mevzuatın ötesinde bir kurum kültürü olarak benimsiyoruz.",
+          "Güvenli ve sağlıklı bir çalışma ortamı yaratmak, iş kazalarını sıfıra indirmek ve meslek hastalıklarını önlemek için sürekli eğitimler düzenliyor ve önleyici tedbirler alıyoruz.",
+        ],
+        principlesTitle: "Önceliklerimiz",
+        principles: ["Sıfır iş kazası hedefi", "Düzenli personel eğitimleri", "Risk değerlendirme yönetimi", "Ergonomik ve güvenli çalışma alanları"],
+      },
     ],
-    principlesTitle: "Temel ilkeler",
-    principles: ["Sürekli iyileştirme prensibi", "Sıfır hata ilkesi", "Toplam kalite sorumluluğu", "Müşteri beklentisine uygun üretim"],
-  },
-  {
-    slug: "cevre-politikamiz",
-    label: "Çevre Politikamız",
-    title: "Çevre Politikamız",
-    subtitle: "Çevreye duyarlı, sürdürülebilir üretim.",
-    description: "Saniteks çevre politikası: yasal uyum, atıkların azaltılması, geri kazanım ve kaynak verimliliği.",
-    paragraphs: [
-      "Saniteks, Sanifoam grubunun Çevre Politikası doğrultusunda çevre üzerinde oluşabilecek olumsuz etkileri azaltmayı ve önlemeyi hedefler. Ulusal ve uluslararası yasal düzenlemelere, çevreyle ilgili kanun, mevzuat ve diğer yükümlülüklere eksiksiz uyarız.",
-      "Endüstriyel kirliliği kaynağında en aza indirir, atıkları kontrol altında tutup azaltarak geri kazanımı özendirir; doğal kaynak ve enerji tüketimini kontrol altında tutarak kullanımını en aza indiririz.",
-      "Düzenlediğimiz eğitimlerle çalışanlarımızın ve tedarikçilerimizin çevre bilincini bir yaşam felsefesi olarak benimsemesini sağlar; çevre amaç ve hedeflerimizi oluşturarak sürekli gelişmeye katkıda bulunuruz.",
-    ],
-    principlesTitle: "Odak alanları",
-    principles: [
-      "Yasal düzenlemelere tam uyum",
-      "Atıkların azaltılması ve geri kazanım",
-      "Doğal kaynak ve enerji verimliliği",
-      "Çalışan ve tedarikçi çevre eğitimleri",
-    ],
-  },
-  {
-    slug: "isg-politikasi",
-    label: "İSG Politikamız",
-    title: "İSG Politikamız",
-    subtitle: "Önce insan, önce güvenlik.",
-    description: "Saniteks iş sağlığı ve güvenliği politikası: güvenli çalışma ortamı, eğitim ve risk değerlendirmesi.",
-    paragraphs: [
-      "Saniteks olarak en değerli varlığımız çalışanlarımızdır. İş Sağlığı ve Güvenliği (İSG) standartlarını yasal mevzuatın ötesinde bir kurum kültürü olarak benimsiyoruz.",
-      "Güvenli ve sağlıklı bir çalışma ortamı yaratmak, iş kazalarını sıfıra indirmek ve meslek hastalıklarını önlemek için sürekli eğitimler düzenliyor ve önleyici tedbirler alıyoruz.",
-    ],
-    principlesTitle: "Önceliklerimiz",
-    principles: ["Sıfır iş kazası hedefi", "Düzenli personel eğitimleri", "Risk değerlendirme yönetimi", "Ergonomik ve güvenli çalışma alanları"],
   },
   {
     slug: "sikayet-prosedurleri",
@@ -71,12 +90,19 @@ export const qualityPages: QualityPage[] = [
     title: "Şikâyet Prosedürleri",
     subtitle: "Geri bildirimleriniz gelişim fırsatımızdır.",
     description: "Saniteks ürünleriyle ilgili şikâyet ve geri bildirimlerinizi nasıl iletebileceğinizi ve nasıl değerlendirildiğini öğrenin.",
-    paragraphs: [
-      "Müşteri memnuniyetini en üst düzeyde tutmak amacıyla tüm geri bildirim ve şikâyetleri şeffaf, adil ve hızlı bir şekilde değerlendiriyoruz.",
-      "Her şikâyeti süreçlerimizi iyileştirmek için değerli bir fırsat olarak görüyor, çözüm odaklı yaklaşımımızla müşteri güvenini güçlendiriyoruz.",
+    blocks: [
+      {
+        id: "yaklasimimiz",
+        eyebrow: "ŞİKÂYET PROSEDÜRLERİ",
+        heading: "Geri bildirimleriniz gelişim fırsatımızdır.",
+        paragraphs: [
+          "Müşteri memnuniyetini en üst düzeyde tutmak amacıyla tüm geri bildirim ve şikâyetleri şeffaf, adil ve hızlı bir şekilde değerlendiriyoruz.",
+          "Her şikâyeti süreçlerimizi iyileştirmek için değerli bir fırsat olarak görüyor, çözüm odaklı yaklaşımımızla müşteri güvenini güçlendiriyoruz.",
+        ],
+        principlesTitle: "Yaklaşımımız",
+        principles: ["Hızlı geri dönüş", "Kök neden analizi", "Şeffaf süreç yönetimi", "Müşteri memnuniyeti odaklı çözümler"],
+      },
     ],
-    principlesTitle: "Yaklaşımımız",
-    principles: ["Hızlı geri dönüş", "Kök neden analizi", "Şeffaf süreç yönetimi", "Müşteri memnuniyeti odaklı çözümler"],
   },
   {
     slug: "kalite-belgelerimiz",
@@ -84,13 +110,27 @@ export const qualityPages: QualityPage[] = [
     title: "Kalite Belgelerimiz",
     subtitle: "Uluslararası standartlara göre yönetim sistemleri.",
     description: "Saniteks ürünlerinin üretimine ilişkin kalite, çevre ve iş sağlığı ve güvenliği yönetim sistemi belgeleri.",
-    paragraphs: [
-      "Ürünlerimizin üretimi; kalite (ISO 9001), çevre (ISO 14001) ve iş sağlığı ve güvenliği (ISO 45001) yönetim sistemi standartları çerçevesinde yürütülür.",
-      "Belgelerimiz, belgelendirme kuruluşunun belirttiği geçerlilik tarihleriyle birlikte bu sayfada yayımlanır.",
+    blocks: [
+      {
+        id: "yonetim-sistemleri",
+        eyebrow: "KALİTE BELGELERİMİZ",
+        heading: "Uluslararası standartlara göre yönetim sistemleri.",
+        paragraphs: [
+          "Ürünlerimizin üretimi; kalite (ISO 9001), çevre (ISO 14001) ve iş sağlığı ve güvenliği (ISO 45001) yönetim sistemi standartları çerçevesinde yürütülür.",
+          "Belgelerimiz, belgelendirme kuruluşunun belirttiği geçerlilik tarihleriyle birlikte bu sayfada yayımlanır.",
+        ],
+        principlesTitle: "Yönetim sistemleri",
+        principles: ["ISO 9001 Kalite Yönetim Sistemi", "ISO 14001 Çevre Yönetim Sistemi", "ISO 45001 İSG Yönetim Sistemi"],
+      },
     ],
-    principlesTitle: "Yönetim sistemleri",
-    principles: ["ISO 9001 Kalite Yönetim Sistemi", "ISO 14001 Çevre Yönetim Sistemi", "ISO 45001 İSG Yönetim Sistemi"],
   },
+];
+
+/** Old single-policy pages (until 2026-11-23) → anchor on the merged page; used by next.config.ts redirects. */
+export const mergedPolicyPaths = [
+  { from: "kalite-politikamiz", to: "politikalarimiz#kalite-politikamiz" },
+  { from: "cevre-politikamiz", to: "politikalarimiz#cevre-politikamiz" },
+  { from: "isg-politikasi", to: "politikalarimiz#isg-politikamiz" },
 ];
 
 export function getQualityPage(slug: string) {
