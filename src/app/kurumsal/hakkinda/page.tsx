@@ -55,8 +55,8 @@ export default function AboutPage() {
       <Section labelledBy="history-title" containerClassName="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative order-2 h-[420px] overflow-hidden rounded-sm border border-border md:h-[500px] lg:order-1">
           <Image
-            src="/images/corporate/nonwoven-production-process.webp"
-            alt="Nonwoven tekstil malzemesinin üretim sürecinden yakın görünüm"
+            src="/images/corporate/kece-uretim-hatti.webp"
+            alt="Yeşil ovucu keçenin silindirler arasından geçtiği üretim hattı, arkada keçe ruloları"
             fill
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover"
