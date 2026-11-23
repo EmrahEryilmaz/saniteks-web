@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { categories, categoryHref, categorySkus, getSku, skuHref } from "@/data/products";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
-import { inquiryHref, madeToOrderLabel, skuInquirySubject, skuSpecRows } from "@/components/products/format";
+import { inquiryHref, madeToOrderLabel, skuDescription, skuInquirySubject, skuSpecRows, skuTitle } from "@/components/products/format";
 import { ProductGallery } from "@/components/products/ProductGallery";
 import { ShopProductCard } from "@/components/products/ShopProductCard";
 import { ColorOptionList, SpecMatrixTable } from "@/components/products/Swatch";
@@ -29,10 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!found) return {};
   const { category, product, sku } = found;
   const path = skuHref(category.slug, sku.slug);
-  const title = sku.code ? `${sku.name} (${sku.code})` : sku.name;
-  const description = [sku.productSize && `Ölçü ${sku.productSize}`, sku.packsPerCase && `koli içi ${sku.packsPerCase}`, product.shortDescription]
-    .filter(Boolean)
-    .join(" · ");
+  const title = skuTitle(sku, product);
+  const description = skuDescription(sku, product);
   return {
     title,
     description,
@@ -73,7 +71,7 @@ export default async function SkuPage({ params }: Props) {
     ...(sku.code ? { sku: sku.code, mpn: sku.code } : {}),
     ...(photos.length ? { image: photos.map((p) => new URL(p.src, site.url).toString()) } : {}),
     url: new URL(path, site.url).toString(),
-    description: product.description[0],
+    description: skuDescription(sku, product),
     brand: { "@type": "Brand", name: site.name },
     category: `${category.name} > ${product.name}`,
     ...(sku.productSize ? { size: sku.productSize } : {}),
@@ -102,7 +100,7 @@ export default async function SkuPage({ params }: Props) {
               {sku.line || sku.madeToOrder ? (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {sku.line ? (
-                    <span className="rounded-sm bg-primary px-2.5 py-1 text-xs font-semibold tracking-widest text-primary-foreground">
+                    <span className="rounded-sm bg-link px-2.5 py-1 text-xs font-semibold tracking-widest text-primary-foreground">
                       {sku.line.toLocaleUpperCase("tr")}
                     </span>
                   ) : null}

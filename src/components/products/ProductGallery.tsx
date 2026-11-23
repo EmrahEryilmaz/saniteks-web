@@ -10,6 +10,8 @@ import { SkuImagePlaceholder } from "./SkuImagePlaceholder";
 export function ProductGallery({ photos, label }: { photos: Photo[]; label: string }) {
   const [current, setCurrent] = useState(0);
   const shown = photos[current] ?? photos[0];
+  // Old 2016 catalogue cut-outs are low resolution: keep them at most 480px wide (AGENTS.md).
+  const lowRes = shown?.src.startsWith("/images/catalog/");
 
   return (
     <div>
@@ -21,8 +23,8 @@ export function ProductGallery({ photos, label }: { photos: Photo[]; label: stri
             alt={shown.alt}
             fill
             preload={current === 0}
-            sizes="(min-width: 1440px) 640px, (min-width: 1024px) 45vw, 100vw"
-            className="object-contain p-6 md:p-10"
+            sizes={lowRes ? "(min-width: 768px) 480px, 100vw" : "(min-width: 1440px) 640px, (min-width: 1024px) 45vw, 100vw"}
+            className={lowRes ? "object-contain p-10 md:p-20" : "object-contain p-6 md:p-10"}
           />
         ) : (
           <SkuImagePlaceholder />

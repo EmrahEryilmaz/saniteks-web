@@ -5,7 +5,7 @@ import { cx, focusStyle } from "@/components/ui/styles";
 import { inquiryHref, madeToOrderLabel, skuCardRows, skuInquirySubject } from "./format";
 import { SkuImagePlaceholder } from "./SkuImagePlaceholder";
 
-const badgeClass = "w-fit rounded-sm px-2 py-1 text-[11px] font-semibold tracking-widest";
+const badgeClass = "w-fit rounded-sm px-2 py-1 text-xs font-semibold tracking-wider whitespace-nowrap";
 
 /**
  * Product tile of the category grid (shop-style): photo on a white square, product group, name, code, key specs.
@@ -37,9 +37,9 @@ export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: 
           <SkuImagePlaceholder />
         )}
         <div className="absolute top-2 left-2 flex flex-col gap-1.5">
-          {sku.line ? <span className={cx(badgeClass, "bg-primary text-primary-foreground")}>{sku.line.toLocaleUpperCase("tr")}</span> : null}
+          {sku.line ? <span className={cx(badgeClass, "bg-link text-primary-foreground")}>{sku.line.toLocaleUpperCase("tr")}</span> : null}
           {sku.madeToOrder ? (
-            <span className={cx(badgeClass, "border border-border-strong bg-surface-strong text-muted-foreground")}>
+            <span className={cx(badgeClass, "hidden border border-border-strong bg-surface-strong text-muted-foreground sm:inline-block")}>
               {madeToOrderLabel.toLocaleUpperCase("tr")}
             </span>
           ) : null}
@@ -64,6 +64,7 @@ export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: 
           </Link>
         </Heading>
         {sku.code ? <p className="mt-1 text-sm font-semibold tabular-nums text-link">{sku.code}</p> : null}
+        {sku.madeToOrder ? <p className="mt-1 text-xs font-semibold text-muted-foreground sm:hidden">{madeToOrderLabel}</p> : null}
         {rows.length ? (
           <dl className="mt-3 space-y-1 text-xs leading-5 sm:text-sm">
             {rows.map((row) => (

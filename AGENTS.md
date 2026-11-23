@@ -30,7 +30,7 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   `public/images/catalog/*.webp` are low resolution — render them `object-contain` on a white tile and keep `sizes` ≤ 480px.
 - Product studio photos (2026): `public/images/urunler/<code>-<n>.webp` (code lower-cased, dots → dashes; max 1200 px),
   listed per code in `PHOTOS` in `products.ts` (one letter per photo: P ambalaj, U ürün, C ambalaj+ürün, L kullanımda).
-  A SKU with photos shows a thumbnail gallery (`SkuPhotos`). The originals are on the `urun_gorselleri` branch.
+  A SKU with photos shows a thumbnail gallery on its product page (`ProductGallery`). The originals are on the `urun_gorselleri` branch.
 - Product data lives only in `src/data/products.ts` (Category → ProductType → Sku). Pages read from it; never duplicate it.
 - Product pages are shop-style (owner decision 2026-11-23): `/urunler/<category>` shows the description and then every
   SKU as a tile grid (`CategoryShop` + `ShopProductCard`, product types are only filter chips); each SKU has its own
@@ -46,7 +46,7 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 ## Project decisions (keep unless the owner says otherwise)
 - No source of the live site existed; this repo is a rebuild from its HTML. Product data was transcribed from the
   February 2016 Sanifoam/Sanitex catalogue PDF (not in the repo); catalogue packshots were cut from it.
-- Scope: only the 5 product groups (no detergents or personal care). Show code, size and case info; never barcodes.
+- Scope: only the 6 product categories listed below (no detergents or personal care). Show code, size and case info; never barcodes.
 - The current range is the shipping list `saniteks ürünler.xlsx` (business data, deliberately kept out of the repo).
   Catalogue SKUs missing from it carry `madeToOrder` ("Talep üzerine üretim") via `MADE_TO_ORDER` in `products.ts`.
   Products photographed in 2026 count as current (owner's catalogue rebuild, 2026-11-17); items without a new photo stay

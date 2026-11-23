@@ -81,8 +81,6 @@ export type ProductType = {
   /** "styled" = editorial photo (cover); "catalog" = packshot on white (contain). */
   imageStyle: "styled" | "catalog";
   skus: Sku[];
-  /** "variety": the SKUs are kinds of a material (rolls, sheets …), not packs: counted as "çeşit", no comparison table. */
-  skuKind?: "pack" | "variety";
   matrix?: SpecMatrix;
 };
 
@@ -91,10 +89,11 @@ export type Category = {
   name: string;
   shortDescription: string;
   intro: string[];
+  /** Card image (home, /urunler, "Diğer kategoriler"): products kept in the upper part, clear of the caption box. */
   image: string;
   imageAlt: string;
-  /** Optional wider image (e.g. 16:9 when `image` is a 4:3 crop) for full-width category tiles (home mosaic, /urunler). */
-  bannerImage?: string;
+  /** Category page hero (4:3, products centred); falls back to `image`. */
+  heroImage?: string;
   products: ProductType[];
 };
 
@@ -177,7 +176,7 @@ const klasikTemizlikSungeri: ProductType = {
     "Düz bulaşık süngeri, dikdörtgen sünger gövdesi ve ovucu keçe yüzeyiyle günlük bulaşık ve mutfak temizliğinin temel ürünüdür.",
     "Tekli paketten 10'lu pakete, standart yeşil keçeden renkli ekonomik serilere kadar farklı paket ve ölçü seçenekleriyle sunulur. Süper tekli pakette keçe rengi dokuz farklı renk arasından seçilebilir.",
   ],
-  highlights: ["Düz dikdörtgen gövde", "Ovucu keçe yüzey", "Süper, standart ve ekonomik seriler", "Dokuz keçe rengi seçeneği"],
+  highlights: ["Düz dikdörtgen gövde", "Ovucu keçe yüzey", "Süper, standart ve ekonomik seriler", "Süper tekli pakette dokuz keçe rengi"],
   image: "/images/products/temizlik-sungerleri/classic-cleaning-sponge.webp",
   imageAlt: "Yeşil gövdeli düz bulaşık süngerleri",
   imageStyle: "styled",
@@ -287,7 +286,7 @@ const olukluTemizlikSungeri: ProductType = {
     "Oluklu bulaşık süngeri, yan yüzeyindeki kavrama oluğu sayesinde elde daha rahat tutulan bir gövde formu sunar; üst yüzeydeki ovucu keçe zorlu kirlerde etkili temas sağlar.",
     "Süper ve ekonomik seriler; tekli, 3'lü, 5'li, 8'li ve 10'lu paket seçenekleriyle hazırlanır. Ekonomik tekli seçenek çuvalda toplu sevkiyata uygundur.",
   ],
-  highlights: ["Kavrama oluklu gövde", "Ovucu keçe yüzey", "Tekliden 10'lu pakete", "Dokuz keçe rengi seçeneği"],
+  highlights: ["Kavrama oluklu gövde", "Ovucu keçe yüzey", "Tekliden 10'lu pakete", "Süper tekli pakette dokuz keçe rengi"],
   image: "/images/products/temizlik-sungerleri/grooved-cleaning-sponge.webp",
   imageAlt: "Oluklu gövdeye sahip temizlik süngeri",
   imageStyle: "styled",
@@ -919,7 +918,6 @@ const evVeMutfakYardimcilari: ProductType = {
   description: [
     "Bu grupta temizlik rutininin yanında evde farklı ihtiyaçlara eşlik eden ürünler yer alır: bulaşıkların süzülmesi için kurutma süngeri ve bulaşık altlığı, yalnızca su ile ıslatılarak kullanılan melamin lekesil sünger, buzdolabı rafları için küf matı ve kapı altındaki boşluğu kapatan kendinden yapışkanlı eşik süngeri.",
     "Lekesil süngeri hassas ve parlak yüzeylerde kullanmadan önce görünmeyen küçük bir alanda deneme yapılması önerilir.",
-    "Ölçüler ve paketleme bilgileri her ürün için aşağıda ayrıca verilmiştir.",
   ],
   highlights: ["Bulaşık kurutma süngeri ve altlığı", "Melamin lekesil sünger", "Buzdolabı küf matı", "Kendinden yapışkanlı kapı eşik süngeri"],
   image: photo("106.0.001-36", 2),
@@ -989,12 +987,12 @@ const dogalBulasikSungerleri: ProductType = {
   slug: "dogal-bulasik-sungerleri",
   categorySlug: "dogal-urunler",
   name: "Natürel ve Selülozik Bulaşık Süngerleri",
-  shortDescription: "Natürel lifli yüzeye sahip bulaşık süngeri ve selülozik konfor süngeri.",
+  shortDescription: "Doğal lif görünümlü yüzeye sahip natürel bulaşık süngeri ve selülozik konfor süngeri.",
   description: [
-    "Natürel bulaşık süngeri, natürel lifli ovucu yüzeyi sünger gövdeyle birleştirir ve kâğıt bantlı ambalajda 2'li olarak sunulur.",
+    "Natürel bulaşık süngeri, doğal lif görünümlü ovucu yüzeyi sünger gövdeyle birleştirir ve kâğıt bantlı ambalajda 2'li olarak sunulur.",
     "Konfor bulaşık süngeri, dalgalı formlu selülozik sünger gövdesiyle 2'li pakette hazırlanır.",
   ],
-  highlights: ["Natürel lifli yüzey", "Selülozik sünger gövde", "2'li paketler"],
+  highlights: ["Doğal lif görünümlü yüzey", "Selülozik sünger gövde", "2'li paketler"],
   image: photo("101.0.303-36", 3),
   imageAlt: "Kâğıt bantlı ambalajında natürel bulaşık süngerleri ve yanında iki sünger",
   imageStyle: "catalog",
@@ -1095,7 +1093,6 @@ const ruloVePlakaKece: ProductType = {
   image: "/images/products/hammadde/ovucu-kece-rulolari-4x3.webp",
   imageAlt: "Natürel ve yeşil ovucu keçe ruloları, yanında natürel, beyaz, gri, açık yeşil, yeşil, mavi, kırmızı, fuşya ve mor dar keçe ruloları",
   imageStyle: "styled",
-  skuKind: "variety",
   matrix: {
     title: "Ovucu keçe gramaj ve renk seçenekleri",
     note: "Keçeler aşağıdaki gramaj ve renk kombinasyonlarıyla üretilebilir. Listede olmayan bir kombinasyon için bize ulaşın.",
@@ -1203,7 +1200,6 @@ const ruloNonWovenBez: ProductType = {
   image: "/images/products/hammadde/non-woven-bez-rulolari-4x3.webp",
   imageAlt: "Sarı, beyaz, mavi, pembe ve antrasit non-woven temizlik bezi ruloları, uçları açılmış",
   imageStyle: "styled",
-  skuKind: "variety",
   matrix: {
     title: "Temizlik bezi gramaj ve renk seçenekleri",
     note: "Rulo temizlik bezleri aşağıdaki gramaj ve renk kombinasyonlarıyla üretilebilir. Baskılı ve desenli seçenekler ağırlıklı olarak 100–160 gr/m² aralığındadır.",
@@ -1334,7 +1330,6 @@ const tabakaHammadde: ProductType = {
   image: "/images/products/hammadde/sheet-raw-material.webp",
   imageAlt: "Üst üste yerleştirilmiş tabaka hammaddeler",
   imageStyle: "styled",
-  skuKind: "variety",
   skus: [
     {
       slug: "kece-lamineli-plaka",
@@ -1383,7 +1378,6 @@ const dokmeUrunler: ProductType = {
   image: "/images/products/category-cloths.webp",
   imageAlt: "Katlanmış ve rulo halinde temizlik bezleri",
   imageStyle: "styled",
-  skuKind: "variety",
   skus: [
     {
       slug: "111-0-999",
@@ -1435,6 +1429,7 @@ export const categories: Category[] = [
       "Düz ve oluklu biçimler, file kaplı Ultra Parlak sünger ve endüstriyel boylar kullanım alışkanlığına göre değerlendirilebilir. Natürel ve selülozik bulaşık süngerleri Doğal Ürünler grubunda yer alır.",
     ],
     image: "/images/products/kategori-temizlik-sungerleri.webp",
+    heroImage: "/images/products/kategori-temizlik-sungerleri-sayfa.webp",
     imageAlt: "Renkli düz bulaşık süngerleri, endüstriyel sünger, fıstık yeşili oluklu sünger, düz sünger ve file kaplı sünger",
     products: [klasikTemizlikSungeri, olukluTemizlikSungeri, ozelBulasikSungerleri, endustriyelTemizlikSungeri],
   },
@@ -1447,6 +1442,7 @@ export const categories: Category[] = [
       "Rulo ve katlanmış biçimler, kullanım şekline göre farklı seçenekler sunar. İhtiyacı değerlendirirken ürünün formu ve kullanım alanı birlikte ele alınır.",
     ],
     image: "/images/products/kategori-temizlik-bezleri.webp",
+    heroImage: "/images/products/kategori-temizlik-bezleri-sayfa.webp",
     imageAlt: "Sarı rulo temizlik bezi, mikrofiber bezler, çiçek desenli, renkli temizlik bezleri ve sünger bezler",
     products: [cokAmacliTemizlikBezi, ruloTemizlikBezi, camVeMikrofiberBez, yerBezi],
   },
@@ -1459,6 +1455,7 @@ export const categories: Category[] = [
       "Lif ve tel yapısı, yoğunluk ve form, kullanılacak yüzey ile kirin türüne göre değerlendirilir. İhtiyaca uygun seçeneği birlikte belirleyebiliriz.",
     ],
     image: "/images/products/kategori-ovucu-materyaller.webp",
+    heroImage: "/images/products/kategori-ovucu-materyaller-sayfa.webp",
     imageAlt: "Mor, pembe, turuncu, açık yeşil ve yeşil ovma fiberleri ile simli siyah, yeşil ve renkli ovma fiberi destesi",
     products: [ovucuKece, ovmaTeli],
   },
@@ -1471,18 +1468,20 @@ export const categories: Category[] = [
       "Banyo ve bakım, oto ve ev–mutfak kullanımına yönelik oval, kelebek ve özel kesim formlar, ürün formunun kullanım şekliyle birlikte değerlendirilebildiği seçenekler sunar.",
     ],
     image: "/images/products/kategori-ozel-formlu-sungerler.webp",
+    heroImage: "/images/products/kategori-ozel-formlu-sungerler-sayfa.webp",
     imageAlt: "Şampuanlı oto süngeri, masajlı oval banyo süngeri, masajlı kelebek banyo süngerleri ve renkli bulaşık kurutma süngerleri",
     products: [banyoVeBakimSungerleri, otoSungerleri, evVeMutfakYardimcilari],
   },
   {
     slug: "dogal-urunler",
     name: "Doğal Ürünler",
-    shortDescription: "Natürel lifli bulaşık süngeri ile selülozik bulaşık, banyo ve bakım süngerleri.",
+    shortDescription: "Natürel bulaşık süngeri ile selülozik bulaşık, banyo ve bakım süngerleri.",
     intro: [
-      "Doğal Ürünler grubunda natürel lifli yüzeye sahip bulaşık süngeri ile selülozik süngerden üretilen bulaşık, banyo ve makyaj temizleme süngerleri yer alır.",
+      "Doğal Ürünler grubunda doğal lif görünümlü yüzeye sahip natürel bulaşık süngeri ile selülozik süngerden üretilen bulaşık, banyo ve makyaj temizleme süngerleri yer alır.",
       "Natürel bulaşık süngeri kâğıt bantlı ambalajda; selülozik süngerler oval, dalgalı, yıldız, çiçek, balık ve ördek gibi farklı formlarda sunulur.",
     ],
     image: "/images/products/kategori-dogal-urunler.webp",
+    heroImage: "/images/products/kategori-dogal-urunler-sayfa.webp",
     imageAlt: "Natürel bulaşık süngeri, selülozik oval banyo süngeri, makyaj temizleme süngerleri ve konfor süngeri",
     products: [dogalBulasikSungerleri, selulozikBanyoVeBakim],
   },
@@ -1496,7 +1495,6 @@ export const categories: Category[] = [
     ],
     image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
     imageAlt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
-    bannerImage: "/images/products/hammadde/rulo-nonwoven-kece.webp",
     products: [ruloVePlakaKece, ruloNonWovenBez, tabakaHammadde, dokmeUrunler],
   },
 ];

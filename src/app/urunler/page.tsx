@@ -88,7 +88,7 @@ export default function ProductsPage() {
                 href={categoryHref(c)}
                 name={c.name}
                 description={c.shortDescription}
-                image={(cardSpans[i]?.includes("lg:col-span-12") && c.bannerImage) || c.image}
+                image={c.image}
                 imageAlt={c.imageAlt}
                 number={String(i + 1).padStart(2, "0")}
                 sizes={cardSizes[i]}

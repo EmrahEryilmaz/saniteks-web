@@ -117,8 +117,11 @@ Tüm ürün bilgisi `src/data/products.ts` dosyasındadır. Yapı: **Kategori �
   },
   ```
 
-- Bir **ürün tipi** eklemek için dosyada yeni bir `ProductType` nesnesi tanımlayın ve ilgili kategorinin `products`
-  dizisine ekleyin. Sayfası (`/urunler/<kategori>/<ürün>`), menü bağlantıları ve site haritası kaydı otomatik oluşur.
+- Her **ürünün (SKU)** kendi sayfası vardır: `/urunler/<kategori>/<sku-slug>`; site haritası kaydı otomatik oluşur.
+  Kategori sayfası (`/urunler/<kategori>`) açıklamanın altında kategorideki tüm ürünleri mağaza düzeninde listeler.
+- Bir **ürün tipi** (`ProductType`) yalnızca kategori sayfasındaki süzgeç düğmesidir; kendi sayfası yoktur, eski adresi
+  kategoriye yönlendirilir (`next.config.ts`, `productTypePaths`). SKU `slug` değerleri kategori içinde benzersiz olmalı
+  ve hiçbir ürün tipi `slug` değeriyle aynı olmamalıdır; `products.ts` derlemede bunu denetler.
 - Ürün verisini başka bir dosyaya kopyalamayın; sayfalar her zaman bu dosyadan okur.
 
 **Ürün fotoğrafları:** SKU paket fotoğrafları `public/images/catalog/<sku-slug>.webp` yoluna konur (dosya adı SKU'nun

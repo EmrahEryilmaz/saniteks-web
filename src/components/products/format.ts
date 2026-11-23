@@ -1,4 +1,4 @@
-import type { Packaging, Sku, SpecRow } from "@/data/products";
+import type { Packaging, ProductType, Sku, SpecRow } from "@/data/products";
 
 const packagingNoun: Record<Packaging, string> = {
   koli: "Koli",
@@ -36,12 +36,24 @@ export function skuCardRows(sku: Sku): SpecRow[] {
   return rows;
 }
 
-/** "12 ürün" — the category grid count. */
-export function productCountLabel(n: number) {
-  return `${n} ürün`;
+export const madeToOrderLabel = "Talep üzerine üretim";
+
+/** Page title of a SKU: pack names such as "Süper Tekli Paket" get their product group added, then the code. */
+export function skuTitle(sku: Sku, product: Pick<ProductType, "name">) {
+  const name = sku.name.toLocaleLowerCase("tr").includes(product.name.toLocaleLowerCase("tr")) ? sku.name : `${sku.name} – ${product.name}`;
+  return sku.code ? `${name} (${sku.code})` : name;
 }
 
-export const madeToOrderLabel = "Talep üzerine üretim";
+/** Meta / JSON-LD description of a SKU, built from its own data so every product page reads differently. */
+export function skuDescription(sku: Sku, product: Pick<ProductType, "name">) {
+  const facts = [
+    sku.code && `Ürün kodu ${sku.code}`,
+    sku.productSize && `ölçü ${sku.productSize}`,
+    sku.packsPerCase && `${caseQtyLabel(sku.packaging).toLocaleLowerCase("tr")} ${sku.packsPerCase}`,
+    ...(sku.extra ?? []).slice(0, sku.productSize ? 1 : 3).map((row) => `${row.label.toLocaleLowerCase("tr")}: ${row.value}`),
+  ].filter(Boolean);
+  return `${sku.name} – ${product.name}. ${facts.join(", ")}${facts.length ? "." : ""}`.trim();
+}
 
 /** Contact page link that preselects "Satış" and names the product in the message. */
 export function inquiryHref(subject: string) {

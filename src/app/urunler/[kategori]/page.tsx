@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { categories, categoryHref, categorySkus, getCategory, skuHref } from "@/data/products";
+import { allSkus, categories, categoryHref, categorySkus, getCategory, skuHref } from "@/data/products";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
 import { CategoryShop } from "@/components/products/CategoryShop";
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${category.name} | Saniteks`,
       description: category.intro[0],
       url: path,
-      image: { url: category.image, alt: category.imageAlt },
+      image: { url: category.heroImage ?? category.image, alt: category.imageAlt },
     }),
   };
 }
@@ -77,7 +77,8 @@ export default async function CategoryPage({ params }: Props) {
         eyebrow="ÜRÜN KATEGORİSİ"
         title={category.name}
         lead={lead}
-        image={{ src: category.image, alt: category.imageAlt, width: 1200, height: 900, className: "aspect-4/3 h-auto w-full object-cover" }}
+        image={{ src: category.heroImage ?? category.image, alt: category.imageAlt, width: 1200, height: 900, className: "aspect-4/3 h-auto w-full object-cover" }}
+        imageWrapperClassName="hidden lg:block"
       >
         {moreIntro.map((p) => (
           <p key={p} className="mt-4 max-w-lg text-base leading-7 text-muted-foreground">
@@ -88,11 +89,16 @@ export default async function CategoryPage({ params }: Props) {
 
       <Section labelledBy="category-products-title" id="urunler" tone="muted">
         <h2 id="category-products-title" className="sr-only">
-          {category.name} ürünleri
+          Ürün listesi
         </h2>
         <CategoryShop
           label={category.name}
           groups={groups}
+          elsewhere={Object.fromEntries(
+            allSkus()
+              .filter((s) => s.category.slug !== category.slug)
+              .map((s) => [s.slug, skuHref(s.category.slug, s.slug)]),
+          )}
           items={entries.map((entry) => ({
             key: entry.sku.slug,
             group: entry.product.slug,
