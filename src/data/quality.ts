@@ -2,9 +2,9 @@
  * Quality section (/kalite/*), structured after sanifoam.com.tr's "Kalite" menu.
  *
  * Policy texts are the Sanifoam group policies (sanifoam.com.tr), adopted for Saniteks with the
- * company's approval (2026-11). Certificates are the URS certificates of the Veliköy plant whose
- * scope is "Perakende sektörü için bulaşık süngeri ve yer bezi üretimi"; the holder on the
- * certificates is Sanifoam Endüstri ve Tüketim Ürünleri San. Tic. A.Ş.
+ * company's approval (2026-11). Certificates are URS certificates whose scope is "Perakende sektörü için
+ * bulaşık süngeri ve yer bezi üretimi": the 2022–2025 cycle was held by Sanifoam Endüstri ve Tüketim Ürünleri
+ * San. Tic. A.Ş. (expired, hidden); the ISO 9001 certificate of 2024 is held by Saniteks itself (supplied 2026-11-23).
  */
 
 /** One policy / text block: heading, paragraphs and a principles card. */
@@ -162,10 +162,21 @@ const holder = "Sanifoam Endüstri ve Tüketim Ürünleri San. Tic. A.Ş. — Ve
 const scope = "Perakende sektörü için bulaşık süngeri ve yer bezi üretimi";
 
 /**
- * Known certificates. The 2022–2025 cycle ended in September 2025; when the renewed certificates
- * are received, update the dates/numbers and put the PDFs into public/documents/certificates.
+ * Known certificates. Expired ones stay here for reference but are never listed (validCertificates).
+ * When a certificate is renewed, add it with a new PDF file name (/documents is cached for 30 days).
  */
 export const certificates: Certificate[] = [
+  {
+    standard: "ISO 9001:2015",
+    title: "Kalite Yönetim Sistemi",
+    number: "212801/A/0001/UK/Tr",
+    issuer: "URS (United Registrar of Systems)",
+    holder: "Saniteks Sünger Sanayi Turizm ve Ticaret A.Ş. — Veliköy Mah. 17 (Sanayi) Cad. No: 13 A, Çerkezköy / Tekirdağ",
+    scope,
+    validFrom: "2024-04-06",
+    validUntil: "2027-04-05",
+    file: "/documents/certificates/iso-9001-2015-urs-212801.pdf",
+  },
   {
     standard: "ISO 9001:2015",
     title: "Kalite Yönetim Sistemi",

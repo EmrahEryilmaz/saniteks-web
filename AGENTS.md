@@ -69,7 +69,9 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   via `mergedPolicyPaths` in `src/data/quality.ts`), plus Şikâyet Prosedürleri and Kalite Belgelerimiz.
 - Company facts: Saniteks is a Sanifoam group company; head office İstanbul, production Hendek (Sakarya). Use only
   verifiable group facts — no employee counts or plant areas. Sanifoam group policies apply to Saniteks. The Veliköy URS
-  ISO certificates expired in September 2025, so `validCertificates()` hides them; list renewed ones only when supplied.
+  ISO certificates of the 2022–2025 cycle (holder Sanifoam) expired in September 2025 and are hidden by
+  `validCertificates()`. Listed now: ISO 9001:2015 no. 212801/A/0001/UK/Tr held by Saniteks (06.04.2024–05.04.2027,
+  PDF in `public/documents/certificates/`, supplied 2026-11-23). List other renewed ones only when supplied.
 - Private label (`/urunler/ozel-marka-uretimi`): shows only the retailers we produce for, by official name and logo
   (A101, BİM, FİLE, ŞOK, Metro, Gratis, CarrefourSA, Koçtaş — permitted by the retailers). Owner decision 2026-11-10:
   no brand owners (Banat/Bella removed) and no photos or names of customers' private-label products. Never show Vileda
