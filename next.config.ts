@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { productTypePaths } from "./src/data/products";
+import { mergedPolicyPaths } from "./src/data/quality";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -28,7 +29,9 @@ const nextConfig: NextConfig = {
     return [
       // The corporate section now has sub-pages (Hakkında, Grup Şirketleri, Üretim Tesisleri) like sanifoam.com.tr.
       { source: "/kurumsal", destination: "/kurumsal/hakkinda", permanent: true },
-      { source: "/kalite", destination: "/kalite/kalite-politikamiz", permanent: true },
+      { source: "/kalite", destination: "/kalite/politikalarimiz", permanent: true },
+      // The quality, environment and OHS policies were merged into one page (owner decision 2026-11-23).
+      ...mergedPolicyPaths.map(({ from, to }) => ({ source: `/kalite/${from}`, destination: `/kalite/${to}`, permanent: true })),
       // Product-type pages (/urunler/<category>/<type>) were folded into the shop-style category pages; every product
       // now has its own page /urunler/<category>/<sku>. products.ts guarantees no SKU slug equals a type slug.
       ...productTypePaths.map(({ category, type }) => ({ source: `/urunler/${category}/${type}`, destination: `/urunler/${category}`, permanent: true })),

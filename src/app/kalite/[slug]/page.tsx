@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { formatTrDate, getQualityPage, qualityHref, qualityPages, validCertificates, type QualityPage } from "@/data/quality";
+import { formatTrDate, getQualityPage, qualityHref, qualityPages, validCertificates, type QualityBlock } from "@/data/quality";
 import { site } from "@/lib/site";
 import { CorporateHero } from "@/components/corporate/CorporateHero";
 import { CorporateIcon } from "@/components/corporate/CorporateIcon";
@@ -13,7 +13,7 @@ import { CtaSection } from "@/components/ui/CtaSection";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { cx, headingLgClass } from "@/components/ui/styles";
+import { containerClass, cx, focusStyle, headingLgClass } from "@/components/ui/styles";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -65,9 +65,14 @@ export default async function QualityPage({ params }: Props) {
         image={heroImage}
       />
 
-      <PolicySection page={page} />
-      {page.slug === "kalite-politikamiz" ? <QualityApproachSection /> : null}
-      {page.slug === "cevre-politikamiz" ? <SustainabilityLinkSection /> : null}
+      {page.blocks.length > 1 ? <BlockNav blocks={page.blocks} /> : null}
+      {page.blocks.map((block, i) => (
+        <div key={block.id}>
+          <PolicySection block={block} divided={i > 0} />
+          {block.id === "kalite-politikamiz" ? <QualityApproachSection /> : null}
+          {block.id === "cevre-politikamiz" ? <SustainabilityLinkSection /> : null}
+        </div>
+      ))}
       {page.slug === "sikayet-prosedurleri" ? <ComplaintHowToSection /> : null}
       {page.slug === "kalite-belgelerimiz" ? <CertificatesSection /> : null}
 
@@ -84,27 +89,56 @@ export default async function QualityPage({ params }: Props) {
   );
 }
 
-/** Policy text + principles card — sanifoam.com.tr ContentPage structure in Saniteks styling. */
-function PolicySection({ page }: { page: QualityPage }) {
+/** In-page links to the policies of a merged page ("Kalite · Çevre · İSG"). */
+function BlockNav({ blocks }: { blocks: QualityBlock[] }) {
   return (
-    <Section labelledBy="policy-title" containerClassName="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+    <nav aria-label="Bu sayfadaki politikalar" className="border-b border-border bg-surface">
+      <ul className={cx(containerClass, "flex flex-wrap gap-2 py-4")}>
+        {blocks.map((b) => (
+          <li key={b.id}>
+            <a
+              href={`#${b.id}`}
+              className={cx(
+                "inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-sm font-semibold text-foreground hover:border-primary hover:text-link",
+                focusStyle,
+              )}
+            >
+              {b.navLabel ?? b.heading}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+/** Policy text + principles card — sanifoam.com.tr ContentPage structure in Saniteks styling. */
+function PolicySection({ block, divided }: { block: QualityBlock; divided?: boolean }) {
+  const titleId = `${block.id}-title`;
+  return (
+    <Section
+      id={block.id}
+      labelledBy={titleId}
+      className={divided ? "border-t border-border" : undefined}
+      containerClassName="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
+    >
       <div className="min-w-0">
-        <Eyebrow>{page.title.toLocaleUpperCase("tr")}</Eyebrow>
-        <h2 id="policy-title" className={headingLgClass}>
-          {page.subtitle}
+        <Eyebrow>{block.eyebrow}</Eyebrow>
+        <h2 id={titleId} className={headingLgClass}>
+          {block.heading}
         </h2>
         <div className="mt-6 max-w-2xl space-y-5 text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
-          {page.paragraphs.map((p) => (
+          {block.paragraphs.map((p) => (
             <p key={p}>{p}</p>
           ))}
         </div>
       </div>
-      <aside aria-labelledby="principles-title" className="self-start rounded-sm border border-border border-l-4 border-l-primary bg-surface-muted p-6 md:p-8">
-        <h3 id="principles-title" className="text-xl font-semibold">
-          {page.principlesTitle}
+      <aside aria-labelledby={`${block.id}-principles`} className="self-start rounded-sm border border-border border-l-4 border-l-primary bg-surface-muted p-6 md:p-8">
+        <h3 id={`${block.id}-principles`} className="text-xl font-semibold">
+          {block.principlesTitle}
         </h3>
         <ul className="mt-5 divide-y divide-border">
-          {page.principles.map((item) => (
+          {block.principles.map((item) => (
             <li key={item} className="flex min-h-12 items-center gap-3 py-3 text-base font-semibold">
               <CorporateIcon name="check" className="size-5 shrink-0 text-primary" />
               {item}

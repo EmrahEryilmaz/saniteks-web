@@ -120,8 +120,8 @@ export default function CapabilitiesPage() {
             politikalarımızı inceleyin.
           </p>
         </div>
-        <ButtonLink href="/kalite/kalite-politikamiz" variant="inverse">
-          Kalite politikamız
+        <ButtonLink href="/kalite/politikalarimiz" variant="inverse">
+          Politikalarımız
         </ButtonLink>
       </Section>
 

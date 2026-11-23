@@ -64,6 +64,9 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   break; it still contains Tabaka Hammadde and Dökme Ürünler). Its category image is the owner's photo above; the older
   owner photo `public/images/products/hammadde/rulo-nonwoven-kece*.webp` is still used on the home page and elsewhere;
   recoloured-photo and procedural 3D versions were rejected.
+- Kalite menu (owner decision 2026-11-23): one page `/kalite/politikalarimiz` holds the quality, environment and OHS
+  policies (anchors `#kalite-politikamiz`, `#cevre-politikamiz`, `#isg-politikamiz`; the old single pages redirect there
+  via `mergedPolicyPaths` in `src/data/quality.ts`), plus Şikâyet Prosedürleri and Kalite Belgelerimiz.
 - Company facts: Saniteks is a Sanifoam group company; head office İstanbul, production Hendek (Sakarya). Use only
   verifiable group facts — no employee counts or plant areas. Sanifoam group policies apply to Saniteks. The Veliköy URS
   ISO certificates expired in September 2025, so `validCertificates()` hides them; list renewed ones only when supplied.
