@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { kvkkNotice } from "@/components/legal/kvkk";
-import { categories, categoryHref, productHref } from "@/data/products";
+import { categories, categoryHref, categorySkus, skuHref } from "@/data/products";
 import { qualityHref, qualityPages } from "@/data/quality";
 import { site } from "@/lib/site";
 
@@ -26,7 +26,7 @@ const staticRoutes: Entry[] = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const productRoutes: Entry[] = categories.flatMap((category) => [
     { path: categoryHref(category), priority: 0.8, changeFrequency: "monthly" } satisfies Entry,
-    ...category.products.map((product) => ({ path: productHref(product), priority: 0.7, changeFrequency: "monthly" }) satisfies Entry),
+    ...categorySkus(category).map(({ sku }) => ({ path: skuHref(category.slug, sku.slug), priority: 0.6, changeFrequency: "monthly" }) satisfies Entry),
   ]);
 
   return [...staticRoutes, ...productRoutes].map(({ path, priority, changeFrequency }) => ({

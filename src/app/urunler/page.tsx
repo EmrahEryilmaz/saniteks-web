@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { allSkus, categories, categoryHref, productHref } from "@/data/products";
+import { allSkus, categories, categoryHref, skuHref } from "@/data/products";
 import { pageOpenGraph } from "@/lib/metadata";
 import { site } from "@/lib/site";
 import { SkuSearch, type SkuSearchEntry } from "@/components/products/SkuSearch";
@@ -18,7 +18,7 @@ import { privateLabelPath, retailers } from "@/data/privateLabel";
 import { RetailerLogoStrip } from "@/components/products/PrivateLabel";
 
 const description =
-  "Saniteks temizlik süngerleri, temizlik bezleri, ovucu materyaller, özel formlu süngerler ile rulo non-woven temizlik bezi ve ovucu keçe ürün gruplarını keşfedin.";
+  "Saniteks temizlik süngerleri, temizlik bezleri, ovucu materyaller, özel formlu süngerler, doğal ürünler ile rulo non-woven temizlik bezi ve ovucu keçe ürün gruplarını keşfedin.";
 
 export const metadata: Metadata = {
   title: "Ürünler",
@@ -27,15 +27,12 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph({ title: "Ürünler | Saniteks", description, url: "/urunler" }),
 };
 
-/** Live grid rhythm: 7/5 · 5/7 · full width. */
-const cardSpans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "md:col-span-2 lg:col-span-12"];
-const cardSizes = [
-  "(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 100vw",
-  "(min-width: 1024px) 42vw, (min-width: 768px) 50vw, 100vw",
-  "(min-width: 1024px) 42vw, (min-width: 768px) 50vw, 100vw",
-  "(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 100vw",
-  "100vw",
-];
+/** Grid rhythm for six categories: 7/5 · 5/7 · 6/6. */
+const cardSpans = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7", "lg:col-span-6", "lg:col-span-6"];
+const wide = "(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 100vw";
+const narrow = "(min-width: 1024px) 42vw, (min-width: 768px) 50vw, 100vw";
+const half = "(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw";
+const cardSizes = [wide, narrow, narrow, wide, half, half];
 
 const crumbs: Crumb[] = [{ label: "Ana Sayfa", href: "/" }, { label: "Ürünler" }];
 
@@ -52,7 +49,7 @@ export default function ProductsPage() {
     categorySlug: s.category.slug,
     categoryName: s.category.name,
     productName: s.product.name,
-    href: `${productHref(s.product)}#${s.slug}`,
+    href: skuHref(s.category.slug, s.slug),
   }));
 
   return (
@@ -91,7 +88,7 @@ export default function ProductsPage() {
                 href={categoryHref(c)}
                 name={c.name}
                 description={c.shortDescription}
-                image={(cardSpans[i]?.includes("lg:col-span-12") && c.bannerImage) || c.image}
+                image={c.image}
                 imageAlt={c.imageAlt}
                 number={String(i + 1).padStart(2, "0")}
                 sizes={cardSizes[i]}
@@ -126,9 +123,9 @@ export default function ProductsPage() {
 
       <Section labelledBy="sku-search-title" id="urun-kodu">
         <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-14">
-          <SectionHeading id="sku-search-title" eyebrow="ÜRÜN KODU İLE ARAYIN" title="Tüm paket seçenekleri." />
+          <SectionHeading id="sku-search-title" eyebrow="ÜRÜN KODU İLE ARAYIN" title="Tüm ürünler." />
           <p className="max-w-lg text-base leading-7 text-muted-foreground">
-            Ürün adı, ürün kodu veya kategoriye göre arayın; her seçenek ölçü ve koli bilgileriyle ürün sayfasında yer alır.
+            Ürün adı, ürün kodu veya kategoriye göre arayın; her ürün ölçü ve koli bilgileriyle kendi sayfasında yer alır.
           </p>
         </div>
         <SkuSearch entries={entries} categories={categories.map((c) => ({ slug: c.slug, name: c.name }))} />

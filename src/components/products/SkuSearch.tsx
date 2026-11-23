@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useDeferredValue, useId, useMemo, useState } from "react";
 import { cx, focusStyle } from "@/components/ui/styles";
 import { foldTr } from "./format";
-import { SkuImagePlaceholder } from "./SkuCard";
+import { SkuImagePlaceholder } from "./SkuImagePlaceholder";
 
 export type SkuSearchEntry = {
   slug: string;
@@ -96,7 +96,7 @@ export function SkuSearch({ entries, categories }: Props) {
       </div>
 
       <p id={statusId} role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground tabular-nums">
-        {results.length === entries.length ? `${entries.length} paket seçeneği listeleniyor.` : `${results.length} sonuç bulundu.`}
+        {results.length === entries.length ? `${entries.length} ürün listeleniyor.` : `${results.length} sonuç bulundu.`}
       </p>
 
       {results.length ? (

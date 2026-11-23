@@ -22,10 +22,12 @@ type PageHeroProps = {
   gridClassName?: string;
   /** Extra content under the lead (buttons, meta). */
   children?: ReactNode;
+  /** Extra classes on the image box, e.g. "hidden lg:block" to keep a page's main content close on phones. */
+  imageWrapperClassName?: string;
 };
 
 /** Inner-page top band: breadcrumbs, eyebrow, h1#page-title, lead and an optional image. */
-export function PageHero({ crumbs, eyebrow, title, lead, image, gridClassName, children }: PageHeroProps) {
+export function PageHero({ crumbs, eyebrow, title, lead, image, gridClassName, children, imageWrapperClassName }: PageHeroProps) {
   return (
     <section aria-labelledby="page-title" className="relative overflow-hidden border-b border-border bg-surface-strong">
       <div className={cx(containerClass, "py-7 md:py-9")}>
@@ -40,7 +42,7 @@ export function PageHero({ crumbs, eyebrow, title, lead, image, gridClassName, c
             {children}
           </div>
           {image ? (
-            <div className="relative overflow-hidden rounded-sm border border-border">
+            <div className={cx("relative overflow-hidden rounded-sm border border-border", imageWrapperClassName)}>
               <Image
                 src={image.src}
                 alt={image.alt}
