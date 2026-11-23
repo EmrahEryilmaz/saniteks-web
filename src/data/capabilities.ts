@@ -70,10 +70,10 @@ export const capabilities: Capability[] = [
     ],
     facts: ["Sünger + ovucu keçe", "Tabaka (plaka) formu", "Ölçüye göre kesime uygun"],
     image: {
-      src: "/images/products/hammadde/sheet-raw-material.webp",
-      alt: "Üst üste yerleştirilmiş tabaka hammaddeler",
-      width: 1600,
-      height: 1200,
+      src: "/images/corporate/laminasyon-hatti.webp",
+      alt: "Silindirleri, yapıştırıcı ünitesi ve rulolarıyla laminasyon makinesi",
+      width: 941,
+      height: 706,
     },
     related: [
       { href: "/urunler/hammadde/kece-lamineli-plaka", label: "Keçe lamineli sünger plakası" },
