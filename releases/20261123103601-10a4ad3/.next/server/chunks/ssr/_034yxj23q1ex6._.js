@@ -1,0 +1,3 @@
+module.exports=[16644,a=>{"use strict";var b=a.i(67161);a.s(["default",()=>b.Image])},6225,a=>{"use strict";var b=a.i(87924),c=a.i(16644),d=a.i(11493);a.s(["f",0,function({className:a}){return(0,b.jsx)("div",{"aria-hidden":"true",className:(0,d.P)("flex h-full w-full items-center justify-center bg-surface-muted",a),children:(0,b.jsx)(c.default,{src:"/images/icons/saniteks-icon-192.png",alt:"",width:192,height:192,className:"size-14 opacity-25 grayscale"})})}])}];
+
+//# sourceMappingURL=_034yxj23q1ex6._.js.map
