@@ -56,10 +56,16 @@ const nextConfig: NextConfig = {
       { source: "/images/catalog/rulo-temizlik-bezi-20-80.webp", destination: "/images/products/hammadde/non-woven-bez-rulo.webp", permanent: true },
       { source: "/images/catalog/super-tekli-duz.webp", destination: "/images/urunler/101-0-001-50-1.webp", permanent: true },
       { source: "/images/catalog/super-tekli-oluklu{-2026}?.webp", destination: "/images/urunler/100-0-125-40-1.webp", permanent: true },
-      // Category images replaced by compositions of the unpackaged studio photos (2026-11-23).
-      { source: "/images/products/category-sponges{-2026}?.webp", destination: "/images/products/kategori-temizlik-sungerleri.webp", permanent: true },
-      { source: "/images/products/category-scourers{-2026}?.webp", destination: "/images/products/kategori-ovucu-materyaller.webp", permanent: true },
-      { source: "/images/products/category-specialty-2026.webp", destination: "/images/products/kategori-ozel-formlu-sungerler.webp", permanent: true },
+      // Category images: the owner's photos (2026-11-23) replaced the earlier compositions and catalogue packshots.
+      {
+        source: "/images/products/kategori-:slug(temizlik-sungerleri|temizlik-bezleri|ovucu-materyaller|ozel-formlu-sungerler|dogal-urunler){-sayfa}?.webp",
+        destination: "/images/products/kategori-:slug-foto.webp",
+        permanent: true,
+      },
+      { source: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp", destination: "/images/products/kategori-plaka-ve-rulo-urunler-foto.webp", permanent: true },
+      { source: "/images/products/category-sponges{-2026}?.webp", destination: "/images/products/kategori-temizlik-sungerleri-foto.webp", permanent: true },
+      { source: "/images/products/category-scourers{-2026}?.webp", destination: "/images/products/kategori-ovucu-materyaller-foto.webp", permanent: true },
+      { source: "/images/products/category-specialty-2026.webp", destination: "/images/products/kategori-ozel-formlu-sungerler-foto.webp", permanent: true },
     ];
   },
 };

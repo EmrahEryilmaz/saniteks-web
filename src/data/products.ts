@@ -89,11 +89,9 @@ export type Category = {
   name: string;
   shortDescription: string;
   intro: string[];
-  /** Card image (home, /urunler, "Diğer kategoriler"): products kept in the upper part, clear of the caption box. */
+  /** 4:3 category image: page hero and cards (home, /urunler, "Diğer kategoriler"). */
   image: string;
   imageAlt: string;
-  /** Category page hero (4:3, products centred); falls back to `image`. */
-  heroImage?: string;
   products: ProductType[];
 };
 
@@ -1428,9 +1426,8 @@ export const categories: Category[] = [
       "Temizlik süngerleri, yüzeyle temas eden katman ve elde kullanımı destekleyen gövde formuyla farklı uygulamalara uyum sağlayan seçenekler sunar.",
       "Düz ve oluklu biçimler, file kaplı Ultra Parlak sünger ve endüstriyel boylar kullanım alışkanlığına göre değerlendirilebilir. Natürel ve selülozik bulaşık süngerleri Doğal Ürünler grubunda yer alır.",
     ],
-    image: "/images/products/kategori-temizlik-sungerleri.webp",
-    heroImage: "/images/products/kategori-temizlik-sungerleri-sayfa.webp",
-    imageAlt: "Renkli düz bulaşık süngerleri, endüstriyel sünger, fıstık yeşili oluklu sünger, düz sünger ve file kaplı sünger",
+    image: "/images/products/kategori-temizlik-sungerleri-foto.webp",
+    imageAlt: "Taş basamaklar üzerinde renkli düz bulaşık süngerleri, endüstriyel sünger, file kaplı sünger, düz ve oluklu bulaşık süngeri",
     products: [klasikTemizlikSungeri, olukluTemizlikSungeri, ozelBulasikSungerleri, endustriyelTemizlikSungeri],
   },
   {
@@ -1441,9 +1438,8 @@ export const categories: Category[] = [
       "Temizlik bezleri, farklı yüzeyler ve kullanım alışkanlıkları için malzeme dokusu ile formun birlikte değerlendirildiği bir ürün grubudur.",
       "Rulo ve katlanmış biçimler, kullanım şekline göre farklı seçenekler sunar. İhtiyacı değerlendirirken ürünün formu ve kullanım alanı birlikte ele alınır.",
     ],
-    image: "/images/products/kategori-temizlik-bezleri.webp",
-    heroImage: "/images/products/kategori-temizlik-bezleri-sayfa.webp",
-    imageAlt: "Sarı rulo temizlik bezi, mikrofiber bezler, çiçek desenli, renkli temizlik bezleri ve sünger bezler",
+    image: "/images/products/kategori-temizlik-bezleri-foto.webp",
+    imageAlt: "Taş basamaklar üzerinde sarı rulo temizlik bezi, mikrofiber bezler, sünger bezler ve renkli temizlik bezleri",
     products: [cokAmacliTemizlikBezi, ruloTemizlikBezi, camVeMikrofiberBez, yerBezi],
   },
   {
@@ -1454,9 +1450,8 @@ export const categories: Category[] = [
       "Ovucu materyaller, yapışmış ve yanmış kalıntılar gibi zorlu kirlerde yüzeyle güçlü temas kurmaya yönelik ovucu keçe (ovma fiberi), ovma teli ve benzeri ovucu ürünleri kapsar.",
       "Lif ve tel yapısı, yoğunluk ve form, kullanılacak yüzey ile kirin türüne göre değerlendirilir. İhtiyaca uygun seçeneği birlikte belirleyebiliriz.",
     ],
-    image: "/images/products/kategori-ovucu-materyaller.webp",
-    heroImage: "/images/products/kategori-ovucu-materyaller-sayfa.webp",
-    imageAlt: "Mor, pembe, turuncu, açık yeşil ve yeşil ovma fiberleri ile simli siyah, yeşil ve renkli ovma fiberi destesi",
+    image: "/images/products/kategori-ovucu-materyaller-foto.webp",
+    imageAlt: "Taş basamaklar üzerinde mor, pembe, turuncu, açık yeşil ve yeşil ovma fiberleri ile siyah ve yeşil ovma fiberi desteleri",
     products: [ovucuKece, ovmaTeli],
   },
   {
@@ -1467,9 +1462,8 @@ export const categories: Category[] = [
       "Özel formlu süngerler, standart dikdörtgen biçimlerin dışında farklı tutuş ve yüzey temas ihtiyaçlarına yönelik form alternatiflerini kapsar.",
       "Banyo ve bakım, oto ve ev–mutfak kullanımına yönelik oval, kelebek ve özel kesim formlar, ürün formunun kullanım şekliyle birlikte değerlendirilebildiği seçenekler sunar.",
     ],
-    image: "/images/products/kategori-ozel-formlu-sungerler.webp",
-    heroImage: "/images/products/kategori-ozel-formlu-sungerler-sayfa.webp",
-    imageAlt: "Şampuanlı oto süngeri, masajlı oval banyo süngeri, masajlı kelebek banyo süngerleri ve renkli bulaşık kurutma süngerleri",
+    image: "/images/products/kategori-ozel-formlu-sungerler-foto.webp",
+    imageAlt: "Taş basamaklar üzerinde oto süngeri, masajlı oval banyo süngeri, masajlı kelebek süngerler ve renkli bulaşık kurutma süngerleri",
     products: [banyoVeBakimSungerleri, otoSungerleri, evVeMutfakYardimcilari],
   },
   {
@@ -1480,9 +1474,8 @@ export const categories: Category[] = [
       "Doğal Ürünler grubunda doğal lif görünümlü yüzeye sahip natürel bulaşık süngeri ile selülozik süngerden üretilen bulaşık, banyo ve makyaj temizleme süngerleri yer alır.",
       "Natürel bulaşık süngeri kâğıt bantlı ambalajda; selülozik süngerler oval, dalgalı, yıldız, çiçek, balık ve ördek gibi farklı formlarda sunulur.",
     ],
-    image: "/images/products/kategori-dogal-urunler.webp",
-    heroImage: "/images/products/kategori-dogal-urunler-sayfa.webp",
-    imageAlt: "Natürel bulaşık süngeri, selülozik oval banyo süngeri, makyaj temizleme süngerleri ve konfor süngeri",
+    image: "/images/products/kategori-dogal-urunler-foto.webp",
+    imageAlt: "Taş basamaklar üzerinde natürel bulaşık süngeri, selülozik oval sünger, konfor süngeri ve çiçek kesimli selülozik süngerler",
     products: [dogalBulasikSungerleri, selulozikBanyoVeBakim],
   },
   {
@@ -1493,8 +1486,8 @@ export const categories: Category[] = [
       "Saniteks, temizlik ürünlerinde kullanılan non-woven temizlik bezi ve ovucu keçeyi kendi tesisinde rulo halinde üretir. Bu ruloları farklı ürünler geliştiren üreticilere de tedarik ediyoruz.",
       "Ürünlerimiz rulo ve plaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.",
     ],
-    image: "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
-    imageAlt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
+    image: "/images/products/kategori-plaka-ve-rulo-urunler-foto.webp",
+    imageAlt: "Sarı, mavi, pembe ve antrasit non-woven temizlik bezi ruloları, yeşil, mor ve natürel keçe ruloları ile üst üste keçe plakaları",
     products: [ruloVePlakaKece, ruloNonWovenBez, tabakaHammadde, dokmeUrunler],
   },
 ];

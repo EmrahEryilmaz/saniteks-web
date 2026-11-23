@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${category.name} | Saniteks`,
       description: category.intro[0],
       url: path,
-      image: { url: category.heroImage ?? category.image, alt: category.imageAlt },
+      image: { url: category.image, alt: category.imageAlt },
     }),
   };
 }
@@ -77,7 +77,7 @@ export default async function CategoryPage({ params }: Props) {
         eyebrow="ÜRÜN KATEGORİSİ"
         title={category.name}
         lead={lead}
-        image={{ src: category.heroImage ?? category.image, alt: category.imageAlt, width: 1200, height: 900, className: "aspect-4/3 h-auto w-full object-cover" }}
+        image={{ src: category.image, alt: category.imageAlt, width: 1200, height: 900, className: "aspect-4/3 h-auto w-full object-cover" }}
         imageWrapperClassName="hidden lg:block"
       >
         {moreIntro.map((p) => (
