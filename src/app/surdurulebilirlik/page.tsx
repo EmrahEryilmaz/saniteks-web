@@ -10,7 +10,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { headingLgClass } from "@/components/ui/styles";
+import { cx, headingLgClass } from "@/components/ui/styles";
 import { site } from "@/lib/site";
 
 const PATH = "/surdurulebilirlik";
@@ -31,6 +31,9 @@ export const metadata: Metadata = corporateMetadata({
   path: PATH,
   image: heroImage,
 });
+
+/** Image of the Sanifoam environment statement; set once the owner supplies the file (sanifoam.com.tr is not reachable here). */
+const groupImage: PageImage | null = null;
 
 const priorities: { icon: LineIconName; title: string; text: string }[] = [
   {
@@ -106,6 +109,38 @@ export default function SurdurulebilirlikPage() {
             </p>
           </div>
         </Reveal>
+      </Section>
+
+      {/* Sanifoam group statement (sanifoam.com.tr › Kalite › Çevre Politikamız), supplied by the owner 2026-11-23. */}
+      <Section labelledBy="group-environment-title" tone="dark" containerClassName={groupImage ? "grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16" : undefined}>
+        <Reveal>
+          <Eyebrow variant="dark">SANİFOAM GRUBU</Eyebrow>
+          <h2 id="group-environment-title" className={cx(headingLgClass, "whitespace-pre-line")}>
+            {"Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz"}
+          </h2>
+          <div className="mt-6 max-w-2xl space-y-4 text-base leading-7 text-primary-foreground/85 md:text-lg md:leading-8">
+            <p>
+              Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım
+              ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.
+            </p>
+            <p>
+              Hem mükemmel yalıtım değerleri elde ediyor hem de sıfır atık vizyonumuzla karbon ayak izimizi her geçen gün
+              küçültüyoruz. Sürdürülebilir bir gelecek için teknoloji üretiyoruz.
+            </p>
+          </div>
+        </Reveal>
+        {groupImage ? (
+          <div className="overflow-hidden rounded-sm">
+            <Image
+              src={groupImage.src}
+              alt={groupImage.alt}
+              width={groupImage.width}
+              height={groupImage.height}
+              sizes="(min-width: 1440px) 600px, (min-width: 1024px) 45vw, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+        ) : null}
       </Section>
 
       <Section labelledBy="priorities-title" tone="muted">
