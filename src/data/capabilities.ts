@@ -49,10 +49,10 @@ export const capabilities: Capability[] = [
     ],
     facts: ["80–320 gr/m²", "%20–80 viskon oranı", "Düz, baskılı ve mikro lifli", "27–210 cm rulo eni"],
     image: {
-      src: "/images/corporate/nonwoven-production-process.webp",
-      alt: "Non-woven temizlik bezi tülünün üretim hattında silindirler arasından geçişi",
-      width: 1600,
-      height: 1200,
+      src: "/images/corporate/temizlik-bezi-uretim-hatti.webp",
+      alt: "Sarı non-woven temizlik bezinin silindirlerden geçerek büyük bir ruloya sarıldığı üretim hattı",
+      width: 873,
+      height: 672,
     },
     related: [
       { href: "/urunler/hammadde/rulo-temizlik-bezi-duz", label: "Rulo non-woven temizlik bezi" },
