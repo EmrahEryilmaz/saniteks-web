@@ -10,7 +10,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
-import { headingLgClass } from "@/components/ui/styles";
+import { cx, headingLgClass } from "@/components/ui/styles";
 import { site } from "@/lib/site";
 
 const PATH = "/surdurulebilirlik";
@@ -31,6 +31,14 @@ export const metadata: Metadata = corporateMetadata({
   path: PATH,
   image: heroImage,
 });
+
+/** Banner of sanifoam.com.tr › Kalite › Çevre Politikamız (supplied by the owner; its baked-in title was removed). */
+const groupImage: PageImage = {
+  src: "/images/sustainability/sanifoam-pet-donusum.webp",
+  alt: "Doğaya atılmış PET şişelerden çıkan liflerin beyaz polyester yalıtım rulosuna dönüşümünü gösteren görsel",
+  width: 2000,
+  height: 460,
+};
 
 const priorities: { icon: LineIconName; title: string; text: string }[] = [
   {
@@ -106,6 +114,36 @@ export default function SurdurulebilirlikPage() {
             </p>
           </div>
         </Reveal>
+      </Section>
+
+      {/* Sanifoam group statement (sanifoam.com.tr › Kalite › Çevre Politikamız), supplied by the owner 2026-11-23. */}
+      <Section labelledBy="group-environment-title" tone="dark">
+        <Reveal>
+          <Eyebrow variant="dark">SANİFOAM GRUBU</Eyebrow>
+          <h2 id="group-environment-title" className={cx(headingLgClass, "whitespace-pre-line")}>
+            {"Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz"}
+          </h2>
+          <div className="mt-6 max-w-3xl space-y-4 text-base leading-7 text-primary-foreground/85 md:text-lg md:leading-8">
+            <p>
+              Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım
+              ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.
+            </p>
+            <p>
+              Hem mükemmel yalıtım değerleri elde ediyor hem de sıfır atık vizyonumuzla karbon ayak izimizi her geçen gün
+              küçültüyoruz. Sürdürülebilir bir gelecek için teknoloji üretiyoruz.
+            </p>
+          </div>
+        </Reveal>
+        <div className="mt-10 overflow-hidden rounded-sm">
+          <Image
+            src={groupImage.src}
+            alt={groupImage.alt}
+            width={groupImage.width}
+            height={groupImage.height}
+            sizes="(min-width: 1440px) 1312px, 100vw"
+            className="aspect-[2.6/1] h-auto w-full object-cover object-[88%_center] md:aspect-auto"
+          />
+        </div>
       </Section>
 
       <Section labelledBy="priorities-title" tone="muted">
