@@ -57,11 +57,13 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Categories (2026-11-23): Temizlik Süngerleri, Temizlik Bezleri, Ovucu Materyaller, Özel Formlu Süngerler, Doğal Ürünler
   (natürel lifli and selülozik items only — do not call anything biodegradable/organic etc. without the owner's evidence),
   Plaka ve Rulo Ürünler. The home page shows these six plus an "Özel Marka Üretimi" card.
-- Category images `public/images/products/kategori-<slug>.webp` are compositions of the unpackaged studio photos on a
-  soft studio background (no AI image tool was available; the owner may replace them with generated images).
+- Category images are the owner's photos (2026-11-23), all in one scene style (products on travertine steps):
+  `public/images/products/kategori-<slug>-foto.webp` for the five product categories and
+  `kategori-plaka-ve-rulo-urunler-foto.webp` for `hammadde`; 4:3, used both as page hero and on cards.
 - Category slug `hammadde` is titled "Plaka ve Rulo Ürünler" (owner decision 2026-11-11; slug kept so links do not
-  break; it still contains Tabaka Hammadde and Dökme Ürünler). Its imagery is the owner's own photo
-  (`public/images/products/hammadde/rulo-nonwoven-kece*.webp`); recoloured-photo and procedural 3D versions were rejected.
+  break; it still contains Tabaka Hammadde and Dökme Ürünler). Its category image is the owner's photo above; the older
+  owner photo `public/images/products/hammadde/rulo-nonwoven-kece*.webp` is still used on the home page and elsewhere;
+  recoloured-photo and procedural 3D versions were rejected.
 - Company facts: Saniteks is a Sanifoam group company; head office İstanbul, production Hendek (Sakarya). Use only
   verifiable group facts — no employee counts or plant areas. Sanifoam group policies apply to Saniteks. The Veliköy URS
   ISO certificates expired in September 2025, so `validCertificates()` hides them; list renewed ones only when supplied.
