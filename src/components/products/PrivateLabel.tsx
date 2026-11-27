@@ -1,13 +1,15 @@
 import Image from "next/image";
 import type { Retailer } from "@/data/privateLabel";
+import { getT } from "@/i18n/server";
 
-/** SVG logos are served as-is (Next's optimizer does not process SVG). */
-function LogoImage({ retailer, className, sizes }: { retailer: Retailer; className: string; sizes: string }) {
+/** SVG logos are served as-is (Next's optimizer does not process SVG). `retailer` is already localized. */
+async function LogoImage({ retailer, className, sizes }: { retailer: Retailer; className: string; sizes: string }) {
   if (!retailer.logo) return null;
+  const t = await getT();
   return (
     <Image
       src={retailer.logo.src}
-      alt={`${retailer.name} logosu`}
+      alt={t("{name} logosu", { name: retailer.name })}
       width={retailer.logo.width}
       height={retailer.logo.height}
       sizes={sizes}
@@ -30,16 +32,17 @@ export function RetailerTile({ retailer }: { retailer: Retailer }) {
       </div>
       <div className="flex items-center justify-between gap-3 border-t border-border px-5 py-3 text-sm">
         <span className="font-semibold">{retailer.name}</span>
-        <span className="text-right text-muted-foreground">{retailer.segment}</span>
+        <span className="text-end text-muted-foreground">{retailer.segment}</span>
       </div>
     </li>
   );
 }
 
 /** Compact logo row (e.g. on /urunler). */
-export function RetailerLogoStrip({ retailers }: { retailers: Retailer[] }) {
+export async function RetailerLogoStrip({ retailers }: { retailers: Retailer[] }) {
+  const t = await getT();
   return (
-    <ul className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-sm bg-primary-foreground/20 sm:grid-cols-4 lg:grid-cols-8" aria-label="Özel marka üretimi yaptığımız zincirler">
+    <ul className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-sm bg-primary-foreground/20 sm:grid-cols-4 lg:grid-cols-8" aria-label={t("Özel marka üretimi yaptığımız zincirler")}>
       {retailers.map((r) => (
         <li key={r.slug} className="flex h-20 items-center justify-center bg-surface px-4">
           {r.logo ? (

@@ -1,5 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/Link";
+import { intlLocales } from "@/i18n/config";
+import { getLocale, getT } from "@/i18n/server";
 import { skuHref, type SkuEntry } from "@/data/products";
 import { cx, focusStyle } from "@/components/ui/styles";
 import { inquiryHref, madeToOrderLabel, skuCardRows, skuInquirySubject } from "./format";
@@ -9,13 +11,15 @@ const badgeClass = "w-fit rounded-sm px-2 py-1 text-xs font-semibold tracking-wi
 
 /**
  * Product tile of the category grid (shop-style): photo on a white square, product group, name, code, key specs.
- * The whole tile links to the product page (stretched link); "Bilgi alın" sits above it. Anchor id = sku.slug, so
+ * `entry` must be localized (getCategory / getSku from "@/i18n/data"). The whole tile links to the product page (stretched link); "Bilgi alın" sits above it. Anchor id = sku.slug, so
  * old "#<sku>" links still land on the tile.
  */
-export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: SkuEntry; sizes?: string; headingLevel?: "h2" | "h3" }) {
+export async function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: SkuEntry; sizes?: string; headingLevel?: "h2" | "h3" }) {
   const { category, product, sku } = entry;
   const href = skuHref(category.slug, sku.slug);
-  const rows = skuCardRows(sku);
+  const t = await getT();
+  const intlLocale = intlLocales[await getLocale()];
+  const rows = skuCardRows(sku, t);
   const Heading = headingLevel;
   const photoCount = sku.photos?.length ?? 0;
 
@@ -36,17 +40,17 @@ export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: 
         ) : (
           <SkuImagePlaceholder />
         )}
-        <div className="absolute top-2 left-2 flex flex-col gap-1.5">
-          {sku.line ? <span className={cx(badgeClass, "bg-link text-primary-foreground")}>{sku.line.toLocaleUpperCase("tr")}</span> : null}
+        <div className="absolute start-2 top-2 flex flex-col gap-1.5">
+          {sku.line ? <span className={cx(badgeClass, "bg-link text-primary-foreground")}>{sku.line.toLocaleUpperCase(intlLocale)}</span> : null}
           {sku.madeToOrder ? (
             <span className={cx(badgeClass, "hidden border border-border-strong bg-surface-strong text-muted-foreground sm:inline-block")}>
-              {madeToOrderLabel.toLocaleUpperCase("tr")}
+              {madeToOrderLabel(t).toLocaleUpperCase(intlLocale)}
             </span>
           ) : null}
         </div>
         {photoCount > 1 ? (
-          <span className="absolute right-2 bottom-2 rounded-sm bg-surface/90 px-2 py-1 text-[11px] font-semibold tabular-nums text-muted-foreground">
-            {photoCount} görsel
+          <span className="absolute end-2 bottom-2 rounded-sm bg-surface/90 px-2 py-1 text-[11px] font-semibold tabular-nums text-muted-foreground">
+            {t("{count} görsel", { count: photoCount })}
           </span>
         ) : null}
       </div>
@@ -64,7 +68,7 @@ export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: 
           </Link>
         </Heading>
         {sku.code ? <p className="mt-1 text-sm font-semibold tabular-nums text-link">{sku.code}</p> : null}
-        {sku.madeToOrder ? <p className="mt-1 text-xs font-semibold text-muted-foreground sm:hidden">{madeToOrderLabel}</p> : null}
+        {sku.madeToOrder ? <p className="mt-1 text-xs font-semibold text-muted-foreground sm:hidden">{madeToOrderLabel(t)}</p> : null}
         {rows.length ? (
           <dl className="mt-3 space-y-1 text-xs leading-5 sm:text-sm">
             {rows.map((row) => (
@@ -78,17 +82,17 @@ export function ShopProductCard({ entry, sizes, headingLevel = "h3" }: { entry: 
         <div aria-hidden="true" className="min-h-3 flex-1" />
         <div className="flex items-center justify-between gap-3 border-t border-border pt-1">
           <span aria-hidden="true" className="text-sm font-semibold text-link">
-            İncele →
+            {t("İncele")} <span className="inline-block rtl:-scale-x-100">→</span>
           </span>
           <Link
             href={inquiryHref(skuInquirySubject(sku))}
-            aria-label={`${sku.name} için bilgi alın`}
+            aria-label={t("{name} için bilgi alın", { name: sku.name })}
             className={cx(
               "relative z-10 inline-flex min-h-11 items-center px-1 text-sm font-semibold text-muted-foreground underline-offset-4 hover:text-link hover:underline",
               focusStyle,
             )}
           >
-            Bilgi alın
+            {t("Bilgi alın")}
           </Link>
         </div>
       </div>

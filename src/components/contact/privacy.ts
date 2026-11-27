@@ -1,3 +1,4 @@
+import type { Translate } from "@/i18n/translate";
 import { contactAcknowledgementRequired } from "@/lib/contact-validation";
 
 export type ContactPrivacyNotice = {
@@ -8,11 +9,14 @@ export type ContactPrivacyNotice = {
   acknowledgement: "required" | "notice";
 };
 
-/** KVKK notice shown above the submit button (live copy). */
-export const contactPrivacyNotice: ContactPrivacyNotice = {
-  url: "/kvkk-aydinlatma-metni",
-  linkLabel: "İletişim formu KVKK Aydınlatma Metni",
-  statement:
-    "İletişim formunda paylaştığınız kişisel verilerin işlenmesine ilişkin açıklamaları aydınlatma metninde inceleyebilirsiniz.",
-  acknowledgement: contactAcknowledgementRequired ? "required" : "notice",
-};
+/** KVKK notice shown above the submit button (live copy), in the page language: contactPrivacyNotice(await getT()). */
+export function contactPrivacyNotice(t: Translate): ContactPrivacyNotice {
+  return {
+    url: "/kvkk-aydinlatma-metni",
+    linkLabel: t("İletişim formu KVKK Aydınlatma Metni"),
+    statement: t(
+      "İletişim formunda paylaştığınız kişisel verilerin işlenmesine ilişkin açıklamaları aydınlatma metninde inceleyebilirsiniz.",
+    ),
+    acknowledgement: contactAcknowledgementRequired ? "required" : "notice",
+  };
+}

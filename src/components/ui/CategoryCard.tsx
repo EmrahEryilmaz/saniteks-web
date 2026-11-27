@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/Link";
+import { getT } from "@/i18n/server";
 import { cx, focusStyle } from "./styles";
 
 type CategoryCardProps = {
@@ -13,12 +14,12 @@ type CategoryCardProps = {
   /** Height classes; live uses taller cards on /urunler than in "Diğer kategoriler". */
   size?: "lg" | "md";
   sizes?: string;
-  /** Visible CTA label; also used in the aria-label. */
+  /** Visible CTA label (already translated); also used in the aria-label. Defaults to "Kategoriyi inceleyin". */
   ctaLabel?: string;
 };
 
 /** Dark image card with number badge — category listings on /urunler and "Diğer kategoriler". */
-export function CategoryCard({
+export async function CategoryCard({
   href,
   name,
   description,
@@ -27,8 +28,10 @@ export function CategoryCard({
   number,
   size = "lg",
   sizes = "(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw",
-  ctaLabel = "Kategoriyi inceleyin",
+  ctaLabel: ctaLabelProp,
 }: CategoryCardProps) {
+  const t = await getT();
+  const ctaLabel = ctaLabelProp ?? t("Kategoriyi inceleyin");
   return (
     <Link
       aria-label={`${name} — ${ctaLabel}`}
@@ -52,7 +55,7 @@ export function CategoryCard({
       />
       <span
         aria-hidden="true"
-        className="absolute top-4 left-4 flex size-10 items-center justify-center border border-foreground/20 bg-surface/95 text-sm tabular-nums text-foreground"
+        className="absolute top-4 start-4 flex size-10 items-center justify-center border border-foreground/20 bg-surface/95 text-sm tabular-nums text-foreground"
       >
         {number}
       </span>
@@ -63,7 +66,7 @@ export function CategoryCard({
           {ctaLabel}
           <span
             aria-hidden="true"
-            className="text-xl transition-transform duration-200 group-hover/category:translate-x-0.5 group-hover/category:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+            className="inline-block text-xl transition-transform duration-200 rtl:-scale-x-100 group-hover/category:translate-x-0.5 group-hover/category:-translate-y-0.5 rtl:group-hover/category:-translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
           >
             ↗
           </span>

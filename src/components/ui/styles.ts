@@ -17,7 +17,7 @@ export const buttonPrimaryClass = `group/action inline-flex min-h-12 max-w-full 
 export const buttonInverseClass = `group/action inline-flex min-h-12 max-w-full items-center justify-between gap-5 rounded-sm bg-surface px-6 py-3 text-[19px] font-bold text-link transition-colors hover:bg-surface-muted active:bg-surface-strong motion-reduce:transition-none ${focusStyle}`;
 
 export const buttonArrowClass =
-  "transition-transform duration-200 group-hover/action:translate-x-0.5 group-hover/action:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none";
+  "inline-block transition-transform duration-200 rtl:-scale-x-100 group-hover/action:translate-x-0.5 group-hover/action:-translate-y-0.5 rtl:group-hover/action:-translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none";
 
 /** Footer / dark-surface link. */
 export const footerLinkClass = `inline-flex min-h-11 items-center text-primary-foreground/85 underline-offset-4 transition-colors hover:text-primary-foreground hover:underline active:text-primary-foreground/70 motion-reduce:transition-none ${focusStyle}`;

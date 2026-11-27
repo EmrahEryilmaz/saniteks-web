@@ -79,3 +79,9 @@ html {
 :target {
   scroll-margin-top: 7rem;
 }
+
+/* Phone numbers keep their left-to-right digit order on right-to-left (Arabic) pages. */
+a[href^="tel:"] {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

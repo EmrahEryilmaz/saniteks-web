@@ -11,7 +11,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # Saniteks web
 
 Corporate + product site for Saniteks (cleaning sponges, cloths, scourers, special-form sponges, raw materials).
-Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="tr"`).
+Rebuilt from the live https://www.saniteks.com.tr design. Five languages (owner decision 2026-11-27): Turkish (source,
+unprefixed URLs) and English, German, Arabic (RTL), Russian under `/en`, `/de`, `/ar`, `/ru`.
 
 ## Stack
 - Next.js 16 App Router (`src/app`), React 19, TypeScript strict, alias `@/*` → `src/*`.
@@ -37,6 +38,16 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   page `/urunler/<category>/<sku-slug>`. Product types have no page — `next.config.ts` redirects their old URLs to the
   category (generated from `productTypePaths`); `products.ts` throws if a SKU slug equals a type slug.
 - Site-wide constants (contact info, nav) live in `src/lib/site.ts`.
+- i18n (`src/i18n/`): routes live under `src/app/[lang]/`; `src/proxy.ts` rewrites unprefixed URLs to Turkish and sends
+  first-time visitors to their browser language (not offered → English; no Accept-Language → Turkish; the choice is
+  kept in the `NEXT_LOCALE` cookie). Gettext style: the Turkish text is the key — `const t = await getT()` (server) /
+  `useT()` (client), always `t("literal")` with `{placeholders}`. Data modules stay Turkish and are shown through
+  `getCategories()` / `localized(…)` from `@/i18n/data`; register new data in `src/i18n/sources.ts`. Links use
+  `Link` from `@/i18n/Link` (unprefixed hrefs); metadata uses `pageMetadata` (canonical + hreflang). URL slugs stay
+  Turkish in every language. Use logical Tailwind classes (`ps-`, `ms-`, `start-`, `border-s` …) so Arabic mirrors.
+- After changing or adding Turkish text run `npm run i18n:extract` and add the translations to
+  `src/i18n/translations/{en,de,ar,ru}.json`; `npm run i18n:check` must report 0 missing (a missing translation
+  falls back to Turkish).
 - Copy is Turkish; keep the calm, non-promotional tone of the existing pages. Do not invent certifications, figures or claims.
 
 ## Commands
@@ -49,8 +60,9 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Scope: only the 6 product categories listed below (no detergents or personal care). Show code, size and case info; never barcodes.
 - The current range is the shipping list `saniteks ürünler.xlsx` (business data, deliberately kept out of the repo).
   Catalogue SKUs missing from it carry `madeToOrder` ("Talep üzerine üretim") via `MADE_TO_ORDER` in `products.ts`.
-  Products photographed in 2026 count as current (owner's catalogue rebuild, 2026-11-17); items without a new photo stay
-  on the site with their old catalogue photo or a placeholder.
+  Products photographed in 2026 count as current (owner's catalogue rebuild, 2026-11-17); items with only an old
+  catalogue photo stay listed. Items without any photo are hidden (owner decision 2026-11-27): they stay in the data, are
+  filtered out at the end of `products.ts` (`hiddenSkuPaths`) and their URLs redirect (307) to the category.
 - "Plaka ve Rulo Ürünler" summarises the ERP felt (126.0.xxx) and non-woven cloth (800.4.xxx) roll lists as grammage ×
   colour tables and a few varieties — never the full list, never customer prints/brands (Remax, Pure, Banat, Aro, BQ,
   Vileda), seconds or defective stock.
@@ -61,7 +73,7 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   `public/images/products/kategori-<slug>-foto.webp` for the five product categories and
   `kategori-plaka-ve-rulo-urunler-foto.webp` for `hammadde`; 4:3, used both as page hero and on cards.
 - Category slug `hammadde` is titled "Plaka ve Rulo Ürünler" (owner decision 2026-11-11; slug kept so links do not
-  break; it still contains Tabaka Hammadde and Dökme Ürünler). Its category image is the owner's photo above; the older
+  break; Dökme Ürünler is currently empty because its items have no photo). Its category image is the owner's photo above; the older
   owner photo `public/images/products/hammadde/rulo-nonwoven-kece*.webp` is still used on the home page and elsewhere;
   recoloured-photo and procedural 3D versions were rejected.
 - Kalite menu (owner decision 2026-11-23): one page `/kalite/politikalarimiz` holds the quality, environment and OHS

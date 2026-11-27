@@ -218,8 +218,9 @@ export function validCertificates(date: Date = new Date()): Certificate[] {
   return certificates.filter((c) => c.validUntil >= today);
 }
 
-export function formatTrDate(iso: string) {
-  return new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(
+/** "2024-04-06" → "6 Nisan 2024" in the given BCP 47 locale (pass intlLocales[locale] from i18n/config). */
+export function formatDate(iso: string, intlLocale = "tr-TR") {
+  return new Intl.DateTimeFormat(intlLocale, { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Istanbul" }).format(
     new Date(`${iso}T12:00:00Z`),
   );
 }

@@ -1,16 +1,19 @@
 // Job application rules — the single validator shared by the application form (src/components/careers)
-// and the /api/apply route handler: same limits, same sanitising and the same Turkish messages on both sides.
+// and the /api/apply route handler: same limits, same sanitising and the same messages on both sides (in the visitor's
+// language, see applyMessages).
 // Text fields reuse the contact form primitives, so e-mail and phone follow exactly the contact form rules.
 
 import { openPositions, type JobPosition } from "@/data/careers";
+import { intlLocales, type Locale } from "@/i18n/config";
+import { makeTranslate, type Translate } from "@/i18n/translate";
 import {
-  contactLengthMessage,
   contactMessages,
   hasForbiddenChars,
   isHoneypotFilled,
   isRecord,
   isValidEmail,
   isValidPhone,
+  lengthMessages,
   normalizeFieldValue,
   parseContactResponse,
   type ContactResponse,
@@ -22,6 +25,7 @@ export { isHoneypotFilled };
 export type ApplyFieldName = "name" | "email" | "phone" | "position" | "message";
 
 export type ApplyFieldConfig = {
+  /** Turkish label, used in the notification e-mail to staff (the form shows a translated label). */
   label: string;
   min: number;
   max: number;
@@ -48,11 +52,19 @@ export const generalApplication = "genel";
 
 export type PositionOption = { value: string; label: string };
 
-/** "Genel başvuru" followed by the open positions in src/data/careers.ts. */
-export const positionOptions: PositionOption[] = [
-  { value: generalApplication, label: "Genel başvuru" },
-  ...openPositions.map((position) => ({ value: position.id, label: `${position.title} – ${position.location.label}` })),
-];
+/**
+ * "Genel başvuru" followed by the given positions. Pages pass the positions localized (i18n/data › localized) and
+ * getT(), and hand the options to the form; the ids (values) are the same in every language.
+ */
+export function positionOptionsFor(positions: JobPosition[], t: Translate): PositionOption[] {
+  return [
+    { value: generalApplication, label: t("Genel başvuru") },
+    ...positions.map((position) => ({ value: position.id, label: `${position.title} – ${position.location.label}` })),
+  ];
+}
+
+/** The options in Turkish: the values the validator accepts and the labels of the staff e-mail. */
+export const positionOptions: PositionOption[] = positionOptionsFor(openPositions, makeTranslate(null));
 
 export function findPosition(value: string): JobPosition | undefined {
   return openPositions.find((position) => position.id === value);
@@ -79,7 +91,6 @@ export const cvRules = {
   /** `accept` attribute of the file input. */
   accept:
     ".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  hint: `PDF, DOC veya DOCX; en fazla ${CV_MAX_MB} MB.`,
 } as const;
 
 /** Accepted formats: the content type sent with the attachment and the leading bytes the file must start with. */
@@ -116,31 +127,74 @@ export type CvCheck = {
 /* Messages and result types                                           */
 /* ------------------------------------------------------------------ */
 
-export const applyMessages = {
-  invalidValue: contactMessages.invalidValue,
-  email: contactMessages.email,
-  phone: contactMessages.phone,
-  position: "Lütfen listeden bir pozisyon seçin.",
-  cvRequired: "Lütfen CV dosyanızı ekleyin.",
-  cvType: "CV dosyası PDF, DOC veya DOCX biçiminde olmalıdır.",
-  cvEmpty: "Seçilen dosya boş. Lütfen CV dosyanızı yeniden seçin.",
-  cvSize: `CV dosyası en fazla ${CV_MAX_MB} MB olabilir.`,
-  cvContent: "Dosyanın içeriği PDF, DOC veya DOCX biçimiyle uyuşmuyor. Lütfen CV dosyanızı kontrol edip yeniden seçin.",
-  cvUnreadable: "Seçilen dosya okunamadı. Lütfen CV dosyanızı yeniden seçin.",
-  acknowledged: "Lütfen aydınlatma metnini okuduğunuzu işaretleyin.",
-  checkForm: contactMessages.checkForm,
-  sendFailed: "Başvuru gönderilemedi. Lütfen tekrar deneyin.",
-  unverified:
-    "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya başvurunuzu e-posta ile iletin.",
+export type ApplyMessages = {
+  invalidValue: string;
+  email: string;
+  phone: string;
+  position: string;
+  cvRequired: string;
+  cvType: string;
+  cvEmpty: string;
+  cvSize: string;
+  cvContent: string;
+  cvUnreadable: string;
+  /** Hint under the file input. */
+  cvHint: string;
+  acknowledged: string;
+  checkForm: string;
+  sendFailed: string;
+  unverified: string;
   // Server outcomes (payloadTooLarge is also shown when a proxy in front of the site rejects the upload).
-  success: "Başvurunuz iletildi. İlginiz için teşekkür ederiz.",
-  unsupportedMediaType: contactMessages.unsupportedMediaType,
-  payloadTooLarge: `Gönderilen içerik çok büyük. CV dosyası en fazla ${CV_MAX_MB} MB olabilir.`,
-  badRequest: contactMessages.badRequest,
-  rateLimited: contactMessages.rateLimited,
-  unavailable: `Başvuru formu şu anda kullanılamıyor. Lütfen başvurunuzu ${site.contact.hrEmail} adresine e-posta ile gönderin.`,
-  deliveryFailed: `Başvurunuz şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya ${site.contact.hrEmail} adresine e-posta ile gönderin.`,
-} as const;
+  success: string;
+  unsupportedMediaType: string;
+  payloadTooLarge: string;
+  badRequest: string;
+  rateLimited: string;
+  unavailable: string;
+  deliveryFailed: string;
+  /** Length error of each text field. */
+  length: Record<ApplyFieldName, string>;
+};
+
+/**
+ * Messages in the visitor's language. Pages build them with getT() and pass them to the form (a plain object, so it
+ * can cross into the client component); /api/apply builds them with i18n/translate-for › getTranslateFor.
+ */
+export function applyMessages(t: Translate): ApplyMessages {
+  const shared = contactMessages(t);
+  const mb = CV_MAX_MB;
+  const email = site.contact.hrEmail;
+  return {
+    invalidValue: shared.invalidValue,
+    email: shared.email,
+    phone: shared.phone,
+    position: t("Lütfen listeden bir pozisyon seçin."),
+    cvRequired: t("Lütfen CV dosyanızı ekleyin."),
+    cvType: t("CV dosyası PDF, DOC veya DOCX biçiminde olmalıdır."),
+    cvEmpty: t("Seçilen dosya boş. Lütfen CV dosyanızı yeniden seçin."),
+    cvSize: t("CV dosyası en fazla {mb} MB olabilir.", { mb }),
+    cvContent: t("Dosyanın içeriği PDF, DOC veya DOCX biçimiyle uyuşmuyor. Lütfen CV dosyanızı kontrol edip yeniden seçin."),
+    cvUnreadable: t("Seçilen dosya okunamadı. Lütfen CV dosyanızı yeniden seçin."),
+    cvHint: t("PDF, DOC veya DOCX; en fazla {mb} MB.", { mb }),
+    acknowledged: t("Lütfen aydınlatma metnini okuduğunuzu işaretleyin."),
+    checkForm: shared.checkForm,
+    sendFailed: t("Başvuru gönderilemedi. Lütfen tekrar deneyin."),
+    unverified: t(
+      "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya başvurunuzu e-posta ile iletin.",
+    ),
+    success: t("Başvurunuz iletildi. İlginiz için teşekkür ederiz."),
+    unsupportedMediaType: shared.unsupportedMediaType,
+    payloadTooLarge: t("Gönderilen içerik çok büyük. CV dosyası en fazla {mb} MB olabilir.", { mb }),
+    badRequest: shared.badRequest,
+    rateLimited: shared.rateLimited,
+    unavailable: t("Başvuru formu şu anda kullanılamıyor. Lütfen başvurunuzu {email} adresine e-posta ile gönderin.", { email }),
+    deliveryFailed: t(
+      "Başvurunuz şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya {email} adresine e-posta ile gönderin.",
+      { email },
+    ),
+    length: lengthMessages(t, applyFields),
+  };
+}
 
 export type ApplyErrorKey = ApplyFieldName | "cv" | "acknowledged";
 export type ApplyErrors = Partial<Record<ApplyErrorKey, string>>;
@@ -174,13 +228,13 @@ export function cvFormat(fileName: string): CvFormat | null {
   return extension === "pdf" || extension === "doc" || extension === "docx" ? extension : null;
 }
 
-/** Presence, type and size check of a selected file; returns the Turkish error message or undefined. */
-export function cvFileError(file: { name: string; size: number } | null | undefined): string | undefined {
+/** Presence, type and size check of a selected file; returns the error message or undefined. */
+export function cvFileError(file: { name: string; size: number } | null | undefined, messages: ApplyMessages): string | undefined {
   // A file input left empty still submits an unnamed, empty file.
-  if (!file || (file.name === "" && file.size === 0)) return applyMessages.cvRequired;
-  if (!cvFormat(file.name)) return applyMessages.cvType;
-  if (file.size === 0) return applyMessages.cvEmpty;
-  if (file.size > cvRules.maxBytes) return applyMessages.cvSize;
+  if (!file || (file.name === "" && file.size === 0)) return messages.cvRequired;
+  if (!cvFormat(file.name)) return messages.cvType;
+  if (file.size === 0) return messages.cvEmpty;
+  if (file.size > cvRules.maxBytes) return messages.cvSize;
   return undefined;
 }
 
@@ -209,10 +263,10 @@ export function cvAttachmentName(fileName: string, format: CvFormat): string {
   return `${short || "CV"}.${format}`;
 }
 
-/** "320 KB" / "1,4 MB". */
-export function formatFileSize(bytes: number): string {
+/** "320 KB" / "1,4 MB" (number format of the given language; Turkish by default, as in the staff e-mail). */
+export function formatFileSize(bytes: number, locale: Locale = "tr"): string {
   if (bytes < 1024 * 1024) return `${Math.ceil(bytes / 1024)} KB`;
-  return `${new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 1 }).format(bytes / (1024 * 1024))} MB`;
+  return `${new Intl.NumberFormat(intlLocales[locale], { maximumFractionDigits: 1 }).format(bytes / (1024 * 1024))} MB`;
 }
 
 /* ------------------------------------------------------------------ */
@@ -235,7 +289,7 @@ export function applicationInput(form: FormData): Record<string, unknown> {
  * Validates and sanitises an application. `input` is the object from applicationInput():
  * strings for the text fields, a boolean `acknowledged` and the CV file under `cv`.
  */
-export function validateApplication(input: unknown): ApplyValidationResult {
+export function validateApplication(input: unknown, messages: ApplyMessages): ApplyValidationResult {
   const record = isRecord(input) ? input : {};
   const found: ApplyErrors = {};
   const data: ApplyData = {
@@ -257,19 +311,19 @@ export function validateApplication(input: unknown): ApplyValidationResult {
 
     const wrongType = rawValue !== undefined && typeof rawValue !== "string";
     if (wrongType || hasForbiddenChars(raw, field === "message")) {
-      found[field] = applyMessages.invalidValue;
+      found[field] = messages.invalidValue;
     } else if (value.length < config.min || raw.length > config.max) {
-      found[field] = contactLengthMessage(config);
+      found[field] = messages.length[field];
     }
   }
 
-  if (!isValidEmail(data.email)) found.email = applyMessages.email;
-  if (!isValidPhone(data.phone)) found.phone = applyMessages.phone;
-  if (!isPositionValue(data.position)) found.position = applyMessages.position;
+  if (!isValidEmail(data.email)) found.email = messages.email;
+  if (!isValidPhone(data.phone)) found.phone = messages.phone;
+  if (!isPositionValue(data.position)) found.position = messages.position;
 
   let cv: CvCheck | null = null;
   const file = record.cv;
-  const cvError = isCvFile(file) ? cvFileError(file) : applyMessages.cvRequired;
+  const cvError = isCvFile(file) ? cvFileError(file, messages) : messages.cvRequired;
   if (cvError) {
     found.cv = cvError;
   } else if (isCvFile(file)) {
@@ -277,7 +331,7 @@ export function validateApplication(input: unknown): ApplyValidationResult {
     cv = { file, format, contentType: cvFormats[format].contentType, attachmentName: cvAttachmentName(file.name, format) };
   }
 
-  if (!data.acknowledged) found.acknowledged = applyMessages.acknowledged;
+  if (!data.acknowledged) found.acknowledged = messages.acknowledged;
 
   // Report errors in form order so "focus the first invalid field" follows the layout.
   const errors: ApplyErrors = {};

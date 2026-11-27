@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { productTypePaths } from "./src/data/products";
+import { hiddenSkuPaths, productTypePaths } from "./src/data/products";
 import { mergedPolicyPaths } from "./src/data/quality";
 
 const securityHeaders = [
@@ -12,9 +12,29 @@ const securityHeaders = [
 /** public/images and public/documents are not content-hashed, so 30 days rather than immutable. */
 const staticAssetCache = [{ key: "Cache-Control", value: "public, max-age=2592000" }];
 
+
+type Redirect = { source: string; destination: string; permanent: boolean };
+
+/**
+ * Page redirects also apply to the other languages ("/en/urunler/…"): each page redirect gets a copy with the language
+ * prefix (Turkish has none). File redirects (/images, /icons) are left as they are.
+ */
+function withLanguagePrefixes(redirects: Redirect[]): Redirect[] {
+  const prefixed = redirects
+    .filter((r) => !/^\/(images|icons)\//.test(r.source))
+    .map((r) => ({
+      ...r,
+      source: `/:lang(en|de|ar|ru)${r.source}`,
+      destination: `/:lang${r.destination}`,
+    }));
+  return [...redirects, ...prefixed];
+}
+
 const nextConfig: NextConfig = {
   // Self-contained server bundle for Plesk / Phusion Passenger (startup file: .next/standalone/server.js).
   output: "standalone",
+  // 404 for URLs that match no route at all (the root layout lives under [lang]).
+  experimental: { globalNotFound: true },
   images: {
     formats: ["image/avif", "image/webp"],
   },
@@ -26,7 +46,7 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    return [
+    return withLanguagePrefixes([
       // The corporate section now has sub-pages (Hakkında, Grup Şirketleri, Üretim Tesisleri) like sanifoam.com.tr.
       { source: "/kurumsal", destination: "/kurumsal/hakkinda", permanent: true },
       { source: "/kalite", destination: "/kalite/politikalarimiz", permanent: true },
@@ -35,6 +55,8 @@ const nextConfig: NextConfig = {
       // Product-type pages (/urunler/<category>/<type>) were folded into the shop-style category pages; every product
       // now has its own page /urunler/<category>/<sku>. products.ts guarantees no SKU slug equals a type slug.
       ...productTypePaths.map(({ category, type }) => ({ source: `/urunler/${category}/${type}`, destination: `/urunler/${category}`, permanent: true })),
+      // Products without a photo are not listed (owner decision 2026-11-27); temporary, they may come back.
+      ...hiddenSkuPaths.map(({ category, sku }) => ({ source: `/urunler/${category}/${sku}`, destination: `/urunler/${category}`, permanent: false })),
       // Older product-type pages that no longer exist at all.
       { source: "/urunler/ovucu-materyaller/naturel-kece", destination: "/urunler/dogal-urunler", permanent: true },
       { source: "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)", destination: "/urunler/ozel-formlu-sungerler", permanent: true },
@@ -70,7 +92,7 @@ const nextConfig: NextConfig = {
       { source: "/images/products/category-sponges{-2026}?.webp", destination: "/images/products/kategori-temizlik-sungerleri-foto.webp", permanent: true },
       { source: "/images/products/category-scourers{-2026}?.webp", destination: "/images/products/kategori-ovucu-materyaller-foto.webp", permanent: true },
       { source: "/images/products/category-specialty{-2026}?.webp", destination: "/images/products/kategori-ozel-formlu-sungerler-foto.webp", permanent: true },
-    ];
+    ]);
   },
 };
 

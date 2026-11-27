@@ -2,8 +2,10 @@ type LegalNoticeStatus = {
   path: string;
   /** Draft: shows the "Taslak ön izleme" banner, sets noindex/nofollow and keeps the page out of the sitemap. */
   draft: boolean;
+  /** Version number; while `draft` is true the page shows it as "Ön İzleme <version>". */
   version: string;
-  updated: { iso: string; label: string };
+  /** ISO date of the last update (formatted in the page language). */
+  updated: string;
 };
 
 /**
@@ -14,6 +16,6 @@ type LegalNoticeStatus = {
 export const kvkkNotice: LegalNoticeStatus = {
   path: "/kvkk-aydinlatma-metni",
   draft: true,
-  version: "Ön İzleme 1.0",
-  updated: { iso: "2026-09-06", label: "6 Eylül 2026" },
+  version: "1.0",
+  updated: "2026-09-06",
 };

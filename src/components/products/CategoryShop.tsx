@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { cx, focusStyle } from "@/components/ui/styles";
+import { useT } from "@/i18n/client";
 
 export type ShopGroup = { slug: string; name: string; count: number };
 export type ShopItem = { key: string; group: string; node: ReactNode };
@@ -23,6 +24,7 @@ export function CategoryShop({
   /** SKU slug → product page for SKUs of other categories: old "#<sku>" links whose product moved category. */
   elsewhere: Record<string, string>;
 }) {
+  const t = useT();
   const [active, setActive] = useState<string | null>(null);
   const router = useRouter();
 
@@ -32,12 +34,12 @@ export function CategoryShop({
   }, [elsewhere, router]);
   const statusId = useId();
   const visible = active ? items.filter((i) => i.group === active) : items;
-  const chips: { slug: string | null; name: string; count: number }[] = [{ slug: null, name: "Tümü", count: items.length }, ...groups];
+  const chips: { slug: string | null; name: string; count: number }[] = [{ slug: null, name: t("Tümü"), count: items.length }, ...groups];
 
   return (
     <div>
       {groups.length > 1 ? (
-        <div role="group" aria-label={`${label}: ürün grubuna göre süz`} aria-describedby={statusId} className="flex flex-wrap gap-2">
+        <div role="group" aria-label={t("{label}: ürün grubuna göre süz", { label })} aria-describedby={statusId} className="flex flex-wrap gap-2">
           {chips.map((chip) => {
             const selected = chip.slug === active;
             return (
@@ -62,7 +64,7 @@ export function CategoryShop({
         </div>
       ) : null}
       <p id={statusId} role="status" className="mt-5 text-sm font-semibold tabular-nums text-muted-foreground">
-        {visible.length} ürün listeleniyor
+        {t("{count} ürün listeleniyor", { count: visible.length })}
         {active ? ` — ${groups.find((g) => g.slug === active)?.name}` : ""}
       </p>
       <ul className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:gap-5 xl:grid-cols-4">

@@ -1,6 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/Link";
+import { stripLocale } from "@/i18n/config";
+import { useT } from "@/i18n/client";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type FocusEvent, type KeyboardEvent } from "react";
 import type { NavEntry } from "@/lib/navigation";
@@ -10,7 +12,7 @@ type Variant = "desktop" | "mobile" | "footer";
 
 /** aria-current for a nav href: "page" on the exact route, "location" on an ancestor or matching hash. */
 function useCurrent() {
-  const pathname = usePathname();
+  const pathname = stripLocale(usePathname()).path;
   const [hash, setHash] = useState("");
 
   useEffect(() => {
@@ -40,9 +42,9 @@ const linkClass: Record<Variant, string> = {
 };
 
 const submenuClass: Record<Variant, string> = {
-  desktop: "absolute top-full left-0 z-50 min-w-64 border-t-2 border-primary bg-surface p-2 text-foreground shadow-sm",
-  mobile: "mb-3 ml-10 border-l border-primary-foreground/25 pl-5",
-  footer: "ml-4 border-l border-primary-foreground/20 pl-4",
+  desktop: "absolute top-full start-0 z-50 min-w-64 border-t-2 border-primary bg-surface p-2 text-foreground shadow-sm",
+  mobile: "mb-3 ms-10 border-s border-primary-foreground/25 ps-5",
+  footer: "ms-4 border-s border-primary-foreground/20 ps-4",
 };
 
 const submenuLinkClass: Record<Variant, string> = {
@@ -54,6 +56,7 @@ const submenuLinkClass: Record<Variant, string> = {
 export function NavigationLinks({ items, variant }: { items: NavEntry[]; variant: Variant }) {
   const current = useCurrent();
   const pathname = usePathname();
+  const t = useT();
   // The open submenu is remembered together with the path it was opened on, so navigating closes it.
   const [menu, setMenu] = useState<{ id: string | null; path: string }>({ id: null, path: pathname });
   const openId = menu.path === pathname ? menu.id : null;
@@ -118,19 +121,19 @@ export function NavigationLinks({ items, variant }: { items: NavEntry[]; variant
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 ) : null}
-                <span className="transition-transform duration-200 group-hover/nav:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none">
+                <span className="transition-transform duration-200 group-hover/nav:translate-x-0.5 rtl:group-hover/nav:-translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none">
                   {item.label}
                 </span>
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 bottom-1 h-0.5 origin-left scale-x-0 bg-primary transition-transform duration-200 group-hover/nav:scale-x-100 group-aria-[current=page]/nav:scale-x-100 group-aria-[current=location]/nav:scale-x-100 motion-reduce:transition-none"
+                  className="absolute inset-x-0 bottom-1 h-0.5 origin-left rtl:origin-right scale-x-0 bg-primary transition-transform duration-200 group-hover/nav:scale-x-100 group-aria-[current=page]/nav:scale-x-100 group-aria-[current=location]/nav:scale-x-100 motion-reduce:transition-none"
                 />
               </Link>
               {children && interactive ? (
                 <button
                   ref={variant === "desktop" ? toggleRef : undefined}
                   type="button"
-                  aria-label={`${item.label} alt menüsünü ${open ? "kapat" : "aç"}`}
+                  aria-label={open ? t("{label} alt menüsünü kapat", { label: item.label }) : t("{label} alt menüsünü aç", { label: item.label })}
                   aria-expanded={open}
                   aria-controls={submenuId}
                   onClick={() => setOpenId(open ? null : item.id)}

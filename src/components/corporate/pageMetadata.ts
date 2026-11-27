@@ -1,43 +1,24 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/i18n/metadata";
 
 export type PageImage = { src: string; alt: string; width: number; height: number };
 
 type CorporateMetadataInput = {
-  /** Page title without the " | Saniteks" suffix (the root layout template adds it). */
+  /** Already translated page title without the " | Saniteks" suffix (the root layout template adds it). */
   title: string;
+  /** Already translated description. */
   description: string;
-  /** Path of the page, e.g. "/kurumsal". */
+  /** Path of the page without language prefix, e.g. "/kurumsal/hakkinda". */
   path: string;
-  /** Share image — the page hero, as on the live site. */
+  /** Share image — the page hero, as on the live site (alt already translated). */
   image: PageImage;
 };
 
 /**
- * Metadata for the corporate pages. Open Graph / Twitter objects replace the root layout's
- * (Next merges them shallowly), so the shared fields are repeated here.
+ * Metadata for the corporate pages in the current language: a thin wrapper around i18n/metadata › pageMetadata
+ * (canonical + hreflang alternates, Open Graph, Twitter) that takes the hero image in its { src, alt, … } form.
+ * Use it from generateMetadata(): `return corporateMetadata({ title: t("…"), … })`.
  */
-export function corporateMetadata({ title, description, path, image }: CorporateMetadataInput): Metadata {
-  const fullTitle = `${title} | ${site.name}`;
-  const images = [{ url: image.src, width: image.width, height: image.height, alt: image.alt }];
-  return {
-    title,
-    description,
-    alternates: { canonical: path },
-    openGraph: {
-      type: "website",
-      siteName: site.name,
-      locale: site.locale,
-      title: fullTitle,
-      description,
-      url: path,
-      images,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: fullTitle,
-      description,
-      images,
-    },
-  };
+export async function corporateMetadata({ title, description, path, image }: CorporateMetadataInput): Promise<Metadata> {
+  return pageMetadata({ title, description, path, image: { url: image.src, alt: image.alt, width: image.width, height: image.height } });
 }

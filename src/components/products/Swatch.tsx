@@ -1,4 +1,5 @@
 import type { ColorOption, ColorOptionGroup, SpecMatrix } from "@/data/products";
+import { getT } from "@/i18n/server";
 
 /** Round colour chip. The border keeps white swatches visible; colour comes from catalogue data. */
 export function Swatch({ color, size = "md" }: { color: ColorOption; size?: "sm" | "md" }) {
@@ -28,19 +29,20 @@ export function ColorOptionList({ group }: { group: ColorOptionGroup }) {
   );
 }
 
-/** Grammage × colour availability table (raw materials). */
-export function SpecMatrixTable({ matrix }: { matrix: SpecMatrix }) {
+/** Grammage × colour availability table (raw materials; `matrix` already localized). */
+export async function SpecMatrixTable({ matrix }: { matrix: SpecMatrix }) {
+  const t = await getT();
   return (
     <div className="mt-9 overflow-hidden rounded-sm border border-border bg-surface">
-      <table className="w-full border-collapse text-left text-sm">
+      <table className="w-full border-collapse text-start text-sm">
         <caption className="sr-only">{matrix.title}</caption>
         <thead className="bg-surface-strong">
           <tr>
             <th scope="col" className="w-36 px-4 py-3 font-semibold">
-              Gramaj
+              {t("Gramaj")}
             </th>
             <th scope="col" className="px-4 py-3 font-semibold">
-              Renk seçenekleri
+              {t("Renk seçenekleri")}
             </th>
           </tr>
         </thead>
