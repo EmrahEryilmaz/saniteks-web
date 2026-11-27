@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/insan-kaynaklari/layout,_N_T_/[lang]/insan-kaynaklari/page,_N_T_/ru/insan-kaynaklari"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/insan-kaynaklari/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/a29e84b2e530981c169c637ed5916768b3c61f3297bc62b9758815604ee14fbd/$/ru/insan-kaynaklari",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/insan-kaynaklari/page"
+    },
+    "isFallback": false
+  }
+}

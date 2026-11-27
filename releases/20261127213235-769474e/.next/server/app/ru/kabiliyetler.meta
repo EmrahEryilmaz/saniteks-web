@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/kabiliyetler/layout,_N_T_/[lang]/kabiliyetler/page,_N_T_/ru/kabiliyetler"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/kabiliyetler/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/981e9a8618ace41d433a38b6036e79008289f567988e5e65be35224877d8eea4/$/ru/kabiliyetler",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/kabiliyetler/page"
+    },
+    "isFallback": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/urunler/layout,_N_T_/[lang]/urunler/page,_N_T_/tr/urunler"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/urunler/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/c72779a1a910ce158a7b2ebcea0b716bad03ac257b80817f7420e56d16275a8e/$/tr/urunler",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/urunler/page"
+    },
+    "isFallback": false
+  }
+}

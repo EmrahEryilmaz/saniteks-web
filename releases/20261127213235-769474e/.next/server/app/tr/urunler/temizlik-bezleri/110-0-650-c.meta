@@ -1,0 +1,50 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/urunler/layout,_N_T_/[lang]/urunler/[kategori]/layout,_N_T_/[lang]/urunler/[kategori]/[urun]/layout,_N_T_/[lang]/urunler/[kategori]/[urun]/page,_N_T_/tr/urunler/temizlik-bezleri/110-0-650-c"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/urunler/$d$kategori/$d$urun/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 96,
+                    "slots": {
+                      "children": {
+                        "hints": 160,
+                        "slots": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/0c9e8494aec3b4d4dd83885ded3400b0b71876ee3d22cfe406ab1f321dc93143/$/tr/urunler/temizlik-bezleri/110-0-650-c",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/urunler/[kategori]/[urun]/page"
+    },
+    "isFallback": false
+  }
+}

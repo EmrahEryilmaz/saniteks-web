@@ -1,0 +1,45 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/urunler/layout,_N_T_/[lang]/urunler/ozel-marka-uretimi/layout,_N_T_/[lang]/urunler/ozel-marka-uretimi/page,_N_T_/ru/urunler/ozel-marka-uretimi"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/urunler/ozel-marka-uretimi/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/96fb78209d1a77b3ef101358d236e6067f5d2582627f91c9d2754c795738f1d9/$/ru/urunler/ozel-marka-uretimi",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/urunler/ozel-marka-uretimi/page"
+    },
+    "isFallback": false
+  }
+}

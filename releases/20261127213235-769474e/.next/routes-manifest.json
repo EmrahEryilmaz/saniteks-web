@@ -1,0 +1,825 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/kurumsal",
+      "destination": "/kurumsal/hakkinda",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/kurumsal(?:/)?$"
+    },
+    {
+      "source": "/kalite",
+      "destination": "/kalite/politikalarimiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/kalite(?:/)?$"
+    },
+    {
+      "source": "/kalite/kalite-politikamiz",
+      "destination": "/kalite/politikalarimiz#kalite-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/kalite/kalite-politikamiz(?:/)?$"
+    },
+    {
+      "source": "/kalite/cevre-politikamiz",
+      "destination": "/kalite/politikalarimiz#cevre-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/kalite/cevre-politikamiz(?:/)?$"
+    },
+    {
+      "source": "/kalite/isg-politikasi",
+      "destination": "/kalite/politikalarimiz#isg-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/kalite/isg-politikasi(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-sungerleri/klasik-temizlik-sungeri",
+      "destination": "/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-sungerleri/klasik-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri",
+      "destination": "/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri",
+      "destination": "/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-sungerleri/endustriyel-temizlik-sungeri",
+      "destination": "/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-sungerleri/endustriyel-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-bezleri/cok-amacli-temizlik-bezi",
+      "destination": "/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-bezleri/cok-amacli-temizlik-bezi(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-bezleri/rulo-temizlik-bezi",
+      "destination": "/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-bezleri/rulo-temizlik-bezi(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-bezleri/cam-ve-mikrofiber-bez",
+      "destination": "/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-bezleri/cam-ve-mikrofiber-bez(?:/)?$"
+    },
+    {
+      "source": "/urunler/temizlik-bezleri/yer-bezi",
+      "destination": "/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/temizlik-bezleri/yer-bezi(?:/)?$"
+    },
+    {
+      "source": "/urunler/ovucu-materyaller/ovucu-kece",
+      "destination": "/urunler/ovucu-materyaller",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ovucu-materyaller/ovucu-kece(?:/)?$"
+    },
+    {
+      "source": "/urunler/ovucu-materyaller/ovma-teli",
+      "destination": "/urunler/ovucu-materyaller",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ovucu-materyaller/ovma-teli(?:/)?$"
+    },
+    {
+      "source": "/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri",
+      "destination": "/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/urunler/ozel-formlu-sungerler/oto-sungerleri",
+      "destination": "/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ozel-formlu-sungerler/oto-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari",
+      "destination": "/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari(?:/)?$"
+    },
+    {
+      "source": "/urunler/dogal-urunler/dogal-bulasik-sungerleri",
+      "destination": "/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/dogal-urunler/dogal-bulasik-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/urunler/dogal-urunler/selulozik-banyo-ve-bakim",
+      "destination": "/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/dogal-urunler/selulozik-banyo-ve-bakim(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/rulo-ve-plaka-kece",
+      "destination": "/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/hammadde/rulo-ve-plaka-kece(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/rulo-non-woven-bez",
+      "destination": "/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/hammadde/rulo-non-woven-bez(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/tabaka-hammadde",
+      "destination": "/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/hammadde/tabaka-hammadde(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/dokme-urunler",
+      "destination": "/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/hammadde/dokme-urunler(?:/)?$"
+    },
+    {
+      "source": "/urunler/dogal-urunler/103-0-508",
+      "destination": "/urunler/dogal-urunler",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/dogal-urunler/103-0-508(?:/)?$"
+    },
+    {
+      "source": "/urunler/dogal-urunler/103-0-510",
+      "destination": "/urunler/dogal-urunler",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/dogal-urunler/103-0-510(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/bulasik-altligi-rulosu",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/bulasik-altligi-rulosu(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/103-0-505",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/103-0-505(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/103-0-513",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/103-0-513(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/103-0-512",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/103-0-512(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/103-0-514",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/103-0-514(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/111-0-999",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/111-0-999(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/113-0-904",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/113-0-904(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/130-0-068",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/130-0-068(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/130-0-804",
+      "destination": "/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)/urunler/hammadde/130-0-804(?:/)?$"
+    },
+    {
+      "source": "/urunler/ovucu-materyaller/naturel-kece",
+      "destination": "/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ovucu-materyaller/naturel-kece(?:/)?$"
+    },
+    {
+      "source": "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)",
+      "destination": "/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ozel-formlu-sungerler(?:/(oval-formlu-sunger|kavrama-formlu-sunger))(?:/)?$"
+    },
+    {
+      "source": "/urunler/ozel-formlu-sungerler/sihirli-sunger",
+      "destination": "/urunler/ozel-formlu-sungerler/106-0-202-24",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/ozel-formlu-sungerler/sihirli-sunger(?:/)?$"
+    },
+    {
+      "source": "/urunler/hammadde/rulo-hammadde",
+      "destination": "/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/urunler/hammadde/rulo-hammadde(?:/)?$"
+    },
+    {
+      "source": "/images/logo/logo.png",
+      "destination": "/images/logo/saniteks-logo.png",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/logo/logo\\.png(?:/)?$"
+    },
+    {
+      "source": "/icons/icon-192.png",
+      "destination": "/images/icons/saniteks-icon-192.png",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/icons/icon-192\\.png(?:/)?$"
+    },
+    {
+      "source": "/icons/icon-512.png",
+      "destination": "/images/icons/saniteks-icon-512.png",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/icons/icon-512\\.png(?:/)?$"
+    },
+    {
+      "source": "/icons/apple-icon.png",
+      "destination": "/images/icons/saniteks-apple-icon.png",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/icons/apple-icon\\.png(?:/)?$"
+    },
+    {
+      "source": "/icons/:file(saniteks-.*\\.png)",
+      "destination": "/images/icons/:file",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/icons(?:/(saniteks-.*\\.png))(?:/)?$"
+    },
+    {
+      "source": "/images/catalog/:slug(100-0-350-30|100-0-400-16|100-0-600-c|100-0-800-120t|100-0-850-60t|100-0-876-60t|101-0-302-72|101-0-303-36|101-0-304-36|101-0-350-40|101-0-376-24|101-0-410-30|101-0-750-48|101-0-800-66t|101-0-850-36t|102-0-090-16|102-0-101-16|102-0-102-16|102-0-600-60|103-0-003-20|103-0-200-40|103-0-302-45|104-0-102-80t|104-0-103-100|104-0-104-90|105-0-105-168t|105-0-204-168t|106-0-001-36|106-0-020-50|106-0-202-24|106-0-500-18|110-0-001-20|110-0-002-20|110-0-050-20|110-0-201-20|110-0-650-c|110-0-663-c|110-0-840-12|110-0-841-12|110-0-842-12|113-0-001-48|114-0-001-50|114-0-003-50|114-0-100-50|116-0-005-50|125-0-105-100|125-0-114-120|125-0-115-80|125-0-502-90|230-0-975){-2026}?.webp",
+      "destination": "/images/urunler/:slug-1.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/catalog(?:/(100-0-350-30|100-0-400-16|100-0-600-c|100-0-800-120t|100-0-850-60t|100-0-876-60t|101-0-302-72|101-0-303-36|101-0-304-36|101-0-350-40|101-0-376-24|101-0-410-30|101-0-750-48|101-0-800-66t|101-0-850-36t|102-0-090-16|102-0-101-16|102-0-102-16|102-0-600-60|103-0-003-20|103-0-200-40|103-0-302-45|104-0-102-80t|104-0-103-100|104-0-104-90|105-0-105-168t|105-0-204-168t|106-0-001-36|106-0-020-50|106-0-202-24|106-0-500-18|110-0-001-20|110-0-002-20|110-0-050-20|110-0-201-20|110-0-650-c|110-0-663-c|110-0-840-12|110-0-841-12|110-0-842-12|113-0-001-48|114-0-001-50|114-0-003-50|114-0-100-50|116-0-005-50|125-0-105-100|125-0-114-120|125-0-115-80|125-0-502-90|230-0-975))(?:-2026)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/catalog/rulo-kece.webp",
+      "destination": "/images/products/hammadde/ovucu-kece-rulo.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/catalog/rulo-kece\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/catalog/rulo-temizlik-bezi-20-80.webp",
+      "destination": "/images/products/hammadde/non-woven-bez-rulo.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/catalog/rulo-temizlik-bezi-20-80\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/catalog/super-tekli-duz.webp",
+      "destination": "/images/urunler/101-0-001-50-1.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/catalog/super-tekli-duz\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/catalog/super-tekli-oluklu{-2026}?.webp",
+      "destination": "/images/urunler/100-0-125-40-1.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/catalog/super-tekli-oluklu(?:-2026)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/products/kategori-:slug(temizlik-sungerleri|temizlik-bezleri|ovucu-materyaller|ozel-formlu-sungerler|dogal-urunler){-sayfa}?.webp",
+      "destination": "/images/products/kategori-:slug-foto.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/products/kategori-(temizlik-sungerleri|temizlik-bezleri|ovucu-materyaller|ozel-formlu-sungerler|dogal-urunler)(?:-sayfa)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/products/hammadde/rulo-nonwoven-kece-4x3.webp",
+      "destination": "/images/products/kategori-plaka-ve-rulo-urunler-foto.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/products/hammadde/rulo-nonwoven-kece-4x3\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/sustainability/sanifoam-pet-donusum.webp",
+      "destination": "/images/sustainability/sanifoam-pet-donusum-acik.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/sustainability/sanifoam-pet-donusum\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/products/category-sponges{-2026}?.webp",
+      "destination": "/images/products/kategori-temizlik-sungerleri-foto.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/products/category-sponges(?:-2026)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/products/category-scourers{-2026}?.webp",
+      "destination": "/images/products/kategori-ovucu-materyaller-foto.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/products/category-scourers(?:-2026)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/images/products/category-specialty{-2026}?.webp",
+      "destination": "/images/products/kategori-ozel-formlu-sungerler-foto.webp",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/images/products/category-specialty(?:-2026)?\\.webp(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/kurumsal",
+      "destination": "/:lang/kurumsal/hakkinda",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/kurumsal(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/kalite",
+      "destination": "/:lang/kalite/politikalarimiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/kalite(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/kalite/kalite-politikamiz",
+      "destination": "/:lang/kalite/politikalarimiz#kalite-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/kalite/kalite-politikamiz(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/kalite/cevre-politikamiz",
+      "destination": "/:lang/kalite/politikalarimiz#cevre-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/kalite/cevre-politikamiz(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/kalite/isg-politikasi",
+      "destination": "/:lang/kalite/politikalarimiz#isg-politikamiz",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/kalite/isg-politikasi(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-sungerleri/klasik-temizlik-sungeri",
+      "destination": "/:lang/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-sungerleri/klasik-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri",
+      "destination": "/:lang/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-sungerleri/oluklu-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri",
+      "destination": "/:lang/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-sungerleri/ozel-bulasik-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-sungerleri/endustriyel-temizlik-sungeri",
+      "destination": "/:lang/urunler/temizlik-sungerleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-sungerleri/endustriyel-temizlik-sungeri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-bezleri/cok-amacli-temizlik-bezi",
+      "destination": "/:lang/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-bezleri/cok-amacli-temizlik-bezi(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-bezleri/rulo-temizlik-bezi",
+      "destination": "/:lang/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-bezleri/rulo-temizlik-bezi(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-bezleri/cam-ve-mikrofiber-bez",
+      "destination": "/:lang/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-bezleri/cam-ve-mikrofiber-bez(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/temizlik-bezleri/yer-bezi",
+      "destination": "/:lang/urunler/temizlik-bezleri",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/temizlik-bezleri/yer-bezi(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ovucu-materyaller/ovucu-kece",
+      "destination": "/:lang/urunler/ovucu-materyaller",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ovucu-materyaller/ovucu-kece(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ovucu-materyaller/ovma-teli",
+      "destination": "/:lang/urunler/ovucu-materyaller",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ovucu-materyaller/ovma-teli(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri",
+      "destination": "/:lang/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ozel-formlu-sungerler/banyo-ve-bakim-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ozel-formlu-sungerler/oto-sungerleri",
+      "destination": "/:lang/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ozel-formlu-sungerler/oto-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari",
+      "destination": "/:lang/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ozel-formlu-sungerler/ev-ve-mutfak-yardimcilari(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/dogal-urunler/dogal-bulasik-sungerleri",
+      "destination": "/:lang/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/dogal-urunler/dogal-bulasik-sungerleri(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/dogal-urunler/selulozik-banyo-ve-bakim",
+      "destination": "/:lang/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/dogal-urunler/selulozik-banyo-ve-bakim(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/rulo-ve-plaka-kece",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/rulo-ve-plaka-kece(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/rulo-non-woven-bez",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/rulo-non-woven-bez(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/tabaka-hammadde",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/tabaka-hammadde(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/dokme-urunler",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/dokme-urunler(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/dogal-urunler/103-0-508",
+      "destination": "/:lang/urunler/dogal-urunler",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/dogal-urunler/103-0-508(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/dogal-urunler/103-0-510",
+      "destination": "/:lang/urunler/dogal-urunler",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/dogal-urunler/103-0-510(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/bulasik-altligi-rulosu",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/bulasik-altligi-rulosu(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/103-0-505",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/103-0-505(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/103-0-513",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/103-0-513(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/103-0-512",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/103-0-512(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/103-0-514",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/103-0-514(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/111-0-999",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/111-0-999(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/113-0-904",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/113-0-904(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/130-0-068",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/130-0-068(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/130-0-804",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 307,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/130-0-804(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ovucu-materyaller/naturel-kece",
+      "destination": "/:lang/urunler/dogal-urunler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ovucu-materyaller/naturel-kece(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)",
+      "destination": "/:lang/urunler/ozel-formlu-sungerler",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ozel-formlu-sungerler(?:/(oval-formlu-sunger|kavrama-formlu-sunger))(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/ozel-formlu-sungerler/sihirli-sunger",
+      "destination": "/:lang/urunler/ozel-formlu-sungerler/106-0-202-24",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/ozel-formlu-sungerler/sihirli-sunger(?:/)?$"
+    },
+    {
+      "source": "/:lang(en|de|ar|ru)/urunler/hammadde/rulo-hammadde",
+      "destination": "/:lang/urunler/hammadde",
+      "statusCode": 308,
+      "regex": "^(?!/_next)(?:/(en|de|ar|ru))/urunler/hammadde/rulo-hammadde(?:/)?$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path*",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    },
+    {
+      "source": "/images/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ],
+      "regex": "^/images(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    },
+    {
+      "source": "/documents/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ],
+      "regex": "^/documents(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:/)?$"
+    }
+  ],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/[lang]",
+      "regex": "^/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[lang]/iletisim",
+      "regex": "^/([^/]+?)/iletisim(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/iletisim(?:/)?$"
+    },
+    {
+      "page": "/[lang]/insan-kaynaklari",
+      "regex": "^/([^/]+?)/insan\\-kaynaklari(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/insan\\-kaynaklari(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kabiliyetler",
+      "regex": "^/([^/]+?)/kabiliyetler(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kabiliyetler(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kalite/[slug]",
+      "regex": "^/([^/]+?)/kalite/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang",
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kalite/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kataloglar",
+      "regex": "^/([^/]+?)/kataloglar(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kataloglar(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kurumsal/grup-sirketleri",
+      "regex": "^/([^/]+?)/kurumsal/grup\\-sirketleri(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kurumsal/grup\\-sirketleri(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kurumsal/hakkinda",
+      "regex": "^/([^/]+?)/kurumsal/hakkinda(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kurumsal/hakkinda(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kurumsal/uretim-tesisleri",
+      "regex": "^/([^/]+?)/kurumsal/uretim\\-tesisleri(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kurumsal/uretim\\-tesisleri(?:/)?$"
+    },
+    {
+      "page": "/[lang]/kvkk-aydinlatma-metni",
+      "regex": "^/([^/]+?)/kvkk\\-aydinlatma\\-metni(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/kvkk\\-aydinlatma\\-metni(?:/)?$"
+    },
+    {
+      "page": "/[lang]/surdurulebilirlik",
+      "regex": "^/([^/]+?)/surdurulebilirlik(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/surdurulebilirlik(?:/)?$"
+    },
+    {
+      "page": "/[lang]/urunler",
+      "regex": "^/([^/]+?)/urunler(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/urunler(?:/)?$"
+    },
+    {
+      "page": "/[lang]/urunler/ozel-marka-uretimi",
+      "regex": "^/([^/]+?)/urunler/ozel\\-marka\\-uretimi(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/urunler/ozel\\-marka\\-uretimi(?:/)?$"
+    },
+    {
+      "page": "/[lang]/urunler/[kategori]",
+      "regex": "^/([^/]+?)/urunler/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang",
+        "nxtPkategori": "nxtPkategori"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/urunler/(?<nxtPkategori>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/[lang]/urunler/[kategori]/[urun]",
+      "regex": "^/([^/]+?)/urunler/([^/]+?)/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPlang": "nxtPlang",
+        "nxtPkategori": "nxtPkategori",
+        "nxtPurun": "nxtPurun"
+      },
+      "namedRegex": "^/(?<nxtPlang>[^/]+?)/urunler/(?<nxtPkategori>[^/]+?)/(?<nxtPurun>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/api/apply",
+      "regex": "^/api/apply(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/apply(?:/)?$"
+    },
+    {
+      "page": "/api/contact",
+      "regex": "^/api/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/manifest.webmanifest",
+      "regex": "^/manifest\\.webmanifest(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/manifest\\.webmanifest(?:/)?$"
+    },
+    {
+      "page": "/robots.txt",
+      "regex": "^/robots\\.txt(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/robots\\.txt(?:/)?$"
+    },
+    {
+      "page": "/sitemap.xml",
+      "regex": "^/sitemap\\.xml(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/sitemap\\.xml(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/kurumsal/layout,_N_T_/[lang]/kurumsal/grup-sirketleri/layout,_N_T_/[lang]/kurumsal/grup-sirketleri/page,_N_T_/tr/kurumsal/grup-sirketleri"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/kurumsal/grup-sirketleri/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 96,
+                "slots": {
+                  "children": {
+                    "hints": 160,
+                    "slots": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/95e590a04eefaabed07690a8d9b8b1816cefdf1590ee11794ea45dc6486c65b8/$/tr/kurumsal/grup-sirketleri",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/kurumsal/grup-sirketleri/page"
+    },
+    "isFallback": false
+  }
+}

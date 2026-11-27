@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/iletisim/layout,_N_T_/[lang]/iletisim/page,_N_T_/tr/iletisim"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/iletisim/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/a71f0981d44c29d19c1e190e7a8d5cc40778a44c1a500c12b1414391ab6dbe01/$/tr/iletisim",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/iletisim/page"
+    },
+    "isFallback": false
+  }
+}

@@ -1,0 +1,27 @@
+1:"$Sreact.fragment"
+5:"/_next/static/chunks/3qfy96eoyh-ek.js"
+6:I[39756,["$5"],"default"]
+7:I[37457,["$5"],"default"]
+b:I[97367,["$5"],"OutletBoundary"]
+c:"$Sreact.suspense"
+f:"ViewportBoundary"
+10:I[97367,["$5"],"$f"]
+11:"MetadataBoundary"
+12:I[97367,["$5"],"$11"]
+13:I[27201,["$5"],"IconMark"]
+:HL["/_next/static/chunks/01a3svzxpevll.css","style"]
+3:X
+9:X
+9:C
+a:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[null,null,["$","$Lb",null,{"children":["$","$c",null,{"name":"Next.MetadataOutlet","children":"$@d"}]}]]}],"p":"$@e","v":null,"s":"$3"}}]]
+4:[["children",{"s":"/_not-found","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L6",null,{"parallelRouterKey":"children","template":["$","$L7",null,{}]}]]}],"p":"$@8","v":"$9","s":"$3"},"c":"$Qa"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/01a3svzxpevll.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/3qfy96eoyh-ek.js","async":true}]],["$","html",null,{"lang":"tr","className":"h-full antialiased","children":["$","body",null,{"className":"flex min-h-full flex-col bg-background font-sans text-foreground","children":["$","main",null,{"id":"main-content","className":"min-w-0 flex-1","children":["$","section",null,{"aria-labelledby":"page-title","className":"border-b-4 border-primary bg-surface-strong","children":["$","div",null,{"className":"mx-auto w-full max-w-[1440px] px-5 md:px-10 lg:px-16 py-16 md:py-24","children":[["$","p",null,{"className":"mb-5 border-s-2 border-primary ps-4 text-xs font-semibold tracking-widest text-link","children":"404"}],["$","h1",null,{"id":"page-title","className":"text-4xl leading-tight font-semibold tracking-[-0.025em] md:text-5xl","children":"Sayfa bulunamadı."}],["$","p",null,{"lang":"en","className":"mt-2 text-2xl font-semibold text-muted-foreground","children":"Page not found."}],["$","p",null,{"className":"mt-6 max-w-lg text-base leading-7 text-muted-foreground","children":"Aradığınız sayfa taşınmış, kaldırılmış ya da adresi hatalı yazılmış olabilir."}],["$","p",null,{"lang":"en","className":"mt-2 max-w-lg text-base leading-7 text-muted-foreground","children":"The page may have moved, been removed, or the address may be mistyped."}],["$","div",null,{"className":"mt-8 flex flex-wrap gap-4","children":[["$","a",null,{"className":"group/action inline-flex min-h-12 max-w-full items-center justify-between gap-5 rounded-sm bg-primary px-6 py-3 text-[19px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover active:bg-primary-active motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus-ring","href":"/","children":"Ana Sayfa"}],["$","a",null,{"lang":"en","className":"group/action inline-flex min-h-12 max-w-full items-center justify-between gap-5 rounded-sm bg-primary px-6 py-3 text-[19px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover active:bg-primary-active motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus-ring","href":"/en","children":"Home"}]]}]]}]}]}]}]}]]}],"p":"$@2","v":null,"s":"$3"},"c":"$Q4"},"h":{"r":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L10",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L12",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$c",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Sayfa bulunamadı · Page not found | Saniteks"}],["$","meta","1",{"name":"description","content":"Aradığınız sayfa bulunamadı. The page you are looking for does not exist."}],["$","link","2",{"rel":"manifest","href":"/manifest.webmanifest"}],["$","link","3",{"rel":"icon","href":"/favicon.ico?favicon.3-nfx1rnoyh1a.ico","sizes":"48x48","type":"image/x-icon"}],["$","$L13","4",{}]]}]}],null]}],null]}],"p":"$@14","v":null,"s":"$3"}},"a":"$@15","u":"$@16","b":"Jqs3fqAyFDVlWaXj0nHbb"}
+d:null
+3:300
+16:true
+3:C
+15:0
+8:"$undefined"
+2:"$undefined"
+14:"$undefined"
+e:"$undefined"

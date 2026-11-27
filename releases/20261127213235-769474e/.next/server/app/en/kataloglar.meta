@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/kataloglar/layout,_N_T_/[lang]/kataloglar/page,_N_T_/en/kataloglar"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/kataloglar/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/1f2e74551466efc56d9b104891adc3ce05cefc7e06fccd61d50791fe044e95bf/$/en/kataloglar",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/kataloglar/page"
+    },
+    "isFallback": false
+  }
+}

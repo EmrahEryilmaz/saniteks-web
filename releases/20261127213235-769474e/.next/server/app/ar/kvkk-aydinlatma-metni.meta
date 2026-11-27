@@ -1,0 +1,40 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/[lang]/layout,_N_T_/[lang]/kvkk-aydinlatma-metni/layout,_N_T_/[lang]/kvkk-aydinlatma-metni/page,_N_T_/ar/kvkk-aydinlatma-metni"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/$d$lang",
+    "/$d$lang/kvkk-aydinlatma-metni/__PAGE__"
+  ],
+  "prefetchHints": {
+    "hints": 64,
+    "slots": {
+      "children": {
+        "hints": 32,
+        "slots": {
+          "children": {
+            "hints": 64,
+            "slots": {
+              "children": {
+                "hints": 160,
+                "slots": null
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "routeCache": {
+    "key": "/route-cache/APP_PAGE/45fd2913ac58ccadede60dfe4914970e80a3439213a986e10f32351f21a1f6e1/$/ar/kvkk-aydinlatma-metni",
+    "owner": {
+      "kind": "APP_PAGE",
+      "sourceRoute": "/[lang]/kvkk-aydinlatma-metni/page"
+    },
+    "isFallback": false
+  }
+}
