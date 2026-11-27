@@ -94,7 +94,7 @@ export default async function SkuPage({ params }: Props) {
               <h1 id="product-title" className="mt-3 text-3xl leading-tight font-semibold tracking-[-0.02em] break-words md:text-4xl">
                 {sku.name}
               </h1>
-              {sku.nameEn && sku.nameEn !== sku.name ? (
+              {locale === "tr" && sku.nameEn ? (
                 <p lang="en" className="mt-2 text-base text-subtle-foreground">
                   {sku.nameEn}
                 </p>

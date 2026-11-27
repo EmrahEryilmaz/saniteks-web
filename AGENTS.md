@@ -11,7 +11,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 # Saniteks web
 
 Corporate + product site for Saniteks (cleaning sponges, cloths, scourers, special-form sponges, raw materials).
-Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="tr"`).
+Rebuilt from the live https://www.saniteks.com.tr design. Five languages (owner decision 2026-11-27): Turkish (source,
+unprefixed URLs) and English, German, Arabic (RTL), Russian under `/en`, `/de`, `/ar`, `/ru`.
 
 ## Stack
 - Next.js 16 App Router (`src/app`), React 19, TypeScript strict, alias `@/*` → `src/*`.
@@ -37,6 +38,16 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   page `/urunler/<category>/<sku-slug>`. Product types have no page — `next.config.ts` redirects their old URLs to the
   category (generated from `productTypePaths`); `products.ts` throws if a SKU slug equals a type slug.
 - Site-wide constants (contact info, nav) live in `src/lib/site.ts`.
+- i18n (`src/i18n/`): routes live under `src/app/[lang]/`; `src/proxy.ts` rewrites unprefixed URLs to Turkish and sends
+  first-time visitors to their browser language (not offered → English; no Accept-Language → Turkish; the choice is
+  kept in the `NEXT_LOCALE` cookie). Gettext style: the Turkish text is the key — `const t = await getT()` (server) /
+  `useT()` (client), always `t("literal")` with `{placeholders}`. Data modules stay Turkish and are shown through
+  `getCategories()` / `localized(…)` from `@/i18n/data`; register new data in `src/i18n/sources.ts`. Links use
+  `Link` from `@/i18n/Link` (unprefixed hrefs); metadata uses `pageMetadata` (canonical + hreflang). URL slugs stay
+  Turkish in every language. Use logical Tailwind classes (`ps-`, `ms-`, `start-`, `border-s` …) so Arabic mirrors.
+- After changing or adding Turkish text run `npm run i18n:extract` and add the translations to
+  `src/i18n/translations/{en,de,ar,ru}.json`; `npm run i18n:check` must report 0 missing (a missing translation
+  falls back to Turkish).
 - Copy is Turkish; keep the calm, non-promotional tone of the existing pages. Do not invent certifications, figures or claims.
 
 ## Commands

@@ -2,7 +2,12 @@
 
 Saniteks'in kurumsal ve ürün sitesi (temizlik süngerleri, temizlik bezleri, ovucu materyaller, özel formlu süngerler ve
 hammadde). Site, yayındaki https://www.saniteks.com.tr tasarımı birebir korunarak Next.js ile yeniden oluşturulmuştur.
-İçerik yalnızca Türkçedir.
+Site beş dildedir: Türkçe (kaynak dil, önek yok), İngilizce (`/en`), Almanca (`/de`), Arapça (`/ar`, sağdan sola) ve
+Rusça (`/ru`). İlk ziyarette tarayıcı diline göre yönlendirilir; listede olmayan diller İngilizce açılır.
+
+**Metin eklerken/değiştirirken:** Türkçe metin kodda `t("…")` içinde yazılır. Ardından `npm run i18n:extract` çalıştırılır
+ve yeni metinlerin çevirisi `src/i18n/translations/en.json`, `de.json`, `ar.json`, `ru.json` dosyalarına eklenir
+(anahtar: Türkçe metin). `npm run i18n:check` eksik çeviri kalmadığını denetler; çevirisi olmayan metin Türkçe görünür.
 
 - **Teknoloji:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, Swiper (ana sayfa slaytı), nodemailer
   (iletişim ve iş başvuru formları).
