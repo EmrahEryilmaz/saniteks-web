@@ -49,8 +49,9 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
 - Scope: only the 6 product categories listed below (no detergents or personal care). Show code, size and case info; never barcodes.
 - The current range is the shipping list `saniteks ürünler.xlsx` (business data, deliberately kept out of the repo).
   Catalogue SKUs missing from it carry `madeToOrder` ("Talep üzerine üretim") via `MADE_TO_ORDER` in `products.ts`.
-  Products photographed in 2026 count as current (owner's catalogue rebuild, 2026-11-17); items without a new photo stay
-  on the site with their old catalogue photo or a placeholder.
+  Products photographed in 2026 count as current (owner's catalogue rebuild, 2026-11-17); items with only an old
+  catalogue photo stay listed. Items without any photo are hidden (owner decision 2026-11-27): they stay in the data, are
+  filtered out at the end of `products.ts` (`hiddenSkuPaths`) and their URLs redirect (307) to the category.
 - "Plaka ve Rulo Ürünler" summarises the ERP felt (126.0.xxx) and non-woven cloth (800.4.xxx) roll lists as grammage ×
   colour tables and a few varieties — never the full list, never customer prints/brands (Remax, Pure, Banat, Aro, BQ,
   Vileda), seconds or defective stock.
@@ -61,7 +62,7 @@ Rebuilt from the live https://www.saniteks.com.tr design; Turkish only (`lang="t
   `public/images/products/kategori-<slug>-foto.webp` for the five product categories and
   `kategori-plaka-ve-rulo-urunler-foto.webp` for `hammadde`; 4:3, used both as page hero and on cards.
 - Category slug `hammadde` is titled "Plaka ve Rulo Ürünler" (owner decision 2026-11-11; slug kept so links do not
-  break; it still contains Tabaka Hammadde and Dökme Ürünler). Its category image is the owner's photo above; the older
+  break; Dökme Ürünler is currently empty because its items have no photo). Its category image is the owner's photo above; the older
   owner photo `public/images/products/hammadde/rulo-nonwoven-kece*.webp` is still used on the home page and elsewhere;
   recoloured-photo and procedural 3D versions were rejected.
 - Kalite menu (owner decision 2026-11-23): one page `/kalite/politikalarimiz` holds the quality, environment and OHS

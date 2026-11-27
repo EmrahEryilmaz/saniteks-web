@@ -1025,9 +1025,9 @@ const selulozikBanyoVeBakim: ProductType = {
   shortDescription: "Selülozik sünger gövdeli banyo süngerleri ve makyaj temizleme süngerleri.",
   description: [
     "Selülozik sünger, banyo ve yüz bakımında yumuşak bir kullanım sunan gözenekli bir yapıya sahiptir.",
-    "Oval banyo süngeri, yıldız ve çiçek kesimli 4'lü makyaj temizleme süngerleri ile doğal selülozik süngerden balık ve ördek şekilli banyo süngerleri bu grupta yer alır.",
+    "Oval banyo süngeri ile yıldız ve çiçek kesimli 4'lü makyaj temizleme süngerleri bu grupta yer alır.",
   ],
-  highlights: ["Selülozik sünger", "Oval, yıldız, çiçek, balık ve ördek formları", "Banyo ve yüz bakımı"],
+  highlights: ["Selülozik sünger", "Oval, yıldız ve çiçek formları", "Banyo ve yüz bakımı"],
   image: photo("103.0.200-40", 2),
   imageAlt: "Açık yeşil selülozik oval banyo süngeri",
   imageStyle: "catalog",
@@ -1318,13 +1318,12 @@ const tabakaHammadde: ProductType = {
   slug: "tabaka-hammadde",
   categorySlug: "hammadde",
   name: "Sünger Plakaları",
-  shortDescription: "Keçe lamineli sünger plakaları ve selülozik sünger plakaları; ölçüye göre kesime uygun.",
+  shortDescription: "Sünger gövde ile ovucu keçenin lamine edildiği, ölçüye göre kesime uygun plakalar.",
   description: [
     "Keçe lamineli sünger plakaları, sünger gövde ile ovucu keçenin lamine edilerek tabaka halinde hazırlandığı yarı mamullerdir.",
     "Plakalar, bulaşık süngeri ve benzeri ürünlerin üretiminde istenen ölçüye göre kesilmek üzere tedarik edilir. Keçe rengi, sünger rengi ve kalınlık ihtiyaca göre birlikte değerlendirilir.",
-    "Natürel, mavi ve sarı renkli selülozik sünger plakaları da 10–50 mm kalınlık seçenekleriyle tabaka halinde tedarik edilir.",
   ],
-  highlights: ["Sünger + ovucu keçe laminasyon", "Selülozik sünger plakaları", "Ölçüye göre kesime uygun", "Renk ve kalınlık seçenekleri"],
+  highlights: ["Sünger + ovucu keçe laminasyon", "Ölçüye göre kesime uygun", "Renk ve kalınlık seçenekleri"],
   image: "/images/products/hammadde/sheet-raw-material.webp",
   imageAlt: "Üst üste yerleştirilmiş tabaka hammaddeler",
   imageStyle: "styled",
@@ -1472,7 +1471,7 @@ export const categories: Category[] = [
     shortDescription: "Natürel bulaşık süngeri ile selülozik bulaşık, banyo ve bakım süngerleri.",
     intro: [
       "Doğal Ürünler grubunda doğal lif görünümlü yüzeye sahip natürel bulaşık süngeri ile selülozik süngerden üretilen bulaşık, banyo ve makyaj temizleme süngerleri yer alır.",
-      "Natürel bulaşık süngeri kâğıt bantlı ambalajda; selülozik süngerler oval, dalgalı, yıldız, çiçek, balık ve ördek gibi farklı formlarda sunulur.",
+      "Natürel bulaşık süngeri kâğıt bantlı ambalajda; selülozik süngerler oval, dalgalı, yıldız ve çiçek gibi farklı formlarda sunulur.",
     ],
     image: "/images/products/kategori-dogal-urunler-foto.webp",
     imageAlt: "Taş basamaklar üzerinde natürel bulaşık süngeri, selülozik oval sünger, konfor süngeri ve çiçek kesimli selülozik süngerler",
@@ -1593,6 +1592,23 @@ export function allSkus(): SkuIndexEntry[] {
 export const productTypePaths: { category: string; type: string }[] = categories.flatMap((c) =>
   c.products.map((p) => ({ category: c.slug, type: p.slug })),
 );
+
+/**
+ * Owner decision 2026-11-27: products without any photo are not listed. They stay in the data above (ready to come back
+ * when a photo arrives) but are filtered out here; their old pages redirect to the category (next.config.ts), and a
+ * product type left without products disappears from the filter chips (its old URL is in productTypePaths above).
+ */
+export const hiddenSkuPaths: { category: string; sku: string }[] = [];
+for (const category of categories) {
+  for (const product of category.products) {
+    product.skus = product.skus.filter((sku) => {
+      if (sku.image) return true;
+      hiddenSkuPaths.push({ category: category.slug, sku: sku.slug });
+      return false;
+    });
+  }
+  category.products = category.products.filter((p) => p.skus.length > 0);
+}
 
 {
   const typeSlugs = new Set(productTypePaths.map((p) => p.type));

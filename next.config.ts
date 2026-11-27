@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { productTypePaths } from "./src/data/products";
+import { hiddenSkuPaths, productTypePaths } from "./src/data/products";
 import { mergedPolicyPaths } from "./src/data/quality";
 
 const securityHeaders = [
@@ -35,6 +35,8 @@ const nextConfig: NextConfig = {
       // Product-type pages (/urunler/<category>/<type>) were folded into the shop-style category pages; every product
       // now has its own page /urunler/<category>/<sku>. products.ts guarantees no SKU slug equals a type slug.
       ...productTypePaths.map(({ category, type }) => ({ source: `/urunler/${category}/${type}`, destination: `/urunler/${category}`, permanent: true })),
+      // Products without a photo are not listed (owner decision 2026-11-27); temporary, they may come back.
+      ...hiddenSkuPaths.map(({ category, sku }) => ({ source: `/urunler/${category}/${sku}`, destination: `/urunler/${category}`, permanent: false })),
       // Older product-type pages that no longer exist at all.
       { source: "/urunler/ovucu-materyaller/naturel-kece", destination: "/urunler/dogal-urunler", permanent: true },
       { source: "/urunler/ozel-formlu-sungerler/:old(oval-formlu-sunger|kavrama-formlu-sunger)", destination: "/urunler/ozel-formlu-sungerler", permanent: true },
