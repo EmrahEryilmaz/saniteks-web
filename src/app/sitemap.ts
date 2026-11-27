@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { kvkkNotice } from "@/components/legal/kvkk";
 import { categories, categoryHref, categorySkus, skuHref } from "@/data/products";
 import { qualityHref, qualityPages } from "@/data/quality";
+import { localizePath, locales } from "@/i18n/config";
 import { site } from "@/lib/site";
 
 type Entry = { path: string; priority: number; changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]> };
@@ -29,9 +30,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categorySkus(category).map(({ sku }) => ({ path: skuHref(category.slug, sku.slug), priority: 0.6, changeFrequency: "monthly" }) satisfies Entry),
   ]);
 
-  return [...staticRoutes, ...productRoutes].map(({ path, priority, changeFrequency }) => ({
-    url: new URL(path, site.url).toString(),
-    changeFrequency,
-    priority,
-  }));
+  // Every page in every language, each entry listing its language versions (hreflang).
+  return [...staticRoutes, ...productRoutes].flatMap(({ path, priority, changeFrequency }) => {
+    const languages = Object.fromEntries(locales.map((l) => [l, new URL(localizePath(path, l), site.url).toString()]));
+    return locales.map((l) => ({
+      url: languages[l],
+      changeFrequency,
+      priority: l === "tr" ? priority : Math.round(priority * 0.9 * 10) / 10,
+      alternates: { languages },
+    }));
+  });
 }

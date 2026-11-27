@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { localizePath, type Locale } from "@/i18n/config";
+import { Link } from "@/i18n/Link";
+import { getT } from "@/i18n/server";
 import { focusStyle, textLinkClass } from "./styles";
 
 export type Crumb = { label: string; href?: string };
@@ -13,26 +15,27 @@ const tones = {
 } as const;
 
 /** "Ana Sayfa / Ürünler / …" trail. The last item is the current page. `dark` is for photo heroes. */
-export function Breadcrumbs({ items, tone = "light" }: { items: Crumb[]; tone?: keyof typeof tones }) {
-  const t = tones[tone];
+export async function Breadcrumbs({ items, tone = "light" }: { items: Crumb[]; tone?: keyof typeof tones }) {
+  const c = tones[tone];
+  const t = await getT();
   return (
-    <nav aria-label="Sayfa konumu">
+    <nav aria-label={t("Sayfa konumu")}>
       <ol className="flex flex-wrap items-center gap-x-3 text-sm">
         {items.map((item, i) => {
           const last = i === items.length - 1;
           return (
             <li key={`${item.label}-${i}`} className="flex min-h-11 min-w-0 items-center gap-3">
               {i > 0 ? (
-                <span aria-hidden="true" className={t.separator}>
+                <span aria-hidden="true" className={c.separator}>
                   /
                 </span>
               ) : null}
               {last || !item.href ? (
-                <span aria-current={last ? "page" : undefined} className={t.current}>
+                <span aria-current={last ? "page" : undefined} className={c.current}>
                   {item.label}
                 </span>
               ) : (
-                <Link className={t.link} href={item.href}>
+                <Link className={c.link} href={item.href}>
                   {item.label}
                 </Link>
               )}
@@ -44,8 +47,8 @@ export function Breadcrumbs({ items, tone = "light" }: { items: Crumb[]; tone?: 
   );
 }
 
-/** Breadcrumb trail → schema.org BreadcrumbList (absolute URLs). */
-export function breadcrumbJsonLd(items: Crumb[], baseUrl: string, currentPath: string) {
+/** Breadcrumb trail → schema.org BreadcrumbList (absolute URLs in the page language; paths without language prefix). */
+export function breadcrumbJsonLd(items: Crumb[], baseUrl: string, currentPath: string, locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,7 +56,7 @@ export function breadcrumbJsonLd(items: Crumb[], baseUrl: string, currentPath: s
       "@type": "ListItem",
       position: i + 1,
       name: item.label,
-      item: new URL(item.href ?? currentPath, baseUrl).toString(),
+      item: new URL(localizePath(item.href ?? currentPath, locale), baseUrl).toString(),
     })),
   };
 }

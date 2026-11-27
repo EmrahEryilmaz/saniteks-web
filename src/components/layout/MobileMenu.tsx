@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { focusStyle } from "@/components/ui/styles";
+import { useT } from "@/i18n/client";
 
 /** Keep Tab focus inside the open dialog. */
 function trapTab(e: KeyboardEvent<HTMLDialogElement>) {
@@ -25,6 +26,7 @@ export function MobileMenu({ logo, children, footer }: { logo: ReactNode; childr
   const toggleRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const t = useT();
 
   const close = () => dialogRef.current?.close();
 
@@ -63,7 +65,7 @@ export function MobileMenu({ logo, children, footer }: { logo: ReactNode; childr
       <button
         ref={toggleRef}
         type="button"
-        aria-label="Menüyü aç"
+        aria-label={t("Menüyü aç")}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => {
@@ -86,24 +88,24 @@ export function MobileMenu({ logo, children, footer }: { logo: ReactNode; childr
         }}
         onClick={onDialogClick}
         onKeyDown={trapTab}
-        className="fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-full max-w-none border-0 border-l-4 border-l-primary bg-foreground p-0 text-primary-foreground backdrop:bg-overlay/60 md:w-[min(85vw,620px)]"
+        className="fixed inset-y-0 end-0 start-auto m-0 h-dvh max-h-dvh w-full max-w-none border-0 border-s-4 border-s-primary bg-foreground p-0 text-primary-foreground backdrop:bg-overlay/60 md:w-[min(85vw,620px)]"
       >
         <div className="min-h-full p-6 md:p-10">
           <div className="mb-8 flex items-center justify-between gap-4">
             <h2 id="mobile-menu-title" className="sr-only">
-              Site menüsü
+              {t("Site menüsü")}
             </h2>
             {logo}
             <button
               type="button"
-              aria-label="Menüyü kapat"
+              aria-label={t("Menüyü kapat")}
               onClick={close}
               className={`flex size-12 items-center justify-center border border-primary-foreground/30 text-2xl hover:bg-primary active:bg-primary-active ${focusStyle}`}
             >
               ×
             </button>
           </div>
-          <nav aria-label="Ana navigasyon">{children}</nav>
+          <nav aria-label={t("Ana navigasyon")}>{children}</nav>
           {footer}
         </div>
       </dialog>

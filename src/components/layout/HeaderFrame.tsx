@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { stripLocale } from "@/i18n/config";
 
 /**
  * Fixed header shell. Transparent over the home hero until the page scrolls past 48px;
@@ -18,7 +19,7 @@ export function HeaderFrame({ topbar, children }: { topbar: ReactNode; children:
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrolled = pastTop || pathname !== "/";
+  const scrolled = pastTop || stripLocale(pathname).path !== "/";
 
   return (
     <header
