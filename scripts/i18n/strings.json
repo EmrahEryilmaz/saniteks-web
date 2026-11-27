@@ -65,14 +65,81 @@
   "250": [
     "data:categories"
   ],
+  "…": [
+    "src/components/corporate/pageMetadata.ts",
+    "src/components/corporate/withElements.tsx"
+  ],
+  "… {products} …": [
+    "src/components/corporate/withElements.tsx"
+  ],
+  "(yeni sekmede açılır)": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "{category} hakkında konuşalım.": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "{category} kategorisinden.": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
+  ],
+  "{count} görsel": [
+    "src/components/products/ShopProductCard.tsx"
+  ],
+  "{count} sayfa": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "{count} sonuç bulundu.": [
+    "src/components/products/SkuSearch.tsx"
+  ],
   "{count} ürün listeleniyor": [
+    "src/components/products/CategoryShop.tsx",
     "src/i18n/translate.ts"
+  ],
+  "{count} ürün listeleniyor.": [
+    "src/components/products/SkuSearch.tsx"
   ],
   "{label} alt menüsünü aç": [
     "src/components/layout/NavigationLinks.tsx"
   ],
   "{label} alt menüsünü kapat": [
     "src/components/layout/NavigationLinks.tsx"
+  ],
+  "{label} görselleri": [
+    "src/components/products/ProductGallery.tsx"
+  ],
+  "{label}: ürün grubuna göre süz": [
+    "src/components/products/CategoryShop.tsx"
+  ],
+  "{name} — İnceleyin": [
+    "src/components/home/ProductGroupsSection.tsx"
+  ],
+  "{name} için bilgi alın": [
+    "src/components/products/ShopProductCard.tsx"
+  ],
+  "{name} logosu": [
+    "src/components/products/PrivateLabel.tsx"
+  ],
+  "{product} hakkında bilgi almak istiyorum.": [
+    "src/components/contact/PrefilledContactForm.tsx"
+  ],
+  "{retailers} için özel marka (private label) temizlik ürünleri üretiyoruz.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "{size} MB": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "{title} — Görüntüle, yeni sekmede açılır": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "{title} — öne çıkanlar": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "{title} — PDF indir": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "{tradeName}, {year} yılında İstanbul'da kurulan Sanifoam grubunun şirketlerinden biridir. Sanifoam; otomotiv, beyaz eşya, endüstriyel yalıtım ve temizlik sektörlerindeki müşterileri için sünger, non-woven ve türevi ürünler üretir.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
   ],
   "/urunler/ozel-marka-uretimi": [
     "data:privateLabel"
@@ -98,9 +165,6 @@
   ],
   "© {year} Saniteks. Tüm hakları saklıdır.": [
     "src/components/layout/Footer.tsx"
-  ],
-  "0 850 304 01 10": [
-    "data:corporate"
   ],
   "1–12": [
     "data:privateLabel"
@@ -201,12 +265,6 @@
   ],
   "15 × 9,5 × 4,5 cm": [
     "data:categories"
-  ],
-  "15 Temmuz Mah. Bahar Cad. Polat İş Merkezi C Blok 6/2 Zemin No:1": [
-    "data:careers"
-  ],
-  "15 Temmuz Mah. Bahar Cad. Polat İş Merkezi C Blok 6/2 Zemin No:1 Güneşli - Bağcılar / İSTANBUL": [
-    "data:corporate"
   ],
   "15 yaprak": [
     "data:categories"
@@ -440,6 +498,9 @@
   "650 gr/m²": [
     "data:categories"
   ],
+  "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında veri sorumlusu SANİTEKS SÜNGER SANAYİ TURİZM VE TİCARET ANONİM ŞİRKETİ’dir.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "68 × 21 × 92 cm": [
     "data:categories"
   ],
@@ -506,11 +567,33 @@
   "A101": [
     "data:privateLabel"
   ],
+  "Açık iletişim": [
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "Açık Pozisyonlar": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Açık pozisyonlardan birine ya da genel başvuru olarak başvurabilirsiniz. Formu gönderdiğinizde bilgileriniz ve CV dosyanız e-posta ile ilgili ekibimize iletilir; dosyanız web sitesinde saklanmaz.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Açık ve tutarlı iletişimle karşılıklı anlayışa dayanan çalışma ilişkilerine önem vermek.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Açık yeşil selülozik oval banyo süngeri": [
     "data:categories"
   ],
+  "Açık, tutarlı ve sözünün arkasında duran ilişkiler kurmak.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Ad Soyad": [
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
+  ],
   "adetlik paket seçenekleri": [
     "data:privateLabel"
+  ],
+  "Adresimiz": [
+    "src/app/[lang]/iletisim/page.tsx"
   ],
   "Ağırlık": [
     "data:categories"
@@ -531,10 +614,28 @@
   "Ana Sayfa": [
     "data:footerNav",
     "data:mainNav",
-    "src/app/[lang]/not-found.tsx"
+    "src/app/[lang]/error.tsx",
+    "src/app/[lang]/iletisim/page.tsx",
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/app/[lang]/kabiliyetler/page.tsx",
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/app/[lang]/kataloglar/page.tsx",
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx",
+    "src/app/[lang]/not-found.tsx",
+    "src/app/[lang]/surdurulebilirlik/page.tsx",
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx",
+    "src/app/[lang]/urunler/[kategori]/page.tsx",
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx",
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Araç yıkamaya yönelik, iri gözenekli büyük oval süngerler.": [
     "data:categories"
+  ],
+  "Aradığınız katalog için bizimle iletişime geçin.": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Aradığınız sayfa bulunamadı.": [
     "src/app/[lang]/not-found.tsx"
@@ -542,14 +643,35 @@
   "Aradığınız sayfa taşınmış, kaldırılmış ya da adresi hatalı yazılmış olabilir. Aşağıdaki bağlantılardan devam edebilirsiniz.": [
     "src/app/[lang]/not-found.tsx"
   ],
+  "Aramanızla eşleşen bir ürün bulunamadı.": [
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Aranan nitelikler": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Aranan nitelikler:": [
+    "src/components/careers/jobPostingJsonLd.ts"
+  ],
   "Askılı ambalaj": [
     "data:categories"
   ],
   "Askılı kartta 12'li ovma teli": [
     "data:categories"
   ],
+  "Aşağıdaki akış, işe alımda karşılaşılabilecek genel aşamaları gösterir. İzlenecek adımlar pozisyona ve değerlendirme ihtiyacına göre değişebilir.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Aşağıdaki kanallardan bize ulaşabilirsiniz. Bildiriminizde şu bilgileri paylaşmanız değerlendirmeyi kolaylaştırır.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Atıkların Azaltılması": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Atıkların azaltılması ve geri kazanım": [
     "data:quality"
+  ],
+  "Atıkların yönetimi": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Avantaj": [
     "data:categories"
@@ -611,8 +733,80 @@
   "Başa dön": [
     "src/components/layout/Footer.tsx"
   ],
+  "Başvur": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Başvur: {title}": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Başvuru": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Başvuru bilgilerinin ilgili kanal üzerinden paylaşılması.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "BAŞVURU FORMU": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Başvuru formu şu anda kullanılamıyor. Lütfen başvurunuzu {email} adresine e-posta ile gönderin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Başvuru gönderilemedi. Lütfen tekrar deneyin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Başvuru hakkında bilgi alın": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Başvuru olanakları hakkında bilgi almak için aşağıdaki genel başvuru bölümünü inceleyebilirsiniz.": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Başvuru yöntemi": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Başvurulan pozisyon": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "Başvurum kapsamında paylaştığım kişisel verilerin işlenmesine ilişkin aydınlatma metnini okudum.": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "Başvurunuz iletildi. İlginiz için teşekkür ederiz.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Başvurunuz şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya {email} adresine e-posta ile gönderin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Başvurunuzu CV dosyanızla birlikte {email} adresine e-posta ile de gönderebilirsiniz. Başvuru süreciyle ilgili sorularınızı iletişim formu üzerinden de iletebilirsiniz.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Başvurunuzu iletin.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Başvuruyu gönder": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "Beklentileri dinlemek, kullanım koşullarını anlamak ve doğru çözümü birlikte şekillendirmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Belge no": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Belge talep edin": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Belgelendiren": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "BELGELER": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
   "Belgelerimiz, belgelendirme kuruluşunun belirttiği geçerlilik tarihleriyle birlikte bu sayfada yayımlanır.": [
     "data:quality"
+  ],
+  "Belgeyi görüntüle (PDF)": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "BENZER ÜRÜNLER": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
   ],
   "Beyaz": [
     "data:categories"
@@ -626,20 +820,104 @@
   "Bezler 80–320 gr/m² aralığında, %20'den %80'e farklı viskon–polyester oranlarıyla hazırlanır; düz renkli, baskılı (çiçek, damla, ekose desen), gofreli ve %30 mikro lifli seçenekler bulunur. Rulolar ihtiyaca göre 27 cm'den 210 cm'ye kadar farklı enlerde dilimlenir.": [
     "data:capabilities"
   ],
+  "BİLDİRİM": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Bildiriminizde yer alması faydalı bilgiler": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Bilgi alın": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx",
+    "src/components/products/ShopProductCard.tsx"
+  ],
+  "BİLGİ ALIN": [
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Bilgiyi paylaşmak ve çözümü ortak anlayışla geliştirmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Bilgiyi paylaşmak, birbirini dinlemek ve ortak amaçlara birlikte katkıda bulunmak.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "BİM": [
     "data:privateLabel"
+  ],
+  "Bir fidanın çevresinde bir araya gelen insanlar, güneş panelli üretim tesisi ve doğayı bir arada gösteren illüstrasyon": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Bir sorun oluştu.": [
+    "src/app/[lang]/error.tsx"
+  ],
+  "Birbirini tamamlayan adımlar.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "BİRLİKTE ÇALIŞALIM": [
+    "src/app/[lang]/kabiliyetler/page.tsx",
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Birlikte çalışmaya ve üretmeye bakışımızı, birbirini tamamlayan bu değerlerle ifade ediyoruz.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "BİRLİKTE KONUŞALIM": [
+    "src/app/[lang]/iletisim/page.tsx",
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Birlikte öğrenmek": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "BİRLİKTE ÜRETMEK": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Birlikte üretmek, farklı deneyimlerin ortak bir amaç etrafında buluşmasıyla anlam kazanır. Saniteks’te insan odaklı çalışma yaklaşımını; karşılıklı saygı, iletişim ve yapılan işe gösterilen özen üzerinden ele alıyoruz.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "bize sorun": [
+    "src/components/products/SkuSearch.tsx"
   ],
   "Bize ulaşın": [
     "data:heroSlides"
   ],
+  "Bize yazın": [
+    "src/components/contact/ContactForm.tsx",
+    "src/components/home/ContactSection.tsx"
+  ],
+  "Bizi arayın": [
+    "src/components/home/ContactSection.tsx"
+  ],
   "Bordo": [
     "data:categories"
+  ],
+  "Bu alan {min}–{max} karakter olmalıdır.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Bu alan en fazla {max} karakter olmalıdır.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Bu aydınlatma metni, kişisel veri işleme faaliyetlerinde veya ilgili mevzuatta meydana gelen değişikliklere göre güncellenebilir. Yürürlükteki sürüm ve güncelleme tarihi sayfanın başında gösterilir.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Bu aydınlatma metninin bağlayıcı sürümü Türkçe olanıdır.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Bu grupta temizlik rutininin yanında evde farklı ihtiyaçlara eşlik eden ürünler yer alır: bulaşıkların süzülmesi için kurutma süngeri ve bulaşık altlığı, yalnızca su ile ıslatılarak kullanılan melamin lekesil sünger, buzdolabı rafları için küf matı ve kapı altındaki boşluğu kapatan kendinden yapışkanlı eşik süngeri.": [
     "data:categories"
   ],
+  "Bu metin sayfa görünümünü değerlendirmek için geçici bilgilerle yayımlanmıştır ve henüz hukuk onayı almamıştır.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Bu sayfadaki politikalar": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
   "Bu site": [
     "data:corporate"
+  ],
+  "BUGÜNDEN YARINA": [
+    "src/components/home/SustainabilitySection.tsx"
   ],
   "Bulaşık Kurutma Süngeri": [
     "data:categories"
@@ -704,8 +982,29 @@
   "Corefix": [
     "data:corporate"
   ],
+  "CV dosyası": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "CV dosyası en fazla {mb} MB olabilir.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "CV dosyası PDF, DOC veya DOCX biçiminde olmalıdır.": [
+    "src/lib/apply-validation.ts"
+  ],
   "Çalışan ve tedarikçi çevre eğitimleri": [
     "data:quality"
+  ],
+  "Çalışma Kültürümüz": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Çalışma kültürümüze yön veren ilkeler.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Çalışma şekli": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Çalışma yaklaşımımız ve kariyer olanakları hakkındaki sorularınız için bize ulaşın.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
   ],
   "Çevre Politikamız": [
     "data:quality"
@@ -713,11 +1012,23 @@
   "ÇEVRE POLİTİKAMIZ": [
     "data:quality"
   ],
+  "Çevre ve insan, aynı bütünün parçası.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Çevre Yönetim Sistemi": [
     "data:quality"
   ],
+  "Çevresel Sorumluluk": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "ÇEVRESEL VE SOSYAL SORUMLULUK": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Çevreye duyarlı, sürdürülebilir üretim.": [
     "data:quality"
+  ],
+  "Çevreye olan duyarlılığımız üretimimizin merkezinde yer alır. Sanifoam olarak, yüksek performanslı polyester yalıtım ürünlerimizi, doğaya atılmış PET şişe atıklarını geri dönüştürerek üretiyoruz.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Çiçek Desenli Yer Bezi": [
     "data:categories"
@@ -749,14 +1060,44 @@
   "Çok amaçlı temizlik bezleri; mutfak tezgâhından cam yüzeylere, günlük toz almadan dökülen sıvıları toplamaya kadar farklı temizlik uygulamalarında kullanılır.": [
     "data:categories"
   ],
+  "ÇÖZÜM ORTAKLARIMIZ": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
   "Çözüm, doğru\nmalzemeyle başlar.": [
     "data:heroSlides"
+  ],
+  "Çuval içi adet": [
+    "src/components/products/format.ts"
+  ],
+  "Çuval ölçüsü": [
+    "src/components/products/format.ts"
   ],
   "Dar en": [
     "data:categories"
   ],
+  "Değerlendirme": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Değerlendirme durumuna ilişkin bilgilendirmenin paylaşılması.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Değişen ihtiyaçlara açık bir bakış.": [
     "data:corporate"
+  ],
+  "Deneyim paylaşımı, yapılan işi daha iyi anlamaya yardımcı olur. Birlikte düşünmek ve öğrenilenleri çalışma sürecine taşımak, gelişime açık bir bakışın parçasıdır.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Deneyim ve yetkinliklerin pozisyonun ihtiyaçlarıyla birlikte ele alınması.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "DENEYİMDEN GELECEĞE": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Deneyimlerden öğrenerek ürün ve süreçlerde iyileştirme alanları aramak.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Departman": [
+    "src/components/careers/OpenPositions.tsx"
   ],
   "Desen": [
     "data:categories"
@@ -770,11 +1111,29 @@
   "Desenli Bulaşık Altlığı: ürün": [
     "data:categories"
   ],
+  "Detaylara özen": [
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "Diğer": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "DİĞER KATEGORİLER": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Diğer ürün gruplarını inceleyin.": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Dikkat, disiplin ve tutarlılık.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
   "Dil seçimi": [
     "src/components/layout/LanguageSwitcher.tsx"
   ],
   "Dil: {language}. Dili değiştir": [
     "src/components/layout/LanguageSwitcher.tsx"
+  ],
+  "Doğadan İlham Alıyoruz,\nGeleceğe Dönüştürüyoruz": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Doğal kaynak ve enerji verimliliği": [
     "data:quality"
@@ -791,6 +1150,24 @@
   ],
   "Doğal Ürünler grubunda doğal lif görünümlü yüzeye sahip natürel bulaşık süngeri ile selülozik süngerden üretilen bulaşık, banyo ve makyaj temizleme süngerleri yer alır.": [
     "data:categories"
+  ],
+  "Doğaya atılmış PET şişelerden çıkan liflerin beyaz polyester yalıtım rulosuna dönüşümünü gösteren görsel": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "DOKU. İŞLEV. ÖZEN.": [
+    "src/components/home/AboutSection.tsx"
+  ],
+  "DOKÜMAN TALEBİ": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "DOKÜMANLAR": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Dosyanın içeriği PDF, DOC veya DOCX biçimiyle uyuşmuyor. Lütfen CV dosyanızı kontrol edip yeniden seçin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Dört alanda ortak sorumluluk.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Düz Bulaşık Süngeri": [
     "data:categories"
@@ -835,11 +1212,21 @@
     "data:capabilities",
     "data:categories"
   ],
+  "düzeltme, silme veya yok etme işlemlerinin aktarım yapılan kişilere bildirilmesini isteme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "Düzenlediğimiz eğitimlerle çalışanlarımızın ve tedarikçilerimizin çevre bilincini bir yaşam felsefesi olarak benimsemesini sağlar; çevre amaç ve hedeflerimizi oluşturarak sürekli gelişmeye katkıda bulunuruz.": [
     "data:quality"
   ],
   "Düzenli personel eğitimleri": [
     "data:quality"
+  ],
+  "E-posta": [
+    "src/app/[lang]/iletisim/page.tsx",
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
   ],
   "Ekonomik": [
     "data:categories"
@@ -907,8 +1294,15 @@
   "Ekonomik Oluklu Tekli Paket: ürün": [
     "data:categories"
   ],
+  "eksik veya yanlış işlenmiş verilerin düzeltilmesini isteme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "Elde tutmayı kolaylaştıran süngerli seçenek, askılı kartta 12'li perakende sunum ve 60 gramlık endüstriyel ovma teli ile farklı kullanım ölçeklerine yanıt verir.": [
     "data:categories"
+  ],
+  "Eldivenli ellerle nonwoven tekstil numunesinin incelenmesi": [
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Elma yeşili": [
     "data:categories"
@@ -934,14 +1328,36 @@
   "Endüstriyel yapışkan çözümleri: çift taraflı, tek taraflı ve transfer özellikli profesyonel yapışkanlı ürünler üretir.": [
     "data:corporate"
   ],
+  "Enerji ihtiyacını doğru planlamak ve gereksiz tüketimi azaltabilecek uygulamaları değerlendirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Enerji Verimliliği": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Enerji, su, atık ve sorumlu üretim alanlarındaki yaklaşımımızı sürdürülebilirlik sayfamızda inceleyebilirsiniz.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
   "Ergonomik ve güvenli çalışma alanları": [
     "data:quality"
+  ],
+  "Eşitlik ve saygı": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
   ],
   "Ev ve Mutfak Yardımcıları": [
     "data:categories"
   ],
   "Fabrika inşaatı, endüstriyel tesis kurulumu ile ticari araç ve forklift kiralama alanlarında hizmet verir.": [
     "data:corporate"
+  ],
+  "Farklı bir kelime deneyin veya aradığınız ürünü": [
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Farklı deneyimlere ve görüşlere saygıyla yaklaşmak, herkesin katkısını önemsemek.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Farklı doku ve formlardaki temizlik ürünleri": [
+    "src/app/[lang]/kataloglar/page.tsx",
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Farklı genişliklerde yapışkan bant ruloları": [
     "data:corporate"
@@ -953,8 +1369,14 @@
     "data:categories",
     "data:privateLabel"
   ],
+  "Farklı kullanım ihtiyaçlarına yönelik temizlik ürünlerimizi ve kendi ürettiğimiz hammaddeleri inceleyin.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
   "Farklı renk seçenekleriyle sunulan, mutfak ve yüzey temizliğinde etkili ovma sağlayan lifli keçe.": [
     "data:categories"
+  ],
+  "Farklı uzmanlıklar, tek bir çatı.": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
   ],
   "Fıstık yeşili": [
     "data:categories"
@@ -974,6 +1396,12 @@
   "Form": [
     "data:categories"
   ],
+  "Form için JavaScript gereklidir. Başvurunuzu CV dosyanızla birlikte {email} adresine e-posta ile de iletebilirsiniz.": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "Form için JavaScript gereklidir. Telefon veya e-posta bağlantılarıyla bize ulaşabilirsiniz.": [
+    "src/components/contact/ContactForm.tsx"
+  ],
   "Formlu ve Kesilmiş Keçe": [
     "data:categories"
   ],
@@ -982,6 +1410,36 @@
   ],
   "Fuşya": [
     "data:categories"
+  ],
+  "Geçerli belgelerimiz.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Geçerli bir e-posta adresi girin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Geçerlilik": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Geleceğe yönelik yaklaşımı, ihtiyaçlar ve öğrenilenlerle birlikte geliştirmek önemlidir. Yol gösteren önceliklerimiz:": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Gelişim Yaklaşımı": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Gelişime açık bir gelecek anlayışı.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Genel başvuru": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Genel Bilgi": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Genel bilgi, satış ve insan kaynakları sorularınız için bize ulaşabilirsiniz.": [
+    "src/app/[lang]/iletisim/page.tsx"
+  ],
+  "GENEL SÜREÇ AKIŞI": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
   ],
   "Genellikle 300 m": [
     "data:categories"
@@ -992,11 +1450,49 @@
   "Geniş ve Dar En Rulo Keçe": [
     "data:categories"
   ],
+  "Geri bildirim": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Geri bildirimleriniz gelişim fırsatımızdır.": [
     "data:quality"
   ],
+  "Gönder": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Gönderilen içerik çok büyük. CV dosyası en fazla {mb} MB olabilir.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Gönderilen içerik çok büyük. Lütfen mesajınızı kısaltın.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Gönderiliyor…": [
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya başvurunuzu e-posta ile iletin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya bize e-posta ile ulaşın.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Görev": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Görsel {number} / {total}: {alt}": [
+    "src/components/products/ProductGallery.tsx"
+  ],
+  "Görüntüle": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Görüşme": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Görüşme ve başvuru bilgilerinin birlikte değerlendirilmesi.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Gramaj": [
-    "data:categories"
+    "data:categories",
+    "src/components/products/Swatch.tsx"
   ],
   "Gramaja göre (tabloya bakın)": [
     "data:categories"
@@ -1007,16 +1503,37 @@
   "Grup çatısı": [
     "data:corporate"
   ],
+  "Grup deneyimi,\ntemizliğe odaklı uzmanlık.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Grup Şirketleri": [
-    "data:corporate"
+    "data:corporate",
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
+  "Grup şirketleri ve üretim altyapısı": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Grup Şirketlerimiz": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
+  "Grup şirketlerini tanıyın": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Güncel belgelerimiz bu sayfada yayımlanacaktır.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Güncel ve erişime açık kataloglar yayımlandıkça bu alanda listelenecektir.": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Güneşli - Bağcılar": [
-    "data:careers",
     "data:corporate"
   ],
   "Günlük temizlik rutinleri için bez seçenekleri.": [
     "data:categories",
     "data:privateLabel"
+  ],
+  "Günlük temizlikten farklı kullanım alanlarına uzanan ürün seçeneklerimizi keşfedin. Saniteks ile ihtiyacınıza uygun ürünler üzerine konuşalım, birlikte çözüm geliştirelim.": [
+    "src/components/home/AboutSection.tsx"
   ],
   "Günlük yaşam için temizlik çözümleri": [
     "data:siteText",
@@ -1026,14 +1543,42 @@
   "GÜNLÜK YAŞAMIN İÇİNDE": [
     "data:heroSlides"
   ],
+  "Güven": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
+  ],
   "Güvenli ve sağlıklı bir çalışma ortamı yaratmak, iş kazalarını sıfıra indirmek ve meslek hastalıklarını önlemek için sürekli eğitimler düzenliyor ve önleyici tedbirler alıyoruz.": [
     "data:quality"
   ],
   "Hakkında": [
-    "data:corporate"
+    "data:corporate",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Haklarınıza ilişkin taleplerinizi, kimliğinizi ve talebinizi açıklayan bilgilerle birlikte şirketimizin yukarıda belirtilen posta adresine yazılı olarak veya mevzuatın izin verdiği diğer yöntemlerle iletebilirsiniz.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim, konverting ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "Hareket azaltma tercihi nedeniyle otomatik geçiş kapalı": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Haritada göster": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Hata": [
+    "src/app/[lang]/error.tsx"
+  ],
+  "Hata kodu: {digest}": [
+    "src/app/[lang]/error.tsx"
+  ],
+  "Hayatı kolaylaştıran\nküçük detaylar.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Hem mükemmel yalıtım değerleri elde ediyor hem de sıfır atık vizyonumuzla karbon ayak izimizi her geçen gün küçültüyoruz. Sürdürülebilir bir gelecek için teknoloji üretiyoruz.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Hendek": [
-    "data:careers",
     "data:corporate"
   ],
   "Hendek / Sakarya": [
@@ -1045,11 +1590,29 @@
   "Hendek fabrikasının yükleme alanı ve bina cephesi": [
     "data:corporate"
   ],
+  "Hendek'teki üretim tesisimizde {products} ile bu ürünlerde kullanılan {materials} üretiyoruz. Ürün ve paket seçeneklerini ihtiyaca göre birlikte değerlendiriyoruz.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Her adımda aynı özen.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "Her aşamada amaca uygunluğu ve özeni birlikte gözetmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Her çözümün başlangıcında kullanım alanını ve beklentileri birlikte ele almak var.": [
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "Her dokuda özen. Her adımda çözüm.": [
+    "src/components/home/AboutSection.tsx"
+  ],
   "Her gün için\ndoğru bir dokunuş.": [
     "data:heroSlides"
   ],
   "Her iki ürün de günlük ev temizliğinde farklı yüzeylere eşlik edecek şekilde tekli ve çok renkli paketlerle sunulur.": [
     "data:categories"
+  ],
+  "Her seçimde kaynaklara özen.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Her şikâyeti süreçlerimizi iyileştirmek için değerli bir fırsat olarak görüyor, çözüm odaklı yaklaşımımızla müşteri güvenini güçlendiriyoruz.": [
     "data:quality"
@@ -1075,30 +1638,142 @@
   "ISO 9001:2015 Kalite Yönetim Sistemi": [
     "data:quality"
   ],
+  "İçindekiler": [
+    "src/components/legal/LegalDocument.tsx"
+  ],
   "İhtiyaca göre": [
     "data:categories"
+  ],
+  "İhtiyaca göre şekillenen ürünler.": [
+    "src/components/home/ProductGroupsSection.tsx"
   ],
   "İHTİYACA ODAKLANAN SEÇENEKLER": [
     "data:heroSlides"
   ],
+  "İhtiyaca uygun ürün seçimi ve bilinçli kullanım üzerine birlikte düşünelim. Sürdürülebilirlik konusundaki sorularınız ve iş birliği önerileriniz için bize ulaşın.": [
+    "src/components/home/SustainabilitySection.tsx"
+  ],
+  "İhtiyacı anlamak": [
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "İhtiyacınıza uygun çözümü konuşalım.": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "İhtiyacınıza uygun seçenekleri birlikte değerlendirelim.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "İhtiyacınızı birlikte değerlendirelim.": [
+    "src/components/home/ContactSection.tsx"
+  ],
   "İhtiyaç ve ürün seçimi": [
     "data:privateLabel"
+  ],
+  "İhtiyaçlara duyarlılık": [
+    "src/components/corporate/AboutSections.tsx"
   ],
   "İletişim": [
     "data:footerNav",
     "data:mainNav",
+    "src/app/[lang]/iletisim/page.tsx",
     "src/app/[lang]/not-found.tsx",
     "src/components/layout/Footer.tsx"
+  ],
+  "İletişim bilgileri": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "İletişim bilgileri ve form": [
+    "src/app/[lang]/iletisim/page.tsx"
+  ],
+  "İletişim bilgileri ve mesajınız": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "İletişim bilgileriniz ve mesajınız, talebin yanıtlanması amacıyla şirket içindeki yetkili kişilerle ve e-posta iletim hizmetinin sağlanması ölçüsünde e-posta altyapısı hizmet sağlayıcısıyla paylaşılabilir. Kanunen yetkili kamu kurum ve kuruluşlarına, hukuki yükümlülük bulunması halinde aktarım yapılabilir.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İletişim formu": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "İletişim formu KVKK Aydınlatma Metni": [
+    "src/components/contact/privacy.ts"
+  ],
+  "İletişim formu şu anda kullanılamıyor. Lütfen {email} adresine e-posta gönderin veya {phone} numarasını arayın.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "İletişim formunda paylaştığınız kişisel verilerin işlenmesine ilişkin açıklamaları aydınlatma metninde inceleyebilirsiniz.": [
+    "src/components/contact/privacy.ts"
+  ],
+  "İletişim formunu kullandığınızda ad ve soyadınız, e-posta adresiniz, seçtiğiniz konu ve mesajınız işlenir. Telefon numarası paylaşmanız isteğe bağlıdır.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İletişim formunun güvenliğini sağlamak ve kötüye kullanımı sınırlandırmak.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İletişim formuyla gönderilen bilgiler, talebin sonuçlandırılması için gerekli süre boyunca şirket e-posta kutusunda tutulur. Saklamayı gerektiren başka bir hukuki yükümlülük bulunmaması halinde saklama ihtiyacı sona erdiğinde silinir.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İletişim talebinin niteliğine göre kişisel veriler, bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ya da veri sorumlusunun meşru menfaatleri için işlemenin zorunlu olması işleme şartlarına dayanılarak işlenebilir. Uygulanacak işleme şartı, talebin konusu ve kurulmak istenen ilişkiye göre değerlendirilir.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İletişim talebinizi almak, değerlendirmek ve yanıtlamak.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İLETİŞİMDE KALALIM": [
+    "src/app/[lang]/iletisim/page.tsx"
+  ],
+  "İletişime geçin": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/app/[lang]/kabiliyetler/page.tsx",
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/app/[lang]/kataloglar/page.tsx",
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
+    "src/app/[lang]/surdurulebilirlik/page.tsx",
+    "src/app/[lang]/urunler/[kategori]/page.tsx",
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "İLETİŞİME GEÇİN": [
+    "src/components/home/ContactSection.tsx"
+  ],
+  "İlgili kişinin hakları": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İLGİLİ ÜRÜNLER": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "İnce lifli mikrofiber yapı": [
     "data:categories"
   ],
+  "İncele": [
+    "src/components/products/ShopProductCard.tsx"
+  ],
+  "İnceleyin": [
+    "src/components/home/ProductGroupsSection.tsx"
+  ],
   "İndirim marketi": [
     "data:privateLabel"
   ],
+  "İndirim marketlerinden yapı marketlere, farklı formatlardaki zincirlerin kendi markalı temizlik ürünlerini üretiyoruz.": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
+  "İngilizce": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
   "İnsan Kaynakları": [
     "data:footerNav",
-    "data:mainNav"
+    "data:mainNav",
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "İnsan kaynakları hakkında konuşalım.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "İnsana saygı, güvenli çalışma koşulları, eşitlik ve açık iletişim; sorumlu bir üretim kültürü için yol gösteren ilkelerdir.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "İnsana, kaynaklara ve yapılan işe karşı dikkatli davranmak.": [
+    "src/components/corporate/AboutSections.tsx"
   ],
   "İri gözenekli yapı": [
     "data:categories"
@@ -1113,27 +1788,71 @@
     "data:quality"
   ],
   "İstanbul": [
-    "data:careers",
     "data:corporate"
   ],
   "İstanbul (Merkez Ofis)": [
     "data:careers"
   ],
+  "isteğe bağlı": [
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "İstek biçimi desteklenmiyor. Lütfen formu sayfa üzerinden gönderin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "İstek okunamadı. Lütfen formu yeniden gönderin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "İş birliği": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "İş ortaklarıyla bilgi paylaşımına ve sürdürülebilirlik üzerine diyaloğa açık olmak.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "İş Sağlığı ve Güvenliği Yönetim Sistemi": [
     "data:quality"
+  ],
+  "İşe Alım Süreci": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "İşleme şartları ve hukuki sebepler": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "İşlenen kişisel veriler": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "işlenmişse buna ilişkin bilgi talep etme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "İşlevsel ve sorumlu çözümler geliştiren; malzeme, süreç ve kullanım deneyimini birlikte düşünen bir yaklaşımı ileri taşımak.": [
     "data:corporate"
   ],
+  "İyileştirme alanlarını belirlemek": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Kabiliyetler": [
-    "data:mainNav"
+    "data:mainNav",
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "KABİLİYETLER": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "Kâğıt bantlı ambalajında natürel bulaşık süngerleri ve yanında iki sünger": [
     "data:categories"
   ],
   "Kalite": [
     "data:footerNav",
-    "data:mainNav"
+    "data:mainNav",
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "KALİTE": [
+    "src/app/[lang]/kabiliyetler/page.tsx",
+    "src/app/[lang]/kalite/[slug]/page.tsx"
   ],
   "Kalite Belgelerimiz": [
     "data:quality"
@@ -1141,11 +1860,35 @@
   "KALİTE BELGELERİMİZ": [
     "data:quality"
   ],
+  "Kalite bilinci": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Kalite kontrol": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Kalite odaklı üretim": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
   "Kalite Politikamız": [
     "data:quality"
   ],
   "KALİTE POLİTİKAMIZ": [
     "data:quality"
+  ],
+  "Kalite sayfaları": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Kalite süreçlerimiz, belgelerimiz veya ürünlerimizle ilgili sorularınız için ekibimizle iletişime geçin.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Kalite ve belgeler hakkında konuşalım.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "KALİTE YAKLAŞIMI": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Kalite yaklaşımımız, beklentiyi doğru anlamakla başlar; malzeme ve süreç kararlarının kullanım amacıyla uyumunu gözetir.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
   ],
   "Kalite Yönetim Sistemi": [
     "data:quality"
@@ -1159,6 +1902,12 @@
   "Kaliteyi, güveni ve ihtiyacı birlikte gözetmek.": [
     "data:corporate"
   ],
+  "kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini isteme": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Kanunda öngörülen şartlarla silinmesini veya yok edilmesini isteme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "Kapı Eşik Süngeri (Kendinden Yapışkanlı)": [
     "data:categories"
   ],
@@ -1168,21 +1917,49 @@
   "Kapı Eşik Süngeri (Kendinden Yapışkanlı): ürün": [
     "data:categories"
   ],
-  "Kargalıhanbaba OSB Mah. Organize Sanayi 18. Sk. No:3/1": [
-    "data:careers"
+  "Kapsam": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
   ],
-  "Kargalıhanbaba OSB Mah. Organize Sanayi 18. Sk. No:3/1 Hendek / SAKARYA": [
-    "data:corporate"
+  "Kararlarımızda ve ilişkilerimizde ortak bir dil oluşturan altı temel değer.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "KARİYER OLANAKLARI": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Katalog bilgileri": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Kataloglar": [
     "data:footerNav",
+    "src/app/[lang]/kataloglar/page.tsx",
     "src/lib/navigation.ts"
+  ],
+  "KATALOGLAR": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "KATEGORİLER": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Kategoriye göre filtrele": [
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Kategoriyi inceleyin": [
+    "src/components/ui/CategoryCard.tsx"
   ],
   "Katlanmış çok amaçlı temizlik bezleri": [
     "data:categories"
   ],
   "Kavrama oluklu gövde": [
     "data:categories"
+  ],
+  "Kaynak kayıplarını azaltabilecek yöntemleri ve süreç iyileştirmelerini ele almak.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Kaynakları daha iyi anlamak": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Kaynakların planlanması": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Keçe lamineli sünger plakaları, sünger gövde ile ovucu keçenin lamine edilerek tabaka halinde hazırlandığı yarı mamullerdir.": [
     "data:categories"
@@ -1201,6 +1978,9 @@
   ],
   "Keçe renk alternatifleri": [
     "data:categories"
+  ],
+  "KEÇE RENKLERİ": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
   ],
   "Keçeler 250–1000 gr/m² aralığında, yirmiye yakın renkte üretilir; 1,02 m standart en ile 2 m geniş ve 40–68 cm dar enlerde rulo, plaka ya da kesilmiş form olarak hazırlanır. Kendi ürünlerimizde kullanıldığı gibi, farklı ürünler geliştiren üreticilere de tedarik edilir.": [
     "data:capabilities"
@@ -1241,6 +2021,9 @@
   "Kırmızı": [
     "data:categories"
   ],
+  "Kısa sürede çok fazla gönderim yapıldı. Lütfen birkaç dakika sonra tekrar deneyin.": [
+    "src/lib/contact-validation.ts"
+  ],
   "Kısmen açılmış rulo temizlik bezi": [
     "data:categories"
   ],
@@ -1250,8 +2033,35 @@
   "Kişisel bakım ve kozmetik": [
     "data:privateLabel"
   ],
+  "Kişisel bilgileriniz, başvurduğunuz pozisyon ve CV dosyanız": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "Kişisel veri işleme amaçları": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Kişisel verilerin aktarılması": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Kişisel verilerin toplanma yöntemi": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Kişisel verileriniz, web sitesindeki iletişim formuna bilgileri kendiniz girip formu göndermeniz yoluyla elektronik ortamda elde edilir. Form içeriği TLS korumalı SMTP bağlantısı üzerinden şirket e-posta kutusuna iletilir ve web sitesi veritabanına kaydedilmez.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "kişisel verilerinizin işlenip işlenmediğini öğrenme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "Koçtaş": [
     "data:privateLabel"
+  ],
+  "Kod: talep üzerine": [
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Koli içi adet": [
+    "src/components/products/format.ts"
+  ],
+  "Koli ölçüsü": [
+    "src/components/products/format.ts"
   ],
   "Koli, naylon torba, çuval": [
     "data:capabilities"
@@ -1277,6 +2087,18 @@
   "Konfor bulaşık süngeri, dalgalı formlu selülozik sünger gövdesiyle 2'li pakette hazırlanır.": [
     "data:categories"
   ],
+  "Kontrol adımlarını düzenli yürütmek ve gelişim alanlarını değerlendirmek, tutarlı sonuçlar için çalışma biçimimizin parçasıdır.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Konu": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Konu olarak “Diğer”i seçin": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Konu seçin": [
+    "src/components/contact/ContactForm.tsx"
+  ],
   "Konverting": [
     "data:capabilities"
   ],
@@ -1293,9 +2115,36 @@
     "data:categories",
     "data:privateLabel"
   ],
+  "Kullanım ihtiyacına göre şekillenen ürün grupları.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Kullanım ihtiyacınızı paylaşın; ürün grubu hakkında birlikte değerlendirme yapalım.": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Kullanım ihtiyaçlarını ve verimlilik olanaklarını daha bütüncül değerlendirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Kurumsal": [
     "data:footerNav",
-    "data:mainNav"
+    "data:mainNav",
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "KURUMSAL": [
+    "src/components/corporate/CorporateHero.tsx"
+  ],
+  "KURUMSAL DEĞERLER": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Kurumsal sayfalar": [
+    "src/components/corporate/CorporateHero.tsx"
+  ],
+  "Kurumsal yaklaşımımız": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "KURUMSAL YAYINLAR": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Küf Matı": [
     "data:categories"
@@ -1307,7 +2156,12 @@
     "data:categories"
   ],
   "KVKK Aydınlatma Metni": [
-    "data:legalNav"
+    "data:legalNav",
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx",
+    "src/components/careers/ApplicationForm.tsx"
+  ],
+  "KVKK’nin 11. maddesi kapsamında şirketimize başvurarak:": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Laminasyon": [
     "data:capabilities"
@@ -1330,6 +2184,30 @@
   "Lif ve tel yapısı, yoğunluk ve form, kullanılacak yüzey ile kirin türüne göre değerlendirilir. İhtiyaca uygun seçeneği birlikte belirleyebiliriz.": [
     "data:categories"
   ],
+  "Lokasyon": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Lütfen aydınlatma bildirimini işaretleyin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Lütfen aydınlatma metnini okuduğunuzu işaretleyin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Lütfen bir konu seçin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Lütfen CV dosyanızı ekleyin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Lütfen form bilgilerini kontrol edin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Lütfen geçerli bir değer girin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Lütfen listeden bir pozisyon seçin.": [
+    "src/lib/apply-validation.ts"
+  ],
   "Makyaj Temizleme Süngeri (4'lü)": [
     "data:categories"
   ],
@@ -1338,6 +2216,30 @@
   ],
   "Makyaj Temizleme Süngeri (4'lü): ürün": [
     "data:categories"
+  ],
+  "Malzeme ile üretim adımlarını birbiriyle uyumlu ve düzenli biçimde yönetmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Malzeme ve süreç kararlarını kaynaklara, insana ve çevreye karşı sorumlulukla değerlendiren yaklaşımımızı inceleyin.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Malzeme ve süreç seçimlerini çevresel ve sosyal etkileriyle birlikte ele almak.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Malzeme yapısını, dokuyu ve kullanım amacını birlikte değerlendirerek ihtiyaca uygun seçenekleri ele alıyoruz.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Malzeme yapısını, kullanım amacını ve kontrol adımlarını birlikte ele alan yaklaşımımız ürün gruplarına yön verir.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Malzeme, enerji ve su ihtiyacını kullanım amacıyla birlikte değerlendirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Malzemeleri amacına uygun kullanmak; atık oluşumunu önleme, ayırma ve değerlendirme seçeneklerini düşünmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Malzemelerin kullanımını, ürünün işlevini ve kullanım sonrasını birlikte düşünmek; çevresel etkileri anlamaya yönelik yaklaşımın temelidir.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Masajlı banyo eldiveni": [
     "data:categories"
@@ -1414,8 +2316,26 @@
   "Merkez Ofis": [
     "data:corporate"
   ],
+  "Mesaj": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Mesaj gönderilemedi. Lütfen tekrar deneyin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Mesajınız iletildi. Teşekkür ederiz.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Mesajınız şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya {email} adresine e-posta gönderin.": [
+    "src/lib/contact-validation.ts"
+  ],
+  "Mesleki ve kişisel gelişimi, yeni bilgilere açık olmak ve günlük deneyimleri değerlendirmekle birlikte düşünüyoruz. Soru sormak, gözlemlemek ve farklı bakış açılarını dinlemek bu yaklaşımı besler.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Metal parça üzerinde kaynak işlemi": [
     "data:corporate"
+  ],
+  "Metin değişiklikleri": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Metro": [
     "data:privateLabel"
@@ -1432,8 +2352,14 @@
   "Mikrofiber Bez: ürün": [
     "data:categories"
   ],
+  "MİSYON VE VİZYON": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Misyonumuz": [
     "data:corporate"
+  ],
+  "Misyonumuz ve vizyonumuz.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
   ],
   "Mop bezi": [
     "data:categories"
@@ -1520,6 +2446,9 @@
   "Non-Woven Temizlik Bezi Üretimi": [
     "data:capabilities"
   ],
+  "Nonwoven tekstil malzemesinin üretim sürecinden yakın görünüm": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
   "Numune ve onay": [
     "data:privateLabel"
   ],
@@ -1538,11 +2467,26 @@
   "Oluklu gövdeye sahip temizlik süngeri": [
     "data:categories"
   ],
+  "Oluşan atıkları tanımlamak, ayırma ve uygun değerlendirme yollarını gözden geçirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "ORTAK EMEK": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Oto Süngerleri": [
     "data:categories"
   ],
   "Oto süngerleri, köşesiz oval formu ve iri gözenekli yapısıyla araç gövdesi gibi geniş ve kavisli yüzeylerin yıkanmasına yöneliktir.": [
     "data:categories"
+  ],
+  "Otomatik geçişi başlat": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Otomatik geçişi durdur": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "otomatik sistemlerle analiz sonucunun aleyhinize olmasına itiraz etme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Otomotiv sektörü, kaynaklı imalat, kalıp ve fikstür tasarımı ve metal işleme gibi alanlarda üretim yapar; mühendislik birikimini modern teknolojiyle birleştirerek müşterilerine çözümler sunar.": [
     "data:corporate"
@@ -1635,8 +2579,15 @@
   "Ovucu materyaller, yapışmış ve yanmış kalıntılar gibi zorlu kirlerde yüzeyle güçlü temas kurmaya yönelik ovucu keçe (ovma fiberi), ovma teli ve benzeri ovucu ürünleri kapsar.": [
     "data:categories"
   ],
+  "Öğrenilenleri daha iyi ürün ve süreçlere dönüştürmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
   "Ölçü": [
-    "data:categories"
+    "data:categories",
+    "src/components/products/format.ts"
+  ],
+  "ölçü {size}": [
+    "src/components/products/format.ts"
   ],
   "Ölçü, form ve kesim şekli kullanılacak ürüne göre birlikte belirlenir.": [
     "data:capabilities"
@@ -1645,11 +2596,29 @@
     "data:capabilities",
     "data:categories"
   ],
+  "Ön değerlendirme": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Ön İzleme {version}": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Ön yazı / mesaj": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
   "Önce insan, önce güvenlik.": [
     "data:quality"
   ],
+  "Önceki slayt": [
+    "src/components/home/HeroSlider.tsx"
+  ],
   "Önceliklerimiz": [
     "data:quality"
+  ],
+  "ÖNCELİKLİ ÇALIŞMA ALANLARI": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Örn. 100.0.350 veya oluklu": [
+    "src/components/products/SkuSearch.tsx"
   ],
   "Özel Bulaşık Süngerleri": [
     "data:categories"
@@ -1661,11 +2630,26 @@
   "Özel formlu süngerler, standart dikdörtgen biçimlerin dışında farklı tutuş ve yüzey temas ihtiyaçlarına yönelik form alternatiflerini kapsar.": [
     "data:categories"
   ],
+  "ÖZEL MARKA (PL) ÜRETİMİ": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
   "Özel marka üretimi": [
-    "data:capabilities"
+    "data:capabilities",
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Özel Marka Üretimi": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx",
+    "src/components/home/ProductGroupsSection.tsx",
     "src/lib/navigation.ts"
+  ],
+  "ÖZEL MARKA ÜRETİMİ": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Özel marka üretimi yaptığımız zincirler": [
+    "src/components/products/PrivateLabel.tsx"
+  ],
+  "Özel ölçü, form, ambalaj ya da hammadde talepleriniz için ekibimizle iletişime geçin.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "Paket içeriği": [
     "data:categories"
@@ -1685,11 +2669,26 @@
   "Paspas bezi": [
     "data:categories"
   ],
+  "PDF indir": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "PDF katalogları inceleyin": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "PDF, DOC veya DOCX; en fazla {mb} MB.": [
+    "src/lib/apply-validation.ts"
+  ],
   "Pembe": [
     "data:categories"
   ],
   "Perakende sektörü için bulaşık süngeri ve yer bezi üretimi": [
     "data:quality"
+  ],
+  "Perakende zincirlerinin kendi markalarıyla raflarda yer alan temizlik süngeri, bez ve ovucu ürünleri üretiyoruz.": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
+  "Perakende zincirlerinin kendi markalarıyla.": [
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Perforeli rulo temizlik bezi": [
     "data:capabilities"
@@ -1746,7 +2745,8 @@
     "data:categories"
   ],
   "Politikalarımız": [
-    "data:quality"
+    "data:quality",
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "politikalarimiz#cevre-politikamiz": [
     "data:quality"
@@ -1765,6 +2765,12 @@
   ],
   "Renk kodlu kullanım": [
     "data:categories"
+  ],
+  "Renk seçenekleri": [
+    "src/components/products/Swatch.tsx"
+  ],
+  "RENK VE GRAMAJ": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
   ],
   "Renk ve kalınlık seçenekleri": [
     "data:categories"
@@ -1814,6 +2820,9 @@
   "Rulo ve katlanmış biçimler, kullanım şekline göre farklı seçenekler sunar. İhtiyacı değerlendirirken ürünün formu ve kullanım alanı birlikte ele alınır.": [
     "data:categories"
   ],
+  "rulo ve tabaka hammaddeleri": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Rulo Yer Bezi – Çiçek Desenli": [
     "data:categories"
   ],
@@ -1830,8 +2839,10 @@
     "data:categories"
   ],
   "Sakarya": [
-    "data:careers",
     "data:corporate"
+  ],
+  "Saklama ve silme yaklaşımı": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Sanicar": [
     "data:corporate"
@@ -1839,14 +2850,39 @@
   "Sanifoam": [
     "data:corporate"
   ],
+  "Sanifoam çatısı altında farklı sektörlerde uzmanlaşan grup şirketlerini tanıyın. Saniteks, temizlik ürünleri alanında faaliyet gösteren bir grup şirketidir.": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
   "Sanifoam Endüstri ve Tüketim Ürünleri San. Tic. A.Ş. — Veliköy OSB, Çerkezköy / Tekirdağ": [
     "data:quality"
   ],
   "Sanifoam GmbH": [
     "data:corporate"
   ],
+  "Sanifoam Grubu": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "SANİFOAM GRUBU": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Sanifoam grubu, {year}'dan bu yana": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Sanifoam grubuna ait fabrika binası": [
     "data:corporate"
+  ],
+  "Sanifoam grubunun {year}'dan bu yana süren deneyimiyle; temizlik süngerleri, bezleri ve ovucu ürünlerde günlük yaşama eşlik eden çözümler üretiyoruz.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Sanifoam grup şirketi": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
+  "Sanifoam grup şirketi Saniteks'i tanıyın: temizlik süngerleri, bezleri ve ovucu ürünlerde üretim, Hendek tesisimiz, misyonumuz ve vizyonumuz.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Sanifoam ve Sanitex logoları ile temizlik süngeri bulunan katalog kapağı": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Sanifoam'un Avrupa'ya açılan kapısı. Başta Münih olmak üzere Avrupa genelindeki otomotiv ve endüstriyel müşterilere depo, lojistik ve satış sonrası servis hizmetleri sunar.": [
     "data:corporate"
@@ -1855,11 +2891,21 @@
     "data:corporate"
   ],
   "Saniteks | Temizlik Ürünleri ve Çözümleri": [
-    "src/app/[lang]/layout.tsx"
+    "src/app/[lang]/layout.tsx",
+    "src/app/[lang]/page.tsx"
   ],
   "Saniteks ana sayfa": [
     "src/components/layout/Footer.tsx",
     "src/components/layout/Header.tsx"
+  ],
+  "SANİTEKS HAKKINDA": [
+    "src/components/home/AboutSection.tsx"
+  ],
+  "Saniteks için bu yaklaşımın odağında, ihtiyaca uygun ürünleri düşünmek, kaynakları bilinçli kullanmak ve gelişime açık alanları belirlemek yer alır.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Saniteks iletişim bilgilerine ulaşın. Ürünler, satış ve iş birliği sorularınız için telefon veya e-posta üzerinden bizimle iletişime geçin.": [
+    "src/app/[lang]/iletisim/page.tsx"
   ],
   "Saniteks kalite, çevre ve iş sağlığı ve güvenliği politikaları: sürekli iyileştirme, sıfır hata, çevreye duyarlı üretim ve güvenli çalışma ortamı.": [
     "data:quality"
@@ -1874,16 +2920,38 @@
     "data:quality"
   ],
   "Saniteks temizlik bezleri, süngerleri ve malzeme seçeneklerini keşfedin. Ürünler ve iş birliği için bizimle iletişime geçin.": [
-    "src/app/[lang]/layout.tsx"
+    "src/app/[lang]/layout.tsx",
+    "src/app/[lang]/page.tsx"
+  ],
+  "Saniteks temizlik çözümleri": [
+    "src/app/[lang]/page.tsx"
+  ],
+  "Saniteks temizlik süngerleri, temizlik bezleri, ovucu materyaller, özel formlu süngerler, doğal ürünler ile rulo non-woven temizlik bezi ve ovucu keçe ürün gruplarını keşfedin.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Saniteks üretim kabiliyetleri: non-woven keçe üretimi, non-woven temizlik bezi üretimi, laminasyon, sünger kesim ve şekillendirme, konverting ve paketleme.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "Saniteks üretiminin yapıldığı Hendek (Sakarya) fabrikasının dış cephesi ve yükleme rampaları": [
     "data:corporate"
+  ],
+  "Saniteks ürün kataloglarını yayımlandıklarında görüntüleyin veya PDF olarak indirin.": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Saniteks ürünlerinin üretimine ilişkin ISO 9001 kalite yönetim sistemi belgesi.": [
     "data:quality"
   ],
   "Saniteks ürünleriyle ilgili şikâyet ve geri bildirimlerinizi nasıl iletebileceğinizi ve nasıl değerlendirildiğini öğrenin.": [
     "data:quality"
+  ],
+  "Saniteks web sitesi ve iletişim formu kapsamındaki kişisel veri işleme süreçlerine ilişkin bilgilendirme.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Saniteks, kendi adını taşıyan markanın yanı sıra STAR ve Blues markalarıyla bulaşık, banyo ve oto süngerleri üretir; mikrofiber temizlik bezleri, ovucu keçeler ve çelik ovma telleriyle evsel ve endüstriyel kullanıma yönelik geniş bir temizlik ürün gamı sunar.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Saniteks, Sanifoam çatısı altında faaliyet gösteren grup şirketlerinden biridir: Sanifoam, Saniteks, Sanifoam GmbH, Ultech, Corefix ve Sanicar.": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
   ],
   "Saniteks, Sanifoam grubunun Çevre Politikası doğrultusunda çevre üzerinde oluşabilecek olumsuz etkileri azaltmayı ve önlemeyi hedefler. Ulusal ve uluslararası yasal düzenlemelere, çevreyle ilgili kanun, mevzuat ve diğer yükümlülüklere eksiksiz uyarız.": [
     "data:quality"
@@ -1894,8 +2962,29 @@
   "Saniteks, temizlik ürünlerinde kullanılan non-woven temizlik bezi ve ovucu keçeyi kendi tesisinde rulo halinde üretir. Bu ruloları farklı ürünler geliştiren üreticilere de tedarik ediyoruz.": [
     "data:categories"
   ],
+  "Saniteks; A101, BİM, FİLE, ŞOK, Metro, Gratis, CarrefourSA ve Koçtaş için zincirlerin kendi markalarıyla temizlik süngeri, bez ve ovucu ürünler üretir.": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
+  "Saniteks’i keşfedin": [
+    "src/components/home/HeroSlider.tsx"
+  ],
   "Saniteks’i tanıyın": [
     "data:heroSlides"
+  ],
+  "Saniteks’in çalışma yaklaşımını ve çalışma kültürünü keşfedin. Açık pozisyonlar ve genel başvuru olanakları hakkında bilgi edinin.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Saniteks'in İstanbul'daki merkez ofisi ve Sakarya Hendek'teki üretim tesisi: adres, iletişim ve üretim bilgileri.": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Saniteks’in sürdürülebilirlik yaklaşımını; kaynak verimliliği, sorumlu üretim, çevresel ve sosyal sorumluluk öncelikleriyle keşfedin.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Saniteks’te çalışma yaklaşımını, birlikte üretmenin değerini ve kariyer olanaklarına ilişkin bilgileri keşfedin.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Saniteks’te Çalışmak": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
   ],
   "Sarı": [
     "data:categories"
@@ -1922,7 +3011,15 @@
     "data:categories"
   ],
   "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları": [
-    "data:heroSlides"
+    "data:heroSlides",
+    "src/app/[lang]/kabiliyetler/page.tsx",
+    "src/components/home/SustainabilitySection.tsx"
+  ],
+  "Satın alma yeri ve tarihi": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Satış": [
+    "src/components/contact/ContactForm.tsx"
   ],
   "Sayfa bulunamadı": [
     "src/app/[lang]/not-found.tsx"
@@ -1936,8 +3033,23 @@
   "Sayfa konumu": [
     "src/components/ui/Breadcrumbs.tsx"
   ],
+  "Sayfa yüklenirken beklenmeyen bir hata oluştu. Tekrar deneyebilir veya ana sayfaya dönebilirsiniz.": [
+    "src/app/[lang]/error.tsx"
+  ],
+  "Seçilen dosya boş. Lütfen CV dosyanızı yeniden seçin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Seçilen dosya okunamadı. Lütfen CV dosyanızı yeniden seçin.": [
+    "src/lib/apply-validation.ts"
+  ],
+  "Seçilen dosya:": [
+    "src/components/careers/ApplicationForm.tsx"
+  ],
   "Seçilen ürün için numune hazırlanır; onayınızın ardından ürün özellikleri netleştirilir.": [
     "data:privateLabel"
+  ],
+  "Sekiz temizlik ürünü için görsel, ürün ölçüsü, ürün kodu ve HS kodu bilgilerini içeren İngilizce katalog.": [
+    "src/app/[lang]/kataloglar/page.tsx"
   ],
   "Selülozik banyo süngerleri ve makyaj temizleme süngerleri Doğal Ürünler grubunda yer alır.": [
     "data:categories"
@@ -2011,6 +3123,46 @@
   "Siyah 3'lü Ovma Fiberi (Simli): ürün": [
     "data:categories"
   ],
+  "Slayt": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Slayt {index} / {total}: {title}": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Slayt gösterisi": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Slayt seçimi": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Slayta git: {number}": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Son güncelleme:": [
+    "src/components/legal/LegalDocument.tsx"
+  ],
+  "Sonraki slayt": [
+    "src/components/home/HeroSlider.tsx"
+  ],
+  "Soruları dinleyen, bilgi paylaşımını önemseyen bir iş birliği yaklaşımı.": [
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "Sorumlu Üretim": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "SORUMLU YAKLAŞIM": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Sorumluluk": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Sorunuzu ve iletişim bilgilerinizi paylaşın. Telefon alanı isteğe bağlıdır.": [
+    "src/components/contact/ContactForm.tsx"
+  ],
+  "Sosyal Sorumluluk": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Spiral metal tel": [
     "data:categories"
   ],
@@ -2073,6 +3225,15 @@
   ],
   "styled": [
     "data:categories"
+  ],
+  "Su Yönetimi": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Suya düşerek sıçratan sarı gövdeli, yeşil keçeli bulaşık süngeri": [
+    "src/components/home/AboutSection.tsx"
+  ],
+  "Suyun değerini gözetmek, kullanım ihtiyacını anlamak ve verimlilik olanaklarını gözden geçirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Sünger + ovucu keçe": [
     "data:capabilities"
@@ -2227,12 +3388,43 @@
   "Süpermarket ve hipermarket": [
     "data:privateLabel"
   ],
+  "Sürdürülebilir üretim; malzeme seçiminden kullanım ömrüne kadar her aşamayı çevresel sorumlulukla birlikte değerlendirmeyi gerektirir.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Sürdürülebilirlik": [
     "data:footerNav",
-    "data:mainNav"
+    "data:mainNav",
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "SÜRDÜRÜLEBİLİRLİK": [
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/components/home/SustainabilitySection.tsx"
+  ],
+  "SÜRDÜRÜLEBİLİRLİK HEDEFLERİ": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Sürdürülebilirlik üzerine iletişimde kalalım.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Sürdürülebilirlik yaklaşımımız": [
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Sürdürülebilirlik, tek bir aşamayla sınırlı değildir. Süreci bütün olarak ele alan bir yaklaşım için dört temel değerlendirme noktası.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Süreci bir bütün olarak değerlendiriyoruz.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Sürekli gelişim": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx",
+    "src/components/corporate/AboutSections.tsx"
   ],
   "Sürekli iyileştirme prensibi": [
     "data:quality"
+  ],
+  "Sürüm:": [
+    "src/components/legal/LegalDocument.tsx"
   ],
   "Şampuanlı Oto Süngeri": [
     "data:categories"
@@ -2258,11 +3450,39 @@
   "ŞİKÂYET PROSEDÜRLERİ": [
     "data:quality"
   ],
+  "Şikâyetinizi nasıl iletebilirsiniz?": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Şirketimize {email} adresinden ulaşabilirsiniz.": [
+    "src/components/legal/rich.tsx"
+  ],
+  "Şirketimize {email} e-posta adresinden, {phone} telefon numarasından veya {address} adresinden ulaşabilirsiniz.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
   "ŞOK": [
     "data:privateLabel"
   ],
+  "Şu anda açık pozisyon bulunmuyor.": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
   "Tabaka (plaka) formu": [
     "data:capabilities"
+  ],
+  "Talebinizle ilgili iletişim faaliyetlerini yürütmek.": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Talep üzerine üretim": [
+    "src/components/products/SkuSearch.tsx",
+    "src/components/products/format.ts"
+  ],
+  "TARİHÇEMİZ & GELİŞİMİMİZ": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Taslak belge bildirimi": [
+    "src/components/legal/LegalDocument.tsx"
+  ],
+  "Taslak ön izleme:": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Taş basamaklar üzerinde mor, pembe, turuncu, açık yeşil ve yeşil ovma fiberleri ile siyah ve yeşil ovma fiberi desteleri": [
     "data:categories",
@@ -2302,6 +3522,33 @@
   "Tekliden 12'li karta paket": [
     "data:capabilities"
   ],
+  "Teknoloji ve süreç yönetimi": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Tekrar deneyin": [
+    "src/app/[lang]/error.tsx"
+  ],
+  "Tekstil numuneleri üzerinden bilgi paylaşan iki çalışanın temsili gelişim sahnesi": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Tekstil numunelerini birlikte inceleyen üç çalışanın temsili ekip çalışması sahnesi": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Tekstil üretim ortamında malzeme ruloları ve üretim ekipmanları": [
+    "src/app/[lang]/iletisim/page.tsx"
+  ],
+  "Tekstil üretim ortamında nonwoven malzeme ruloları ve üretim ekipmanları": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Tel:": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Telefon": [
+    "src/app/[lang]/iletisim/page.tsx",
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
+  ],
   "Temel ilkeler": [
     "data:quality"
   ],
@@ -2330,8 +3577,14 @@
   "Temizlik ihtiyaçlarına odaklanan ürünler. Birlikte şekillenen çözümler.": [
     "data:siteText"
   ],
+  "Temizlik rutinlerinden farklı uygulama alanlarına uzanan temel ürün gruplarımız.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
   "Temizlik rutinlerine eşlik eden bez ve sünger seçeneklerini tanıyın.": [
     "data:heroSlides"
+  ],
+  "Temizlik rutinlerine eşlik eden ürünlerden doğal ürünlere, kendi tesisimizde ürettiğimiz rulo ve plaka ürünlerden perakende zincirleri için özel marka üretimine uzanan seçenekler.": [
+    "src/components/home/ProductGroupsSection.tsx"
   ],
   "Temizlik süngerleri": [
     "data:capabilities"
@@ -2339,6 +3592,9 @@
   "Temizlik Süngerleri": [
     "data:categories",
     "data:privateLabel"
+  ],
+  "temizlik süngerleri, temizlik bezleri, ovucu materyaller ve özel formlu süngerler": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
   ],
   "Temizlik süngerleri, temizlik bezleri, ovucu materyaller ve özel formlu süngerler.": [
     "data:corporate"
@@ -2349,6 +3605,9 @@
   "TEMPORARY": [
     "data:careers"
   ],
+  "TESİSLERİMİZ": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
   "Ticari araç filosu ve tesis binası": [
     "data:corporate"
   ],
@@ -2357,6 +3616,12 @@
   ],
   "Toptan ticaret": [
     "data:privateLabel"
+  ],
+  "Torba içi adet": [
+    "src/components/products/format.ts"
+  ],
+  "Torba ölçüsü": [
+    "src/components/products/format.ts"
   ],
   "Turkuaz": [
     "data:categories"
@@ -2367,8 +3632,24 @@
   "Turuncu, kırmızı, mavi ve sarı oluklu bulaşık kurutma süngerleri": [
     "data:categories"
   ],
+  "Tüm {category}": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
+  ],
   "Tüm faaliyetlerimiz “Toplam Kalite Sorumluluğu” bilinciyle sürdürülür ve geliştirilir.": [
     "data:quality"
+  ],
+  "Tüm ürünler.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Tümü": [
+    "src/components/products/CategoryShop.tsx",
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Tümünü görün": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
+  ],
+  "Türkiye ve Avrupa": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
   ],
   "Ultech Ulaşım Araçları": [
     "data:corporate"
@@ -2394,8 +3675,28 @@
   "URS tarafından belgelendirilmiştir": [
     "data:quality"
   ],
+  "Uygun görülen adaylarla karşılıklı beklentiler üzerine görüşülmesi.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Ülke koduyla birlikte 7–15 rakam içeren bir telefon girin.": [
+    "src/lib/contact-validation.ts"
+  ],
   "Üretim": [
-    "data:corporate"
+    "data:corporate",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "ÜRETİM AĞI": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "ÜRETİM ANLAYIŞIMIZ": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Üretim hattında ilerleyen bulaşık süngerleri": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
+  "Üretim hattında ilerleyen sarı gövdeli, yeşil keçeli bulaşık süngerleri": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx",
+    "src/components/home/ProductGroupsSection.tsx"
   ],
   "Üretim hattında ilerleyen sarı-yeşil bulaşık süngerleri": [
     "data:corporate"
@@ -2403,17 +3704,131 @@
   "Üretim hattında paketlemeye ilerleyen sarı gövdeli, yeşil keçeli bulaşık süngerleri": [
     "data:capabilities"
   ],
+  "Üretim kabiliyetleri": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "Üretim Kabiliyetlerimiz": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "ÜRETİM SÜRECİNDE SÜRDÜRÜLEBİLİRLİK": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Üretim Tesisleri": [
-    "data:corporate"
+    "data:corporate",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Üretim Tesislerimiz": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Üretim tesislerini inceleyin": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "ÜRETİM VE KALİTE": [
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Üretim ve kontrol": [
     "data:privateLabel"
   ],
+  "Üretim ve tedarik hakkında konuşalım.": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Üretim ve yönetim noktalarımız.": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Üretim yaptığımız perakende zincirleri.": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
   "Üretim, kendi markalarımızda uyguladığımız kalite yaklaşımı ve kontrol adımlarıyla yürütülür.": [
     "data:privateLabel"
   ],
+  "Üretimi gelecekle birlikte düşünmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Üretimin çevresel etkilerini değerlendirirken birbirini tamamlayan bu alanları birlikte ele almak önemlidir.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Üretimin her aşamasında bilgi paylaşımını ve sorumluluk bilincini önemseyen bir bakış açısı, günlük çalışmaya yön verir. Birbirini dinlemek ve deneyimlerden öğrenmek bu yaklaşımın temel parçalarıdır.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Üretimin her aşamasında dikkatli çalışmak ve yapılan işe özen göstermek.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Üretimin her aşamasını sürekli iyileştirme ve sıfır hata ilkeleriyle yürütüyoruz. Kalite, çevre ve iş sağlığı ve güvenliği politikalarımızı inceleyin.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
+  ],
+  "Ürün adı ve varsa ürün kodu (ambalaj üzerinde yer alır)": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Ürün adı veya kodu": [
+    "src/components/products/SkuSearch.tsx"
+  ],
+  "Ürün adı, ürün kodu veya kategoriye göre arayın; her ürün ölçü ve koli bilgileriyle kendi sayfasında yer alır.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Ürün bilgilerine düzenli ve kolay erişim.": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Ürün grupları ve mevcut dokümanlar hakkında bilgi almak için ekibimize ulaşın.": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "ÜRÜN GRUPLARIMIZ": [
+    "src/app/[lang]/urunler/page.tsx",
+    "src/components/home/ProductGroupsSection.tsx"
+  ],
+  "Ürün gruplarımız hakkında bilgi almak ve kullanım ihtiyacınızı paylaşmak için ekibimize ulaşın.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Ürün gruplarımıza ilişkin yayımlanan katalog ve dokümanlara bu sayfadan ulaşabilirsiniz.": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Ürün gruplarımızı keşfedin.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "ÜRÜN HAKKINDA": [
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx"
+  ],
+  "Ürün ihtiyaçlarınız ve kurumsal iş birliği olanakları için ekibimizle iletişime geçin.": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Ürün kararlarını kullanım amacı, malzeme yapısı ve üretim adımları arasındaki ilişkiyi gözeterek ele alıyoruz.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Ürün kataloğu": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "ÜRÜN KATALOĞU": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "ÜRÜN KATEGORİSİ": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Ürün kodu": [
+    "src/components/products/format.ts"
+  ],
+  "Ürün kodu {code}": [
+    "src/components/products/format.ts"
+  ],
+  "ÜRÜN KODU İLE ARAYIN": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Ürün listesi": [
+    "src/app/[lang]/urunler/[kategori]/page.tsx"
+  ],
+  "Ürün ölçüsü": [
+    "src/components/products/format.ts"
+  ],
+  "Ürün seçiminde dikkatli bir değerlendirme.": [
+    "src/app/[lang]/urunler/page.tsx"
+  ],
+  "Ürün seçiminde işlevi, kullanım deneyimini ve detayları bir arada düşünmek.": [
+    "src/components/home/ApproachSection.tsx"
+  ],
   "Ürün tipi, ölçü, keçe ve sünger rengi ile paket içeriği raf ve fiyat hedefinize göre birlikte belirlenir.": [
     "data:privateLabel"
+  ],
+  "Ürün veya hammadde ihtiyacınızı konuşalım.": [
+    "src/app/[lang]/kabiliyetler/page.tsx"
   ],
   "Ürün yelpazemiz 7,5 cm'lik makyaj temizleme süngerinden 90 cm'lik kapı eşik süngerine uzanır; ölçü ve form ihtiyaca göre birlikte belirlenebilir.": [
     "data:capabilities"
@@ -2421,32 +3836,65 @@
   "Ürün, kendi marka tasarımınız ve barkodunuzla ambalajlanır; ambalaj tipi ürüne göre seçilir.": [
     "data:privateLabel"
   ],
+  "Ürün, malzeme ve süreç kararlarında kaliteyi, insanı ve çevresel etkileri birlikte değerlendirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Ürün, üretim süreci ve iletişimin her aşamasında tutarlı, özenli ve gelişime açık bir çalışma anlayışı sunmak.": [
     "data:corporate"
   ],
   "Ürünler": [
     "data:footerNav",
     "data:mainNav",
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx",
     "src/app/[lang]/not-found.tsx",
+    "src/app/[lang]/urunler/[kategori]/[urun]/page.tsx",
+    "src/app/[lang]/urunler/[kategori]/page.tsx",
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx",
+    "src/app/[lang]/urunler/page.tsx",
     "src/i18n/server.ts"
+  ],
+  "ÜRÜNLER HAKKINDA": [
+    "src/app/[lang]/urunler/page.tsx"
   ],
   "Ürünler koli, naylon torba veya çuval ile, siparişe göre planlanan sevkiyatlarla teslim edilir.": [
     "data:privateLabel"
   ],
+  "Ürünler, hammadde tedariki ve iş birliği olanakları için ekibimizle iletişime geçin.": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
   "Ürünleri tekli paketten 12'li askılı karta kadar farklı ambalajlarda hazırlıyoruz.": [
     "data:capabilities"
+  ],
+  "Ürünlerimiz hakkında bilgi almak ve iş birliği olanaklarını konuşmak için ekibimize ulaşın.": [
+    "src/components/home/ContactSection.tsx"
   ],
   "Ürünlerimiz rulo ve plaka formunda hazırlanabilir. Gramaj, kalınlık, renk ve ölçü gibi özellikler ihtiyaca göre birlikte değerlendirilir.": [
     "data:categories"
   ],
+  "Ürünlerimiz, iş birliği olanakları ve genel sorularınız için bizimle iletişime geçin.": [
+    "src/app/[lang]/iletisim/page.tsx"
+  ],
   "Ürünlerimizde kullanılan rulo ve tabaka hammaddeler de bu tesiste üretilir.": [
     "data:corporate"
   ],
+  "Ürünlerimizi inceleyin": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
   "Ürünlerimizi keşfedin": [
-    "data:heroSlides"
+    "data:heroSlides",
+    "src/components/home/AboutSection.tsx"
   ],
   "Ürünlerimizin üretimi, ISO 9001 kalite yönetim sistemi standardı çerçevesinde yürütülür.": [
     "data:quality"
+  ],
+  "Ürünün kullanım amacına uygunluğunu süreç boyunca dikkatle değerlendirmek.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Ürünün kullanım amacına uygunluğunu ve süreçteki iyileştirme alanlarını değerlendirmek.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Ürünün ötesinde, ortak bir anlayış.": [
+    "src/components/home/ApproachSection.tsx"
   ],
   "Üst üste dizilmiş mor, mavi, yeşil, sarı ve kırmızı ovucu keçeler": [
     "data:categories"
@@ -2460,11 +3908,33 @@
   "Üzerinde tava ve tencere bulunan, zemine serilmiş beyaz Inox keçe plakası": [
     "data:categories"
   ],
+  "Varsa ürün ve ambalaja ait fotoğraflar": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Veri sorumlusu": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
+  ],
+  "Verimli üretim": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
   "Vizyonumuz": [
     "data:corporate"
   ],
+  "Web sitesini ziyaret edin": [
+    "src/app/[lang]/kurumsal/grup-sirketleri/page.tsx"
+  ],
   "Yaklaşımımız": [
     "data:quality"
+  ],
+  "YAKLAŞIMIMIZ": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx",
+    "src/components/home/ApproachSection.tsx"
+  ],
+  "Yaklaşımımız hakkında sorularınız ve iş birliği önerileriniz için bize ulaşın.": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
+  ],
+  "Yaklaşımımızı keşfedin": [
+    "src/components/home/SustainabilitySection.tsx"
   ],
   "Yan yana dizilmiş dokuz renkte dar en ovucu keçe ruloları": [
     "data:categories"
@@ -2481,8 +3951,15 @@
   "Yapı market ve ev": [
     "data:privateLabel"
   ],
+  "Yapılan işin bütün sürece ve çevresine etkisini gözeterek hareket etmek.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Yaprak sayısı": [
     "data:categories"
+  ],
+  "Yarına, bugünden bir özen.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx",
+    "src/components/home/SustainabilitySection.tsx"
   ],
   "Yasal": [
     "src/components/layout/Footer.tsx"
@@ -2492,6 +3969,30 @@
   ],
   "Yaşamın içinden gelen ihtiyaçlara, özenle düşünülen temizlik çözümleri.": [
     "data:heroSlides"
+  ],
+  "Yaşanan sorunun kısa açıklaması": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Yayımlanan kataloglar.": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Yayımlanan katalogları tarayıcınızda görüntüleyebilir veya cihazınıza PDF olarak indirebilirsiniz.": [
+    "src/app/[lang]/kataloglar/page.tsx"
+  ],
+  "Yayın tarihi:": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Yayındaki pozisyonları aşağıda bulabilirsiniz. Size uygun bir pozisyon yoksa başvuru formundan genel başvuru yapabilirsiniz.": [
+    "src/components/careers/OpenPositions.tsx"
+  ],
+  "Yeni bilgiler öğrenmeye, deneyimlerden yararlanmaya ve iyileştirme fikirlerine açık olmak.": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
+  "Yeni ihtiyaçları anlamaya ve farklı çözümleri değerlendirmeye açık olmak.": [
+    "src/components/corporate/AboutSections.tsx"
+  ],
+  "Yenilikçilik": [
+    "src/components/corporate/AboutSections.tsx"
   ],
   "Yer Bezi": [
     "data:categories"
@@ -2521,7 +4022,11 @@
     "data:categories"
   ],
   "Yeşil ovucu keçenin silindirler arasından geçtiği üretim hattı, arkada keçe ruloları": [
-    "data:capabilities"
+    "data:capabilities",
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "Yeşil yapraklar arasında ambalajlı natürel keçeli sünger": [
+    "src/app/[lang]/surdurulebilirlik/page.tsx"
   ],
   "Yeşil, kırmızı, mavi, sarı, siyah, beyaz": [
     "data:categories"
@@ -2532,15 +4037,36 @@
   "Yeşil, renkli ve simli siyah seçenekler; 3'lü ve 5'li paketlerle sunulur. Keçenin kendisi rulo hammadde olarak da farklı gramaj ve renklerde üretilmektedir.": [
     "data:categories"
   ],
+  "yıllık grup deneyimi": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Yirmiye yakın renk": [
     "data:capabilities",
     "data:categories"
   ],
+  "YOL GÖSTEREN DEĞERLER": [
+    "src/app/[lang]/insan-kaynaklari/page.tsx"
+  ],
   "Yönetim": [
     "data:corporate"
   ],
+  "Yönetim merkezimiz İstanbul'da; üretimimiz Sakarya Hendek'teki tesisimizde yapılır.": [
+    "src/app/[lang]/kurumsal/uretim-tesisleri/page.tsx"
+  ],
+  "Yönetim merkezimiz İstanbul'da; üretimimiz Sakarya Hendek'teki tesisimizde. Sanifoam grubunun Türkiye ve Avrupa'daki altyapısının bir parçasıyız.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
   "Yönetim sistemi": [
     "data:quality"
+  ],
+  "Yönetim sistemi belgelerimizle ilgili talepleriniz için bizimle iletişime geçebilirsiniz.": [
+    "src/app/[lang]/kalite/[slug]/page.tsx"
+  ],
+  "Yönetimden üretime, iki noktada.": [
+    "src/app/[lang]/kurumsal/hakkinda/page.tsx"
+  ],
+  "yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,": [
+    "src/app/[lang]/kvkk-aydinlatma-metni/page.tsx"
   ],
   "Zemin rengi": [
     "data:categories"
@@ -2551,8 +4077,15 @@
   "Zemine serilmiş 1 × 2 m yeşil ovucu keçe plakası": [
     "data:categories"
   ],
+  "Zincir adları ve logoları ilgili şirketlerin tescilli markalarıdır ve izinleriyle kullanılmaktadır.": [
+    "src/app/[lang]/urunler/ozel-marka-uretimi/page.tsx"
+  ],
   "Zorlu kirler için ovucu keçe ve ovma teli seçenekleri.": [
     "data:categories",
     "data:privateLabel"
+  ],
+  "zorunlu": [
+    "src/components/careers/ApplicationForm.tsx",
+    "src/components/contact/ContactForm.tsx"
   ]
 }

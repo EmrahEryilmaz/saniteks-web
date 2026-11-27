@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, isLocale, LOCALE_COOKIE, negotiateLocale } from "@/i18n/config";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
+/** Marks the internal Turkish rewrite so "/tr/…" is only redirected when a visitor asks for it. */
+const INTERNAL_HEADER = "x-saniteks-locale-rewrite";
 
 /**
  * Language routing (see src/i18n/config.ts):
@@ -17,6 +19,8 @@ export function proxy(request: NextRequest) {
 
   if (isLocale(first)) {
     if (first !== defaultLocale) return NextResponse.next();
+    // Our own rewrite below ("/urunler" → "/tr/urunler") passes through the proxy again: let it through.
+    if (request.headers.get(INTERNAL_HEADER) === "1") return NextResponse.next();
     const url = request.nextUrl.clone();
     url.pathname = pathname.slice(3) || "/";
     return NextResponse.redirect(url, 308);
@@ -37,7 +41,9 @@ export function proxy(request: NextRequest) {
 
   const url = request.nextUrl.clone();
   url.pathname = pathname === "/" ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`;
-  const response = NextResponse.rewrite(url);
+  const headers = new Headers(request.headers);
+  headers.set(INTERNAL_HEADER, "1");
+  const response = NextResponse.rewrite(url, { request: { headers } });
   response.headers.set("Vary", "Accept-Language, Cookie");
   return response;
 }

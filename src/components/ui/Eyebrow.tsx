@@ -4,7 +4,7 @@ import { cx } from "./styles";
 type EyebrowProps = {
   children: ReactNode;
   /**
-   * bar   — inner pages: left border + green text ("ÜRÜN KATEGORİSİ").
+   * bar   — inner pages: start border + green text ("ÜRÜN KATEGORİSİ").
    * line  — home page: short rule before the text, optional "02 /" index.
    * dark  — bar variant on dark bands (accent border, light text).
    */
@@ -33,10 +33,10 @@ export function Eyebrow({ children, variant = "bar", index, tinted = true, class
   }
   if (variant === "dark") {
     return (
-      <p className={cx("mb-4 border-l-2 border-accent pl-4 text-xs font-semibold tracking-widest text-primary-foreground/75", className)}>
+      <p className={cx("mb-4 border-s-2 border-accent ps-4 text-xs font-semibold tracking-widest text-primary-foreground/75", className)}>
         {children}
       </p>
     );
   }
-  return <p className={cx("mb-4 border-l-2 border-primary pl-4 text-xs font-semibold tracking-widest text-link", className)}>{children}</p>;
+  return <p className={cx("mb-4 border-s-2 border-primary ps-4 text-xs font-semibold tracking-widest text-link", className)}>{children}</p>;
 }

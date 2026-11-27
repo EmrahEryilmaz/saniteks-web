@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { A11y, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperClass } from "swiper/types";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { focusStyle } from "@/components/ui/styles";
+import { useDirection, useT } from "@/i18n/client";
+import { Link } from "@/i18n/Link";
 import { Reveal } from "./Reveal";
 
 export type HeroSlide = {
@@ -23,37 +24,16 @@ export type HeroSlide = {
 };
 
 type HeroSliderProps = {
-  /** Visually hidden page heading (h1). */
+  /** Visually hidden page heading (h1), already translated. */
   title: string;
+  /** Slides already localized by the server page (i18n/data › localized). */
   slides: HeroSlide[];
 };
-
-/** UI strings — verbatim from the live site's slider dictionary. */
-const messages = {
-  role: "Slayt gösterisi",
-  slide: "Slayt",
-  previous: "Önceki slayt",
-  next: "Sonraki slayt",
-  pause: "Otomatik geçişi durdur",
-  play: "Otomatik geçişi başlat",
-  reduced: "Hareket azaltma tercihi nedeniyle otomatik geçiş kapalı",
-  pagination: "Slayt seçimi",
-  goTo: "Slayta git:",
-  position: "{{index}} / {{slidesLength}}",
-  explore: "Saniteks’i keşfedin",
-} as const;
 
 /** Live values: 350 ms slide transition, 6 s autoplay delay, rewind (not loop). */
 const SPEED = 350;
 const MODULES = [A11y, Autoplay];
 const AUTOPLAY = { enabled: false, delay: 6000, disableOnInteraction: true };
-const A11Y = {
-  enabled: true,
-  containerRole: "group",
-  itemRoleDescriptionMessage: messages.slide,
-  slideLabelMessage: messages.position,
-  wrapperLiveRegion: false,
-};
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
@@ -71,6 +51,30 @@ const controlClass = `inline-flex size-11 shrink-0 items-center justify-center b
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function HeroSlider({ title, slides }: HeroSliderProps) {
+  const t = useT();
+  const dir = useDirection();
+  /** UI strings — verbatim from the live site's slider dictionary. */
+  const messages = {
+    role: t("Slayt gösterisi"),
+    previous: t("Önceki slayt"),
+    next: t("Sonraki slayt"),
+    pause: t("Otomatik geçişi durdur"),
+    play: t("Otomatik geçişi başlat"),
+    reduced: t("Hareket azaltma tercihi nedeniyle otomatik geçiş kapalı"),
+    pagination: t("Slayt seçimi"),
+    explore: t("Saniteks’i keşfedin"),
+  };
+  const slideLabel = t("Slayt");
+  const a11y = useMemo(
+    () => ({
+      enabled: true,
+      containerRole: "group",
+      itemRoleDescriptionMessage: slideLabel,
+      slideLabelMessage: "{{index}} / {{slidesLength}}",
+      wrapperLiveRegion: false,
+    }),
+    [slideLabel],
+  );
   const swiperRef = useRef<SwiperClass | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
@@ -144,11 +148,19 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
-    go(event.key === "ArrowRight" ? "next" : "previous");
+    // Right-to-left pages (Arabic) advance with the left arrow.
+    const forward = dir === "rtl" ? "ArrowLeft" : "ArrowRight";
+    go(event.key === forward ? "next" : "previous");
   };
 
   const current = slides[active];
-  const status = current ? `${messages.slide} ${active + 1} / ${slides.length}: ${current.title.replace(/\s*\n\s*/g, " ")}` : "";
+  const status = current
+    ? t("Slayt {index} / {total}: {title}", {
+        index: active + 1,
+        total: slides.length,
+        title: current.title.replace(/\s*\n\s*/g, " "),
+      })
+    : "";
 
   return (
     <section
@@ -167,12 +179,13 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
         {title}
       </h1>
       <Swiper
+        dir={dir}
         modules={MODULES}
         slidesPerView={1}
         rewind
         speed={reduced ? 0 : SPEED}
         autoplay={AUTOPLAY}
-        a11y={A11Y}
+        a11y={a11y}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
@@ -210,7 +223,8 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
                       fill
                       sizes="100vw"
                       preload={index === 0}
-                      className={`object-cover ${slide.image.position ?? "object-[62%_center] lg:object-center"}`}
+                      // Mirrored on right-to-left pages so the people stay clear of the text panel, which moves to the right.
+                      className={`object-cover rtl:-scale-x-100 ${slide.image.position ?? "object-[62%_center] lg:object-center"}`}
                       onError={() => setFailedImages((prev) => new Set(prev).add(slide.id))}
                     />
                   </Reveal>
@@ -219,7 +233,7 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
                 <div aria-hidden="true" className="absolute inset-x-0 top-0 h-40 bg-foreground/45" />
                 <div
                   aria-hidden="true"
-                  className="absolute inset-y-0 left-0 w-full border-r border-primary-foreground/15 bg-foreground/50 lg:w-[54%]"
+                  className="absolute inset-y-0 start-0 w-full border-e border-primary-foreground/15 bg-foreground/50 lg:w-[54%]"
                 />
                 <Container className="relative">
                   <Reveal active={isActive} observe={false} className="max-w-xl">
@@ -249,7 +263,7 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
       {slides.length > 1 ? (
         <div className="absolute inset-x-0 bottom-0 z-10 border-t border-primary-foreground/25 bg-foreground/85">
           <div aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 bg-primary-foreground/15">
-            <span ref={progressRef} className="block h-full origin-left scale-x-0 bg-primary" />
+            <span ref={progressRef} className="block h-full origin-left scale-x-0 bg-primary rtl:origin-right" />
           </div>
           <Container className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2 py-3 md:gap-x-4 md:py-4">
             <div className="flex flex-col items-start gap-0 md:flex-row md:items-center md:gap-8">
@@ -269,7 +283,7 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
                       stop();
                       swiperRef.current?.slideTo(index);
                     }}
-                    aria-label={`${messages.goTo} ${index + 1}`}
+                    aria-label={t("Slayta git: {number}", { number: index + 1 })}
                     aria-current={active === index ? "true" : undefined}
                     className={`flex size-11 items-center justify-center ${focusStyle} hover:bg-primary-foreground/10 focus-visible:outline-primary-foreground`}
                   >
@@ -305,12 +319,12 @@ export function HeroSlider({ title, slides }: HeroSliderProps) {
                 <span aria-hidden="true">{running ? "Ⅱ" : "▷"}</span>
               </button>
               <button type="button" className={controlClass} aria-label={messages.previous} onClick={() => go("previous")}>
-                <span aria-hidden="true" className="text-xl">
+                <span aria-hidden="true" className="inline-block text-xl rtl:-scale-x-100">
                   ←
                 </span>
               </button>
               <button type="button" className={controlClass} aria-label={messages.next} onClick={() => go("next")}>
-                <span aria-hidden="true" className="text-xl">
+                <span aria-hidden="true" className="inline-block text-xl rtl:-scale-x-100">
                   →
                 </span>
               </button>

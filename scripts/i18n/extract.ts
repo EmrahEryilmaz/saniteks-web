@@ -59,7 +59,8 @@ for (const file of walk(src)) {
 const skipKeys = new Set([
   "slug", "id", "code", "categorySlug", "packaging", "image", "src", "href", "url", "file", "logo", "hex", "nameEn",
   "number", "validFrom", "validUntil", "email", "phone", "phoneHref", "phoneE164", "mapsHref", "path", "icon",
-  "position", "kind", "variant", "key",
+  "position", "kind", "variant", "key", "published", "address", "streetAddress", "addressLocality", "addressRegion",
+  "postalCode", "addressCountry", "phoneDisplay",
 ]);
 function collect(value: unknown, where: string, key?: string) {
   if (typeof value === "string") {

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { corporateHeroImage, groupCompanies } from "@/data/corporate";
+import { intlLocales } from "@/i18n/config";
+import { localized } from "@/i18n/data";
+import { Link } from "@/i18n/Link";
+import { getLocale, getT } from "@/i18n/server";
 import { site } from "@/lib/site";
 import { CorporateHero } from "@/components/corporate/CorporateHero";
 import { corporateMetadata } from "@/components/corporate/pageMetadata";
@@ -13,44 +16,53 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { cx, focusStyle } from "@/components/ui/styles";
 
 const PATH = "/kurumsal/grup-sirketleri";
-const DESCRIPTION =
-  "Saniteks, Sanifoam çatısı altında faaliyet gösteren grup şirketlerinden biridir: Sanifoam, Saniteks, Sanifoam GmbH, Ultech, Corefix ve Sanicar.";
 
-export const metadata: Metadata = corporateMetadata({
-  title: "Grup Şirketleri",
-  description: DESCRIPTION,
-  path: PATH,
-  image: corporateHeroImage,
-});
-
-const crumbs: Crumb[] = [
-  { label: "Ana Sayfa", href: "/" },
-  { label: "Kurumsal", href: "/kurumsal/hakkinda" },
-  { label: "Grup Şirketleri" },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return corporateMetadata({
+    title: t("Grup Şirketleri"),
+    description: t(
+      "Saniteks, Sanifoam çatısı altında faaliyet gösteren grup şirketlerinden biridir: Sanifoam, Saniteks, Sanifoam GmbH, Ultech, Corefix ve Sanicar.",
+    ),
+    path: PATH,
+    image: await localized(corporateHeroImage),
+  });
+}
 
 const actionClass = cx(
   "inline-flex min-h-11 items-center gap-3 text-sm font-semibold tracking-wide text-link underline-offset-4 hover:text-link-hover hover:underline",
   focusStyle,
 );
 
-export default function GroupCompaniesPage() {
+export default async function GroupCompaniesPage() {
+  const t = await getT();
+  const locale = await getLocale();
+  const [heroImage, companies] = await Promise.all([localized(corporateHeroImage), localized(groupCompanies)]);
+  const crumbs: Crumb[] = [
+    { label: t("Ana Sayfa"), href: "/" },
+    { label: t("Kurumsal"), href: "/kurumsal/hakkinda" },
+    { label: t("Grup Şirketleri") },
+  ];
+
   return (
     <>
       <CorporateHero
         crumbs={crumbs}
         current={PATH}
         align="center"
-        title="Grup Şirketlerimiz"
-        subtitle="Sanifoam çatısı altında farklı sektörlerde uzmanlaşan grup şirketlerini tanıyın. Saniteks, temizlik ürünleri alanında faaliyet gösteren bir grup şirketidir."
-        image={corporateHeroImage}
+        title={t("Grup Şirketlerimiz")}
+        subtitle={t(
+          "Sanifoam çatısı altında farklı sektörlerde uzmanlaşan grup şirketlerini tanıyın. Saniteks, temizlik ürünleri alanında faaliyet gösteren bir grup şirketidir.",
+        )}
+        image={heroImage}
       />
 
       <Section labelledBy="group-companies-title" tone="muted">
-        <SectionHeading id="group-companies-title" eyebrow="SANİFOAM GRUBU" title="Farklı uzmanlıklar, tek bir çatı." />
+        <SectionHeading id="group-companies-title" eyebrow={t("SANİFOAM GRUBU")} title={t("Farklı uzmanlıklar, tek bir çatı.")} />
         <ul className="mt-9 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {groupCompanies.map((company) => {
-            const self = company.badge === "Bu site";
+          {companies.map((company, index) => {
+            // The badge is translated; compare the Turkish source value.
+            const self = groupCompanies[index].badge === "Bu site";
             return (
               <li
                 key={company.id}
@@ -68,7 +80,7 @@ export default function GroupCompaniesPage() {
                     className="object-cover opacity-90 transition-transform duration-500 group-hover/company:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
                   />
                   <div aria-hidden="true" className="absolute inset-0 bg-linear-to-b from-overlay/55 via-transparent to-transparent" />
-                  <div className="absolute top-4 left-4 flex min-h-12 items-center rounded-sm border-l-2 border-primary bg-surface/95 px-4 py-2">
+                  <div className="absolute top-4 start-4 flex min-h-12 items-center rounded-sm border-s-2 border-primary bg-surface/95 px-4 py-2">
                     {company.logo ? (
                       <Image
                         src={company.logo.src}
@@ -76,15 +88,15 @@ export default function GroupCompaniesPage() {
                         width={company.logo.width}
                         height={company.logo.height}
                         sizes="128px"
-                        className="h-6 w-auto max-w-32 object-contain object-left"
+                        className="h-6 w-auto max-w-32 object-contain object-left rtl:object-right"
                       />
                     ) : (
                       <span className="text-lg font-bold tracking-tight text-foreground">{company.name}</span>
                     )}
                   </div>
                   {company.badge ? (
-                    <span className="absolute top-4 right-4 rounded-sm bg-primary px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-primary-foreground">
-                      {company.badge.toLocaleUpperCase("tr")}
+                    <span className="absolute top-4 end-4 rounded-sm bg-primary px-2.5 py-1 text-[10px] font-semibold tracking-[0.16em] text-primary-foreground">
+                      {company.badge.toLocaleUpperCase(intlLocales[locale])}
                     </span>
                   ) : null}
                 </div>
@@ -94,16 +106,22 @@ export default function GroupCompaniesPage() {
                   <div className="mt-6 border-t border-border pt-3">
                     {self ? (
                       <Link href="/urunler" className={actionClass}>
-                        Ürünlerimizi inceleyin <span aria-hidden="true">↗</span>
+                        {t("Ürünlerimizi inceleyin")}{" "}
+                        <span aria-hidden="true" className="inline-block rtl:-scale-x-100">
+                          ↗
+                        </span>
                       </Link>
                     ) : company.url ? (
                       <a href={company.url} target="_blank" rel="noopener noreferrer" className={actionClass}>
-                        Web sitesini ziyaret edin <span aria-hidden="true">↗</span>
-                        <span className="sr-only">(yeni sekmede açılır)</span>
+                        {t("Web sitesini ziyaret edin")}{" "}
+                        <span aria-hidden="true" className="inline-block rtl:-scale-x-100">
+                          ↗
+                        </span>
+                        <span className="sr-only">{t("(yeni sekmede açılır)")}</span>
                       </a>
                     ) : (
                       <span className="inline-flex min-h-11 items-center text-sm font-semibold tracking-wide text-subtle-foreground">
-                        Sanifoam grup şirketi
+                        {t("Sanifoam grup şirketi")}
                       </span>
                     )}
                   </div>
@@ -116,13 +134,13 @@ export default function GroupCompaniesPage() {
 
       <CtaSection
         id="group-contact-title"
-        eyebrow="BİRLİKTE ÇALIŞALIM"
-        title="İhtiyacınıza uygun çözümü konuşalım."
-        text="Ürün ihtiyaçlarınız ve kurumsal iş birliği olanakları için ekibimizle iletişime geçin."
-        action={{ href: "/iletisim", label: "İletişime geçin" }}
+        eyebrow={t("BİRLİKTE ÇALIŞALIM")}
+        title={t("İhtiyacınıza uygun çözümü konuşalım.")}
+        text={t("Ürün ihtiyaçlarınız ve kurumsal iş birliği olanakları için ekibimizle iletişime geçin.")}
+        action={{ href: "/iletisim", label: t("İletişime geçin") }}
       />
 
-      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH)} />
+      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH, locale)} />
     </>
   );
 }

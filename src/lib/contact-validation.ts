@@ -1,12 +1,14 @@
 // Contact form rules — the single validator shared by the client form (src/components/contact)
 // and the /api/contact route handler. Ported from the live saniteks.com.tr form bundle:
-// same limits, same sanitising and the same Turkish messages on both sides.
+// same limits, same sanitising and the same messages on both sides (in the visitor's language, see contactMessages).
 
+import type { Translate } from "@/i18n/translate";
 import { contactSubjects, site, type ContactSubject } from "@/lib/site";
 
 export type ContactFieldName = "name" | "email" | "phone" | "subject" | "message";
 
 export type ContactFieldConfig = {
+  /** Turkish label, used in the notification e-mail to staff (the form shows a translated label). */
   label: string;
   min: number;
   max: number;
@@ -49,29 +51,74 @@ export type ContactResponse = {
   errors?: Record<string, string>;
 };
 
-export const contactMessages = {
-  invalidValue: "Lütfen geçerli bir değer girin.",
-  email: "Geçerli bir e-posta adresi girin.",
-  phone: "Ülke koduyla birlikte 7–15 rakam içeren bir telefon girin.",
-  subject: "Lütfen bir konu seçin.",
-  acknowledged: "Lütfen aydınlatma bildirimini işaretleyin.",
-  checkForm: "Lütfen form bilgilerini kontrol edin.",
-  sendFailed: "Mesaj gönderilemedi. Lütfen tekrar deneyin.",
-  unverified:
-    "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya bize e-posta ile ulaşın.",
+export type ContactMessages = {
+  invalidValue: string;
+  email: string;
+  phone: string;
+  subject: string;
+  acknowledged: string;
+  checkForm: string;
+  sendFailed: string;
+  unverified: string;
   // Server-only outcomes.
-  success: "Mesajınız iletildi. Teşekkür ederiz.",
-  unsupportedMediaType: "İstek biçimi desteklenmiyor. Lütfen formu sayfa üzerinden gönderin.",
-  payloadTooLarge: "Gönderilen içerik çok büyük. Lütfen mesajınızı kısaltın.",
-  badRequest: "İstek okunamadı. Lütfen formu yeniden gönderin.",
-  rateLimited: "Kısa sürede çok fazla gönderim yapıldı. Lütfen birkaç dakika sonra tekrar deneyin.",
-  unavailable: `İletişim formu şu anda kullanılamıyor. Lütfen ${site.contact.email} adresine e-posta gönderin veya ${site.contact.phoneDisplay} numarasını arayın.`,
-  deliveryFailed: `Mesajınız şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya ${site.contact.email} adresine e-posta gönderin.`,
-} as const;
+  success: string;
+  unsupportedMediaType: string;
+  payloadTooLarge: string;
+  badRequest: string;
+  rateLimited: string;
+  unavailable: string;
+  deliveryFailed: string;
+  /** Length error of each field ("Bu alan 2–120 karakter olmalıdır."). */
+  length: Record<ContactFieldName, string>;
+};
+
+/**
+ * Messages in the visitor's language. Pages build them with getT() and pass them to the form (a plain object, so it
+ * can cross into the client component); /api/contact builds them with i18n/translate-for › getTranslateFor.
+ */
+export function contactMessages(t: Translate): ContactMessages {
+  return {
+    invalidValue: t("Lütfen geçerli bir değer girin."),
+    email: t("Geçerli bir e-posta adresi girin."),
+    phone: t("Ülke koduyla birlikte 7–15 rakam içeren bir telefon girin."),
+    subject: t("Lütfen bir konu seçin."),
+    acknowledged: t("Lütfen aydınlatma bildirimini işaretleyin."),
+    checkForm: t("Lütfen form bilgilerini kontrol edin."),
+    sendFailed: t("Mesaj gönderilemedi. Lütfen tekrar deneyin."),
+    unverified: t(
+      "Gönderim sonucu doğrulanamadı. Bilgileriniz korundu; tekrar denemeden önce bekleyin veya bize e-posta ile ulaşın.",
+    ),
+    success: t("Mesajınız iletildi. Teşekkür ederiz."),
+    unsupportedMediaType: t("İstek biçimi desteklenmiyor. Lütfen formu sayfa üzerinden gönderin."),
+    payloadTooLarge: t("Gönderilen içerik çok büyük. Lütfen mesajınızı kısaltın."),
+    badRequest: t("İstek okunamadı. Lütfen formu yeniden gönderin."),
+    rateLimited: t("Kısa sürede çok fazla gönderim yapıldı. Lütfen birkaç dakika sonra tekrar deneyin."),
+    unavailable: t("İletişim formu şu anda kullanılamıyor. Lütfen {email} adresine e-posta gönderin veya {phone} numarasını arayın.", {
+      email: site.contact.email,
+      phone: site.contact.phoneDisplay,
+    }),
+    deliveryFailed: t("Mesajınız şu anda iletilemedi. Lütfen daha sonra tekrar deneyin veya {email} adresine e-posta gönderin.", {
+      email: site.contact.email,
+    }),
+    length: lengthMessages(t, contactFields),
+  };
+}
 
 /** "Bu alan 2–120 karakter olmalıdır." / "Bu alan en fazla 40 karakter olmalıdır." */
-export function contactLengthMessage({ min, max }: Pick<ContactFieldConfig, "min" | "max">): string {
-  return `Bu alan ${min > 0 ? `${min}–${max}` : `en fazla ${max}`} karakter olmalıdır.`;
+export function contactLengthMessage(t: Translate, { min, max }: Pick<ContactFieldConfig, "min" | "max">): string {
+  return min > 0
+    ? t("Bu alan {min}–{max} karakter olmalıdır.", { min, max })
+    : t("Bu alan en fazla {max} karakter olmalıdır.", { max });
+}
+
+/** Length message of every field of a form. */
+export function lengthMessages<K extends string>(
+  t: Translate,
+  fields: Record<K, Pick<ContactFieldConfig, "min" | "max">>,
+): Record<K, string> {
+  const out = {} as Record<K, string>;
+  for (const key of Object.keys(fields) as K[]) out[key] = contactLengthMessage(t, fields[key]);
+  return out;
 }
 
 /** C0/C1 control characters plus the Unicode line/paragraph separators. */
@@ -125,6 +172,7 @@ export function isHoneypotFilled(input: unknown): boolean {
  */
 export function validateContact(
   input: unknown,
+  messages: ContactMessages,
   options: { requireAcknowledgement?: boolean } = {},
 ): ContactValidationResult {
   const record = isRecord(input) ? input : {};
@@ -148,26 +196,26 @@ export function validateContact(
 
     const wrongType = rawValue !== undefined && typeof rawValue !== "string";
     if (wrongType || hasForbiddenChars(raw, field === "message")) {
-      found[field] = contactMessages.invalidValue;
+      found[field] = messages.invalidValue;
     } else if (value.length < config.min || raw.length > config.max) {
-      found[field] = contactLengthMessage(config);
+      found[field] = messages.length[field];
     }
   }
 
   if (!isValidEmail(data.email)) {
-    found.email = contactMessages.email;
+    found.email = messages.email;
   }
 
   if (data.phone && !isValidPhone(data.phone)) {
-    found.phone = contactMessages.phone;
+    found.phone = messages.phone;
   }
 
   if (!isContactSubject(data.subject)) {
-    found.subject = contactMessages.subject;
+    found.subject = messages.subject;
   }
 
   if (options.requireAcknowledgement && !data.acknowledged) {
-    found.acknowledged = contactMessages.acknowledged;
+    found.acknowledged = messages.acknowledged;
   }
 
   // Report errors in form order so "focus the first invalid field" follows the layout.
@@ -204,12 +252,13 @@ export function parseContactResponse(body: unknown): ContactResponse | null {
 
 export const contactPrefillProductMaxLength = 160;
 
-export type ContactPrefill = { subject: ContactSubject | ""; message: string };
+export type ContactPrefill = { subject: ContactSubject | ""; product: string };
 
 /**
- * Builds the initial subject/message from the query string.
- * Unknown subjects are ignored; the product name is stripped of control characters,
- * whitespace-collapsed and capped at 160 characters.
+ * Reads the initial subject and product name from the query string (the form turns the product into
+ * "<ürün> hakkında bilgi almak istiyorum." in the page language).
+ * Unknown subjects are ignored (the ?konu= values are the Turkish subject keys in every language); the product
+ * name is stripped of control characters, whitespace-collapsed and capped at 160 characters.
  */
 export function contactPrefill(konu: string | null | undefined, urun: string | null | undefined): ContactPrefill {
   const subjectCandidate = (konu ?? "").normalize("NFC").trim();
@@ -222,5 +271,5 @@ export function contactPrefill(konu: string | null | undefined, urun: string | n
     .join("")
     .trim();
 
-  return { subject, message: product ? `${product} hakkında bilgi almak istiyorum.` : "" };
+  return { subject, product };
 }

@@ -1,6 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { corporatePages } from "@/data/corporate";
+import { localized } from "@/i18n/data";
+import { Link } from "@/i18n/Link";
+import { getT } from "@/i18n/server";
 import { Breadcrumbs, type Crumb } from "@/components/ui/Breadcrumbs";
 import { containerClass, cx, focusStyle } from "@/components/ui/styles";
 
@@ -13,10 +15,11 @@ type CorporateHeroProps = {
   current: string;
   /** "left" for Hakkında, "center" for the listing sub-pages (as on sanifoam.com.tr). */
   align?: "left" | "center";
-  /** Section label above the title; defaults to the corporate section. */
+  /** Section label above the title (already translated); defaults to the corporate section. */
   eyebrow?: string;
-  /** Sibling pages shown as tabs; defaults to the corporate sub-pages. */
+  /** Sibling pages shown as tabs (labels already translated); defaults to the corporate sub-pages. */
   tabs?: { href: string; label: string }[];
+  /** Accessible name of the tab strip (already translated); defaults to "Kurumsal sayfalar". */
   tabsLabel?: string;
 };
 
@@ -25,17 +28,21 @@ type CorporateHeroProps = {
  * visual language (home-slider overlays, rule-before eyebrow, green border accents), with a tab strip
  * linking the three corporate sub-pages.
  */
-export function CorporateHero({
+export async function CorporateHero({
   crumbs,
   title,
   subtitle,
   image,
   current,
   align = "left",
-  eyebrow = "KURUMSAL",
-  tabs = corporatePages,
-  tabsLabel = "Kurumsal sayfalar",
+  eyebrow: eyebrowProp,
+  tabs: tabsProp,
+  tabsLabel: tabsLabelProp,
 }: CorporateHeroProps) {
+  const t = await getT();
+  const eyebrow = eyebrowProp ?? t("KURUMSAL");
+  const tabs = tabsProp ?? (await localized(corporatePages));
+  const tabsLabel = tabsLabelProp ?? t("Kurumsal sayfalar");
   const centered = align === "center";
   return (
     <section aria-labelledby="page-title" className="relative isolate overflow-hidden bg-foreground text-primary-foreground">
@@ -45,7 +52,7 @@ export function CorporateHero({
         <div
           aria-hidden="true"
           className={cx(
-            "absolute inset-y-0 left-0 w-full border-r border-primary-foreground/15 bg-foreground/55",
+            "absolute inset-y-0 start-0 w-full border-e border-primary-foreground/15 bg-foreground/55",
             centered ? "lg:inset-x-0" : "lg:w-[58%]",
           )}
         />
@@ -74,7 +81,7 @@ export function CorporateHero({
           <p
             className={cx(
               "mt-6 text-base leading-7 text-primary-foreground/90 md:text-lg md:leading-8",
-              centered ? "mx-auto max-w-2xl" : "max-w-xl border-l-2 border-primary pl-5",
+              centered ? "mx-auto max-w-2xl" : "max-w-xl border-s-2 border-primary ps-5",
             )}
           >
             {subtitle}
@@ -92,7 +99,7 @@ export function CorporateHero({
                   href={page.href}
                   aria-current={active ? "page" : undefined}
                   className={cx(
-                    "relative flex min-h-12 items-center text-sm font-semibold whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-primary after:transition-transform hover:text-primary-foreground hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none",
+                    "relative flex min-h-12 items-center text-sm font-semibold whitespace-nowrap transition-colors after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left rtl:after:origin-right after:scale-x-0 after:bg-primary after:transition-transform hover:text-primary-foreground hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 motion-reduce:transition-none motion-reduce:after:transition-none",
                     active ? "text-primary-foreground" : "text-primary-foreground/70",
                     focusStyle,
                   )}

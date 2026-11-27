@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { capabilities } from "@/data/capabilities";
+import { intlLocales } from "@/i18n/config";
+import { localized } from "@/i18n/data";
+import { getLocale, getT } from "@/i18n/server";
 import { site } from "@/lib/site";
 import { CorporateHero } from "@/components/corporate/CorporateHero";
 import { corporateMetadata } from "@/components/corporate/pageMetadata";
@@ -14,41 +17,57 @@ import { Section } from "@/components/ui/Section";
 import { cx, headingHomeClass, headingLgClass } from "@/components/ui/styles";
 
 const PATH = "/kabiliyetler";
-const DESCRIPTION =
-  "Saniteks üretim kabiliyetleri: non-woven keçe üretimi, non-woven temizlik bezi üretimi, laminasyon, sünger kesim ve şekillendirme, konverting ve paketleme.";
 
-const heroImage = {
-  src: "/images/products/hammadde/rulo-nonwoven-kece.webp",
-  alt: "Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları",
-  width: 1672,
-  height: 941,
-};
+async function getHeroImage() {
+  const t = await getT();
+  return {
+    src: "/images/products/hammadde/rulo-nonwoven-kece.webp",
+    alt: t("Sarı, mavi, pembe ve gri non-woven temizlik bezi ruloları ile yeşil, mor, fuşya ve kenevir renginde ovucu keçe ruloları"),
+    width: 1672,
+    height: 941,
+  };
+}
 
-export const metadata: Metadata = corporateMetadata({ title: "Kabiliyetler", description: DESCRIPTION, path: PATH, image: heroImage });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return corporateMetadata({
+    title: t("Kabiliyetler"),
+    description: t(
+      "Saniteks üretim kabiliyetleri: non-woven keçe üretimi, non-woven temizlik bezi üretimi, laminasyon, sünger kesim ve şekillendirme, konverting ve paketleme.",
+    ),
+    path: PATH,
+    image: await getHeroImage(),
+  });
+}
 
-const crumbs: Crumb[] = [{ label: "Ana Sayfa", href: "/" }, { label: "Kabiliyetler" }];
+export default async function CapabilitiesPage() {
+  const t = await getT();
+  const locale = await getLocale();
+  const [heroImage, items] = await Promise.all([getHeroImage(), localized(capabilities)]);
+  const crumbs: Crumb[] = [{ label: t("Ana Sayfa"), href: "/" }, { label: t("Kabiliyetler") }];
 
-export default function CapabilitiesPage() {
   return (
     <>
       <CorporateHero
         crumbs={crumbs}
         current={PATH}
         align="center"
-        eyebrow="KABİLİYETLER"
-        title="Üretim Kabiliyetlerimiz"
-        subtitle="Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim, konverting ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz."
+        eyebrow={t("KABİLİYETLER")}
+        title={t("Üretim Kabiliyetlerimiz")}
+        subtitle={t(
+          "Hammaddeden ambalajlı ürüne: non-woven keçe ve temizlik bezi üretimi, laminasyon, kesim, konverting ve paketleme adımlarını kendi üretimimizde bir araya getiriyoruz.",
+        )}
         image={heroImage}
-        tabs={capabilities.map((c) => ({ href: `#${c.id}`, label: c.label }))}
-        tabsLabel="Kabiliyetler"
+        tabs={items.map((c) => ({ href: `#${c.id}`, label: c.label }))}
+        tabsLabel={t("Kabiliyetler")}
       />
 
       <Section labelledBy="capabilities-title">
         <h2 id="capabilities-title" className="sr-only">
-          Üretim kabiliyetleri
+          {t("Üretim kabiliyetleri")}
         </h2>
         <div className="flex flex-col">
-          {capabilities.map((item, index) => (
+          {items.map((item, index) => (
             <article
               key={item.id}
               id={item.id}
@@ -60,7 +79,7 @@ export default function CapabilitiesPage() {
             >
               <div className={cx("min-w-0", index % 2 === 1 && "md:order-2")}>
                 <Eyebrow variant="line" index={String(index + 1).padStart(2, "0")}>
-                  {item.label.toLocaleUpperCase("tr")}
+                  {item.label.toLocaleUpperCase(intlLocales[locale])}
                 </Eyebrow>
                 <h3 id={`${item.id}-title`} className={headingLgClass}>
                   {item.title}
@@ -70,15 +89,15 @@ export default function CapabilitiesPage() {
                     <p key={p}>{p}</p>
                   ))}
                 </div>
-                <ul className="mt-6 flex flex-wrap gap-2" aria-label={`${item.title} — öne çıkanlar`}>
+                <ul className="mt-6 flex flex-wrap gap-2" aria-label={t("{title} — öne çıkanlar", { title: item.title })}>
                   {item.facts.map((f) => (
-                    <li key={f} className="rounded-sm border border-border border-l-2 border-l-primary bg-surface-muted px-3 py-1.5 text-sm font-semibold tabular-nums">
+                    <li key={f} className="rounded-sm border border-border border-s-2 border-s-primary bg-surface-muted px-3 py-1.5 text-sm font-semibold tabular-nums">
                       {f}
                     </li>
                   ))}
                 </ul>
                 <div className="mt-6">
-                  <p className="text-xs font-semibold tracking-widest text-subtle-foreground">İLGİLİ ÜRÜNLER</p>
+                  <p className="text-xs font-semibold tracking-widest text-subtle-foreground">{t("İLGİLİ ÜRÜNLER")}</p>
                   <ul className="mt-1 flex flex-wrap gap-x-6">
                     {item.related.map((r) => (
                       <li key={r.href}>
@@ -99,7 +118,7 @@ export default function CapabilitiesPage() {
                 />
                 <span
                   aria-hidden="true"
-                  className="absolute right-4 bottom-4 flex size-12 items-center justify-center rounded-sm bg-primary text-xl font-bold tabular-nums text-primary-foreground"
+                  className="absolute end-4 bottom-4 flex size-12 items-center justify-center rounded-sm bg-primary text-xl font-bold tabular-nums text-primary-foreground"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -111,29 +130,30 @@ export default function CapabilitiesPage() {
 
       <Section labelledBy="capabilities-quality-title" tone="dark" containerClassName="grid items-end gap-8 lg:grid-cols-[1fr_auto] lg:gap-16">
         <div>
-          <Eyebrow variant="dark">KALİTE</Eyebrow>
+          <Eyebrow variant="dark">{t("KALİTE")}</Eyebrow>
           <h2 id="capabilities-quality-title" className={headingHomeClass}>
-            Her adımda aynı özen.
+            {t("Her adımda aynı özen.")}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-primary-foreground/85">
-            Üretimin her aşamasını sürekli iyileştirme ve sıfır hata ilkeleriyle yürütüyoruz. Kalite, çevre ve iş sağlığı ve güvenliği
-            politikalarımızı inceleyin.
+            {t(
+              "Üretimin her aşamasını sürekli iyileştirme ve sıfır hata ilkeleriyle yürütüyoruz. Kalite, çevre ve iş sağlığı ve güvenliği politikalarımızı inceleyin.",
+            )}
           </p>
         </div>
         <ButtonLink href="/kalite/politikalarimiz" variant="inverse">
-          Politikalarımız
+          {t("Politikalarımız")}
         </ButtonLink>
       </Section>
 
       <CtaSection
         id="capabilities-contact-title"
-        eyebrow="BİRLİKTE ÇALIŞALIM"
-        title="Ürün veya hammadde ihtiyacınızı konuşalım."
-        text="Özel ölçü, form, ambalaj ya da hammadde talepleriniz için ekibimizle iletişime geçin."
-        action={{ href: inquiryHref("Üretim kabiliyetleri"), label: "İletişime geçin" }}
+        eyebrow={t("BİRLİKTE ÇALIŞALIM")}
+        title={t("Ürün veya hammadde ihtiyacınızı konuşalım.")}
+        text={t("Özel ölçü, form, ambalaj ya da hammadde talepleriniz için ekibimizle iletişime geçin.")}
+        action={{ href: inquiryHref(t("Üretim kabiliyetleri")), label: t("İletişime geçin") }}
       />
 
-      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH)} />
+      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH, locale)} />
     </>
   );
 }

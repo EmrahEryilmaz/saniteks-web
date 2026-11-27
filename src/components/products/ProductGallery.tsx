@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 import type { Photo } from "@/data/products";
 import { cx, focusStyle } from "@/components/ui/styles";
+import { useT } from "@/i18n/client";
 import { SkuImagePlaceholder } from "./SkuImagePlaceholder";
 
-/** Product page gallery: the current photo on a large white tile and a row of thumbnails when there are several. */
+/** Product page gallery (photos and label already localized): the current photo on a large white tile and a row of thumbnails when there are several. */
 export function ProductGallery({ photos, label }: { photos: Photo[]; label: string }) {
+  const t = useT();
   const [current, setCurrent] = useState(0);
   const shown = photos[current] ?? photos[0];
   // Old 2016 catalogue cut-outs are low resolution: keep them at most 480px wide (AGENTS.md).
@@ -31,14 +33,14 @@ export function ProductGallery({ photos, label }: { photos: Photo[]; label: stri
         )}
       </div>
       {photos.length > 1 ? (
-        <ul aria-label={`${label} görselleri`} className="mt-3 flex flex-wrap gap-2 md:gap-3">
+        <ul aria-label={t("{label} görselleri", { label })} className="mt-3 flex flex-wrap gap-2 md:gap-3">
           {photos.map((photo, i) => (
             <li key={photo.src}>
               <button
                 type="button"
                 onClick={() => setCurrent(i)}
                 aria-pressed={i === current}
-                aria-label={`Görsel ${i + 1} / ${photos.length}: ${photo.alt}`}
+                aria-label={t("Görsel {number} / {total}: {alt}", { number: i + 1, total: photos.length, alt: photo.alt })}
                 className={cx(
                   "relative block size-16 overflow-hidden rounded-sm border bg-white transition-colors motion-reduce:transition-none md:size-20",
                   i === current ? "border-primary ring-2 ring-primary" : "border-border hover:border-border-strong",

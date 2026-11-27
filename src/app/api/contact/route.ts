@@ -1,7 +1,9 @@
+import { localeNames, type Locale } from "@/i18n/config";
+import { getTranslateFor, parseLocale } from "@/i18n/translate-for";
 import {
   contactAcknowledgementRequired,
   contactFields,
-  contactMessages,
+  contactMessages as createContactMessages,
   isHoneypotFilled,
   validateContact,
   type ContactData,
@@ -31,10 +33,10 @@ function reply(status: number, body: ContactResponse, headers?: Record<string, s
 const rateLimit = createRateLimiter({ max: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW_MS });
 
 /* ------------------------------------------------------------------ */
-/* Mail                                                                */
+/* Mail — always Turkish (staff inbox), with the visitor's language   */
 /* ------------------------------------------------------------------ */
 
-function composeMail(data: ContactData, sentAt: Date) {
+function composeMail(data: ContactData, locale: Locale, sentAt: Date) {
   const { text, html } = composeFormMail({
     intro: "Saniteks web sitesi iletişim formundan yeni mesaj",
     rows: [
@@ -42,6 +44,7 @@ function composeMail(data: ContactData, sentAt: Date) {
       [contactFields.email.label, data.email],
       [contactFields.phone.label, data.phone || "—"],
       [contactFields.subject.label, data.subject],
+      ["Dil", localeNames[locale]],
     ],
     message: { label: contactFields.message.label, text: data.message },
     sentAt,
@@ -55,6 +58,10 @@ function composeMail(data: ContactData, sentAt: Date) {
 /* ------------------------------------------------------------------ */
 
 export async function POST(request: Request): Promise<Response> {
+  // The form posts to /api/contact?lang=<page language>; answers and error messages come back in that language.
+  const locale = parseLocale(new URL(request.url).searchParams.get("lang"));
+  const contactMessages = createContactMessages(await getTranslateFor(locale));
+
   const mediaType = request.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase();
   if (mediaType !== "application/json") {
     return reply(415, { ok: false, message: contactMessages.unsupportedMediaType });
@@ -90,12 +97,12 @@ export async function POST(request: Request): Promise<Response> {
     return reply(200, { ok: true, message: contactMessages.success });
   }
 
-  const result = validateContact(input, { requireAcknowledgement: contactAcknowledgementRequired });
+  const result = validateContact(input, contactMessages, { requireAcknowledgement: contactAcknowledgementRequired });
   if (!result.valid) {
     return reply(422, { ok: false, message: contactMessages.checkForm, errors: result.errors as Record<string, string> });
   }
 
-  const mail = composeMail(result.data, new Date());
+  const mail = composeMail(result.data, locale, new Date());
   const config = mailConfig();
 
   if (!config) {

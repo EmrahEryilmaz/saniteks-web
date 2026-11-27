@@ -1,22 +1,25 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { focusStyle, textLinkClass } from "@/components/ui/styles";
+import { useLocale, useT } from "@/i18n/client";
+import { Link } from "@/i18n/Link";
+import type { Translate } from "@/i18n/translate";
 import {
   applicationInput,
   applyFieldNames,
   applyFields,
-  applyMessages,
   cvFileError,
   cvRules,
   formatFileSize,
   generalApplication,
   hasCvSignature,
   parseApplyResponse,
-  positionOptions,
   validateApplication,
+  type ApplyFieldName,
+  type ApplyMessages,
   type ApplyResponse,
+  type PositionOption,
 } from "@/lib/apply-validation";
 import { site } from "@/lib/site";
 
@@ -27,38 +30,56 @@ const KVKK_PATH = "/kvkk-aydinlatma-metni";
 const controlClass = `mt-2 min-h-12 w-full min-w-0 rounded-sm border border-border-strong bg-surface px-3 py-3 text-base text-foreground disabled:cursor-not-allowed disabled:bg-surface-strong disabled:text-muted-foreground aria-invalid:border-error ${focusStyle}`;
 
 /** Native file input (keyboard and screen reader support for free); its button is styled through `file:`. */
-const fileInputClass = `mt-2 block min-h-12 w-full min-w-0 cursor-pointer rounded-sm border border-border-strong bg-surface p-1 text-base text-muted-foreground file:mr-4 file:min-h-10 file:cursor-pointer file:rounded-sm file:border-0 file:bg-surface-strong file:px-4 file:py-2 file:text-sm file:font-bold file:text-foreground hover:file:bg-border disabled:cursor-not-allowed disabled:bg-surface-strong aria-invalid:border-error ${focusStyle}`;
+const fileInputClass = `mt-2 block min-h-12 w-full min-w-0 cursor-pointer rounded-sm border border-border-strong bg-surface p-1 text-base text-muted-foreground file:me-4 file:min-h-10 file:cursor-pointer file:rounded-sm file:border-0 file:bg-surface-strong file:px-4 file:py-2 file:text-sm file:font-bold file:text-foreground hover:file:bg-border disabled:cursor-not-allowed disabled:bg-surface-strong aria-invalid:border-error ${focusStyle}`;
 
 type SelectedFile = { name: string; size: number };
+
+/** Field labels in the page language (applyFields keeps the Turkish ones for the staff e-mail). */
+function fieldLabels(t: Translate): Record<ApplyFieldName, string> {
+  return {
+    name: t("Ad Soyad"),
+    email: t("E-posta"),
+    phone: t("Telefon"),
+    position: t("Başvurulan pozisyon"),
+    message: t("Ön yazı / mesaj"),
+  };
+}
 
 type ApplicationFormProps = {
   /** id of the section heading that names the form. */
   labelledBy: string;
+  /** Validation and status messages in the page language (applyMessages(await getT()) on the page). */
+  messages: ApplyMessages;
+  /** "Genel başvuru" and the open positions in the page language (positionOptionsFor on the page). */
+  positionOptions: PositionOption[];
   /** Preselected position (from ?pozisyon=); "genel" otherwise. */
   initialPosition?: string;
 };
 
 /** Field errors the browser can detect before uploading, or null when the form can be sent. */
-async function clientErrors(formData: FormData): Promise<Record<string, string> | null> {
-  const result = validateApplication(applicationInput(formData));
+async function clientErrors(formData: FormData, messages: ApplyMessages): Promise<Record<string, string> | null> {
+  const result = validateApplication(applicationInput(formData), messages);
   if (!result.valid || !result.cv) return result.errors as Record<string, string>;
   try {
-    return (await hasCvSignature(result.cv)) ? null : { cv: applyMessages.cvContent };
+    return (await hasCvSignature(result.cv)) ? null : { cv: messages.cvContent };
   } catch {
-    return { cv: applyMessages.cvUnreadable };
+    return { cv: messages.cvUnreadable };
   }
 }
 
 /** The JSON answer of /api/apply, or a stand-in when a proxy rejected the upload before it reached the route. */
-async function readResponse(response: Response): Promise<ApplyResponse> {
+async function readResponse(response: Response, messages: ApplyMessages): Promise<ApplyResponse> {
   const body = parseApplyResponse(await response.json().catch(() => null));
   if (body) return body;
-  if (response.status === 413) return { ok: false, message: applyMessages.payloadTooLarge };
+  if (response.status === 413) return { ok: false, message: messages.payloadTooLarge };
   throw new Error("INVALID_RESPONSE");
 }
 
 /** "Başvuru formu" panel: the job application form with client-side checks and the multipart /api/apply submit. */
-export function ApplicationForm({ labelledBy, initialPosition = generalApplication }: ApplicationFormProps) {
+export function ApplicationForm({ labelledBy, messages, positionOptions, initialPosition = generalApplication }: ApplicationFormProps) {
+  const t = useT();
+  const locale = useLocale();
+  const labels = fieldLabels(t);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<ApplyResponse | null>(null);
   const [position, setPosition] = useState(initialPosition);
@@ -105,7 +126,7 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.currentTarget.files?.[0];
     setSelectedFile(file ? { name: file.name, size: file.size } : null);
-    setFileError(file ? cvFileError(file) : undefined);
+    setFileError(file ? cvFileError(file, messages) : undefined);
     // A newly chosen file replaces any earlier verdict on the previous one.
     setStatus((previous) => {
       if (!previous?.errors?.cv) return previous;
@@ -124,11 +145,11 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
     const formData = new FormData(form);
 
     try {
-      const fieldErrors = await clientErrors(formData);
+      const fieldErrors = await clientErrors(formData, messages);
       setFileError(undefined);
       if (fieldErrors) {
         queueFocus(fieldErrors);
-        setStatus({ ok: false, message: applyMessages.checkForm, errors: fieldErrors });
+        setStatus({ ok: false, message: messages.checkForm, errors: fieldErrors });
         return;
       }
 
@@ -136,12 +157,13 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
       setStatus(null);
 
       try {
-        const response = await fetch("/api/apply", {
+        // ?lang= makes the route answer in the page language.
+        const response = await fetch(`/api/apply?lang=${locale}`, {
           method: "POST",
           body: formData,
           signal: AbortSignal.timeout(SUBMIT_TIMEOUT_MS),
         });
-        const body = await readResponse(response);
+        const body = await readResponse(response, messages);
 
         if (response.ok && body.ok) {
           form.reset();
@@ -150,12 +172,12 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
           setSelectedFile(null);
           setStatus(body);
         } else {
-          const next: ApplyResponse = body.ok ? { ok: false, message: applyMessages.sendFailed } : body;
+          const next: ApplyResponse = body.ok ? { ok: false, message: messages.sendFailed } : body;
           queueFocus(next.errors);
           setStatus(next);
         }
       } catch {
-        setStatus({ ok: false, message: applyMessages.unverified });
+        setStatus({ ok: false, message: messages.unverified });
       }
     } finally {
       inFlight.current = false;
@@ -171,7 +193,7 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
     <div className="min-w-0 border-t-2 border-primary bg-surface-muted p-6 md:p-8 lg:p-10">
       <form ref={formRef} onSubmit={handleSubmit} noValidate aria-labelledby={labelledBy} aria-busy={busy}>
         <fieldset disabled={busy} className="min-w-0">
-          <legend className="sr-only">Kişisel bilgileriniz, başvurduğunuz pozisyon ve CV dosyanız</legend>
+          <legend className="sr-only">{t("Kişisel bilgileriniz, başvurduğunuz pozisyon ve CV dosyanız")}</legend>
           <div className="grid min-w-0 gap-5 sm:grid-cols-2">
             {applyFieldNames.map((name) => {
               const field = applyFields[name];
@@ -187,8 +209,8 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
               return (
                 <div key={name} className={`min-w-0 ${name === "message" ? "sm:col-span-2" : ""}`}>
                   <label htmlFor={common.id} className="text-sm font-semibold">
-                    {field.label}{" "}
-                    <span className="font-normal text-muted-foreground">({field.required ? "zorunlu" : "isteğe bağlı"})</span>
+                    {labels[name]}{" "}
+                    <span className="font-normal text-muted-foreground">({field.required ? t("zorunlu") : t("isteğe bağlı")})</span>
                   </label>
                   {name === "position" ? (
                     <select {...common} ref={positionRef} value={position} onChange={(event) => setPosition(event.target.value)}>
@@ -220,10 +242,10 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
 
             <div className="min-w-0 sm:col-span-2">
               <label htmlFor="apply-cv" className="text-sm font-semibold">
-                CV dosyası <span className="font-normal text-muted-foreground">(zorunlu)</span>
+                {t("CV dosyası")} <span className="font-normal text-muted-foreground">({t("zorunlu")})</span>
               </label>
               <p id="apply-cv-hint" className="mt-1 text-sm text-muted-foreground">
-                {cvRules.hint}
+                {messages.cvHint}
               </p>
               <input
                 id="apply-cv"
@@ -239,7 +261,8 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
               <div aria-live="polite" className="text-sm">
                 {selectedFile ? (
                   <p id="apply-cv-selected" className="mt-2 wrap-anywhere">
-                    Seçilen dosya: <span className="font-semibold">{selectedFile.name}</span> ({formatFileSize(selectedFile.size)})
+                    {t("Seçilen dosya:")} <span className="font-semibold">{selectedFile.name}</span>{" "}
+                    ({formatFileSize(selectedFile.size, locale)})
                   </p>
                 ) : null}
                 {cvError ? (
@@ -263,9 +286,11 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
               rel="noopener noreferrer"
               className={`${textLinkClass} inline-flex min-h-11 items-center gap-2 font-semibold`}
             >
-              KVKK Aydınlatma Metni
-              <span aria-hidden="true">↗</span>
-              <span className="sr-only">(yeni sekmede açılır)</span>
+              {t("KVKK Aydınlatma Metni")}
+              <span aria-hidden="true" className="inline-block rtl:-scale-x-100">
+                ↗
+              </span>
+              <span className="sr-only">{t("(yeni sekmede açılır)")}</span>
             </Link>
             <label className="mt-1 flex min-h-11 cursor-pointer items-start gap-3 py-2" htmlFor="apply-acknowledged">
               <input
@@ -278,8 +303,8 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
                 className={`mt-0.5 size-5 shrink-0 accent-primary ${focusStyle}`}
               />
               <span>
-                Başvurum kapsamında paylaştığım kişisel verilerin işlenmesine ilişkin aydınlatma metnini okudum.{" "}
-                <span className="text-muted-foreground">(zorunlu)</span>
+                {t("Başvurum kapsamında paylaştığım kişisel verilerin işlenmesine ilişkin aydınlatma metnini okudum.")}{" "}
+                <span className="text-muted-foreground">({t("zorunlu")})</span>
               </span>
             </label>
             {errors?.acknowledged ? (
@@ -294,7 +319,7 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
             disabled={busy}
             className={`mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-sm bg-primary px-6 py-3 text-[19px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover active:bg-primary-active disabled:cursor-not-allowed disabled:bg-surface-strong disabled:text-muted-foreground motion-reduce:transition-none sm:w-auto ${focusStyle}`}
           >
-            {busy ? "Gönderiliyor…" : "Başvuruyu gönder"}
+            {busy ? t("Gönderiliyor…") : t("Başvuruyu gönder")}
           </button>
         </fieldset>
         <div
@@ -307,8 +332,9 @@ export function ApplicationForm({ labelledBy, initialPosition = generalApplicati
         </div>
         <noscript>
           <p className="text-sm text-muted-foreground">
-            Form için JavaScript gereklidir. Başvurunuzu CV dosyanızla birlikte {site.contact.hrEmail} adresine e-posta ile de
-            iletebilirsiniz.
+            {t("Form için JavaScript gereklidir. Başvurunuzu CV dosyanızla birlikte {email} adresine e-posta ile de iletebilirsiniz.", {
+              email: site.contact.hrEmail,
+            })}
           </p>
         </noscript>
       </form>

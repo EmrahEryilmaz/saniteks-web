@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { allSkus, categories, categoryHref, categorySkus, getCategory, skuHref } from "@/data/products";
-import { pageOpenGraph } from "@/lib/metadata";
+import { categories as baseCategories, categoryHref, categorySkus, skuHref } from "@/data/products";
+import { intlLocales, localizePath } from "@/i18n/config";
+import { getAllSkus, getCategories, getCategory, getLocale } from "@/i18n/data";
+import { pageMetadata } from "@/i18n/metadata";
+import { getT } from "@/i18n/server";
 import { site } from "@/lib/site";
 import { CategoryShop } from "@/components/products/CategoryShop";
 import { inquiryHref } from "@/components/products/format";
@@ -20,35 +23,32 @@ type Props = { params: Promise<{ kategori: string }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return categories.map((c) => ({ kategori: c.slug }));
+  return baseCategories.map((c) => ({ kategori: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const category = getCategory((await params).kategori);
+  const category = await getCategory((await params).kategori);
   if (!category) return {};
-  const path = categoryHref(category);
-  return {
+  return pageMetadata({
     title: category.name,
     description: category.intro[0],
-    alternates: { canonical: path },
-    openGraph: pageOpenGraph({
-      title: `${category.name} | Saniteks`,
-      description: category.intro[0],
-      url: path,
-      image: { url: category.image, alt: category.imageAlt },
-    }),
-  };
+    path: categoryHref(category),
+    image: { url: category.image, alt: category.imageAlt },
+  });
 }
 
 /** Category page, shop-style: description, then every product of the category as a filterable grid of tiles. */
 export default async function CategoryPage({ params }: Props) {
-  const category = getCategory((await params).kategori);
+  const category = await getCategory((await params).kategori);
   if (!category) notFound();
+  const t = await getT();
+  const locale = await getLocale();
+  const categories = await getCategories();
 
   const path = categoryHref(category);
   const crumbs: Crumb[] = [
-    { label: "Ana Sayfa", href: "/" },
-    { label: "Ürünler", href: "/urunler" },
+    { label: t("Ana Sayfa"), href: "/" },
+    { label: t("Ürünler"), href: "/urunler" },
     { label: category.name },
   ];
   const entries = categorySkus(category);
@@ -65,7 +65,7 @@ export default async function CategoryPage({ params }: Props) {
     itemListElement: entries.map(({ sku }, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: new URL(skuHref(category.slug, sku.slug), site.url).toString(),
+      url: new URL(localizePath(skuHref(category.slug, sku.slug), locale), site.url).toString(),
       name: sku.name,
     })),
   };
@@ -74,7 +74,7 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <PageHero
         crumbs={crumbs}
-        eyebrow="ÜRÜN KATEGORİSİ"
+        eyebrow={t("ÜRÜN KATEGORİSİ")}
         title={category.name}
         lead={lead}
         image={{ src: category.image, alt: category.imageAlt, width: 1200, height: 900, className: "aspect-4/3 h-auto w-full object-cover" }}
@@ -89,15 +89,15 @@ export default async function CategoryPage({ params }: Props) {
 
       <Section labelledBy="category-products-title" id="urunler" tone="muted">
         <h2 id="category-products-title" className="sr-only">
-          Ürün listesi
+          {t("Ürün listesi")}
         </h2>
         <CategoryShop
           label={category.name}
           groups={groups}
           elsewhere={Object.fromEntries(
-            allSkus()
+            (await getAllSkus())
               .filter((s) => s.category.slug !== category.slug)
-              .map((s) => [s.slug, skuHref(s.category.slug, s.slug)]),
+              .map((s) => [s.slug, localizePath(skuHref(s.category.slug, s.slug), locale)]),
           )}
           items={entries.map((entry) => ({
             key: entry.sku.slug,
@@ -109,13 +109,13 @@ export default async function CategoryPage({ params }: Props) {
 
       {matrices.map(({ product, matrix }) => (
         <Section key={product.slug} labelledBy={`${product.slug}-matrix-title`}>
-          <SectionHeading id={`${product.slug}-matrix-title`} eyebrow={product.name.toLocaleUpperCase("tr")} title={`${matrix.title}.`} lead={matrix.note} />
+          <SectionHeading id={`${product.slug}-matrix-title`} eyebrow={product.name.toLocaleUpperCase(intlLocales[locale])} title={`${matrix.title}.`} lead={matrix.note} />
           <SpecMatrixTable matrix={matrix} />
         </Section>
       ))}
 
       <Section labelledBy="other-categories-title" tone={matrices.length ? "muted" : undefined}>
-        <SectionHeading id="other-categories-title" eyebrow="DİĞER KATEGORİLER" title="Diğer ürün gruplarını inceleyin." />
+        <SectionHeading id="other-categories-title" eyebrow={t("DİĞER KATEGORİLER")} title={t("Diğer ürün gruplarını inceleyin.")} />
         <div className="mt-9 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {others.map((c, i) => (
             <div key={c.slug}>
@@ -136,13 +136,13 @@ export default async function CategoryPage({ params }: Props) {
 
       <CtaSection
         id="category-contact-title"
-        eyebrow="BİLGİ ALIN"
-        title={`${category.name} hakkında konuşalım.`}
-        text="Kullanım ihtiyacınızı paylaşın; ürün grubu hakkında birlikte değerlendirme yapalım."
-        action={{ href: inquiryHref(category.name), label: "İletişime geçin" }}
+        eyebrow={t("BİLGİ ALIN")}
+        title={t("{category} hakkında konuşalım.", { category: category.name })}
+        text={t("Kullanım ihtiyacınızı paylaşın; ürün grubu hakkında birlikte değerlendirme yapalım.")}
+        action={{ href: inquiryHref(category.name), label: t("İletişime geçin") }}
       />
 
-      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path), itemListJsonLd]} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path, locale), itemListJsonLd]} />
     </>
   );
 }

@@ -80,7 +80,10 @@ export function ArrowLink({
       {icon !== null ? (
         <span
           aria-hidden="true"
-          className={variant === "underline" ? "transition-transform group-hover:translate-x-1 motion-reduce:transform-none" : undefined}
+          className={cx(
+            "inline-block rtl:-scale-x-100",
+            variant === "underline" && "transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 motion-reduce:transform-none",
+          )}
         >
           {icon}
         </span>

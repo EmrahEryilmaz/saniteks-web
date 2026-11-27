@@ -8,14 +8,14 @@ export function NumberedSteps({ steps, className }: { steps: Step[]; className: 
   return (
     <ol className={className}>
       {steps.map((step, index) => (
-        <li key={step.title} className="relative min-w-0 wrap-break-word pb-7 pl-16 last:pb-0 lg:pr-7 lg:pb-0 lg:pl-0">
+        <li key={step.title} className="relative min-w-0 wrap-break-word pb-7 ps-16 last:pb-0 lg:pe-7 lg:pb-0 lg:ps-0">
           <span
             aria-hidden="true"
-            className={`absolute left-[21px] top-11 bottom-0 w-px bg-border-strong lg:top-[21px] lg:right-0 lg:bottom-auto lg:left-11 lg:h-px lg:w-auto ${index === steps.length - 1 ? "hidden" : ""}`}
+            className={`absolute start-[21px] top-11 bottom-0 w-px bg-border-strong lg:top-[21px] lg:end-0 lg:bottom-auto lg:start-11 lg:h-px lg:w-auto ${index === steps.length - 1 ? "hidden" : ""}`}
           />
           <span
             aria-hidden="true"
-            className="absolute top-0 left-0 flex size-11 items-center justify-center rounded-full border border-primary bg-surface text-sm font-semibold text-link lg:relative"
+            className="absolute top-0 start-0 flex size-11 items-center justify-center rounded-full border border-primary bg-surface text-sm font-semibold text-link lg:relative"
           >
             {String(index + 1).padStart(2, "0")}
           </span>

@@ -43,6 +43,14 @@ const skipKeys = new Set([
   "kind",
   "variant",
   "key",
+  "published",
+  "address",
+  "streetAddress",
+  "addressLocality",
+  "addressRegion",
+  "postalCode",
+  "addressCountry",
+  "phoneDisplay",
 ]);
 
 /**

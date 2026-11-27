@@ -1,38 +1,39 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
 import { cx, headingHomeClass } from "@/components/ui/styles";
+import { getT } from "@/i18n/server";
 import { Reveal } from "./Reveal";
 
-const principles = [
-  {
-    title: "İhtiyacı anlamak",
-    text: "Her çözümün başlangıcında kullanım alanını ve beklentileri birlikte ele almak var.",
-  },
-  {
-    title: "Detaylara özen",
-    text: "Ürün seçiminde işlevi, kullanım deneyimini ve detayları bir arada düşünmek.",
-  },
-  {
-    title: "Açık iletişim",
-    text: "Soruları dinleyen, bilgi paylaşımını önemseyen bir iş birliği yaklaşımı.",
-  },
-];
-
 /** 03 — "Yaklaşımımız" (dark band). */
-export function ApproachSection() {
+export async function ApproachSection() {
+  const t = await getT();
+  const principles = [
+    {
+      title: t("İhtiyacı anlamak"),
+      text: t("Her çözümün başlangıcında kullanım alanını ve beklentileri birlikte ele almak var."),
+    },
+    {
+      title: t("Detaylara özen"),
+      text: t("Ürün seçiminde işlevi, kullanım deneyimini ve detayları bir arada düşünmek."),
+    },
+    {
+      title: t("Açık iletişim"),
+      text: t("Soruları dinleyen, bilgi paylaşımını önemseyen bir iş birliği yaklaşımı."),
+    },
+  ];
   return (
     <Section labelledBy="values-title" className="relative overflow-hidden bg-foreground text-primary-foreground">
       <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:gap-12">
         <div>
           <Eyebrow variant="line" index="03" tinted={false}>
-            YAKLAŞIMIMIZ
+            {t("YAKLAŞIMIMIZ")}
           </Eyebrow>
           <div aria-hidden="true" className="mt-6 hidden size-12 border border-primary lg:block">
-            <div className="ml-3 mt-3 size-12 border border-primary-foreground/25" />
+            <div className="ms-3 mt-3 size-12 border border-primary-foreground/25" />
           </div>
         </div>
         <h2 id="values-title" className={cx(headingHomeClass, "max-w-3xl")}>
-          Ürünün ötesinde, ortak bir anlayış.
+          {t("Ürünün ötesinde, ortak bir anlayış.")}
         </h2>
       </div>
       <div className="mt-8 lg:mt-10">

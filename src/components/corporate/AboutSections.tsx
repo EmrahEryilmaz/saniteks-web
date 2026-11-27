@@ -4,44 +4,39 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
 import { headingHomeClass, headingLgClass } from "@/components/ui/styles";
 import { Reveal } from "@/components/home/Reveal";
+import { getT } from "@/i18n/server";
 import { LineIcon, type LineIconName } from "./LineIcon";
 
-const productionPrinciples = [
-  { title: "Kalite odaklı üretim", text: "Ürünün kullanım amacına uygunluğunu süreç boyunca dikkatle değerlendirmek." },
-  { title: "Teknoloji ve süreç yönetimi", text: "Malzeme ile üretim adımlarını birbiriyle uyumlu ve düzenli biçimde yönetmek." },
-  { title: "İhtiyaçlara duyarlılık", text: "Beklentileri dinlemek, kullanım koşullarını anlamak ve doğru çözümü birlikte şekillendirmek." },
-  { title: "Sürekli gelişim", text: "Deneyimlerden öğrenerek ürün ve süreçlerde iyileştirme alanları aramak." },
-];
-
-const values: { icon: LineIconName; title: string; text: string }[] = [
-  { icon: "shieldCheck", title: "Güven", text: "Açık, tutarlı ve sözünün arkasında duran ilişkiler kurmak." },
-  { icon: "star", title: "Kalite", text: "Her aşamada amaca uygunluğu ve özeni birlikte gözetmek." },
-  { icon: "shieldCare", title: "Sorumluluk", text: "İnsana, kaynaklara ve yapılan işe karşı dikkatli davranmak." },
-  { icon: "bulb", title: "Yenilikçilik", text: "Yeni ihtiyaçları anlamaya ve farklı çözümleri değerlendirmeye açık olmak." },
-  { icon: "people", title: "İş birliği", text: "Bilgiyi paylaşmak ve çözümü ortak anlayışla geliştirmek." },
-  { icon: "growth", title: "Sürekli gelişim", text: "Öğrenilenleri daha iyi ürün ve süreçlere dönüştürmek." },
-];
-
 /** "Üretim anlayışımız" — four numbered principles. */
-export function ProductionApproachSection() {
+export async function ProductionApproachSection() {
+  const t = await getT();
+  const productionPrinciples = [
+    { title: t("Kalite odaklı üretim"), text: t("Ürünün kullanım amacına uygunluğunu süreç boyunca dikkatle değerlendirmek.") },
+    { title: t("Teknoloji ve süreç yönetimi"), text: t("Malzeme ile üretim adımlarını birbiriyle uyumlu ve düzenli biçimde yönetmek.") },
+    {
+      title: t("İhtiyaçlara duyarlılık"),
+      text: t("Beklentileri dinlemek, kullanım koşullarını anlamak ve doğru çözümü birlikte şekillendirmek."),
+    },
+    { title: t("Sürekli gelişim"), text: t("Deneyimlerden öğrenerek ürün ve süreçlerde iyileştirme alanları aramak.") },
+  ];
   return (
     <Section labelledBy="production-approach-title" tone="muted">
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-16">
         <div>
-          <Eyebrow>ÜRETİM ANLAYIŞIMIZ</Eyebrow>
+          <Eyebrow>{t("ÜRETİM ANLAYIŞIMIZ")}</Eyebrow>
           <h2 id="production-approach-title" className={headingLgClass}>
-            Süreci bir bütün olarak değerlendiriyoruz.
+            {t("Süreci bir bütün olarak değerlendiriyoruz.")}
           </h2>
         </div>
         <p className="max-w-xl text-base leading-7 text-muted-foreground">
-          Ürün kararlarını kullanım amacı, malzeme yapısı ve üretim adımları arasındaki ilişkiyi gözeterek ele alıyoruz.
+          {t("Ürün kararlarını kullanım amacı, malzeme yapısı ve üretim adımları arasındaki ilişkiyi gözeterek ele alıyoruz.")}
         </p>
       </div>
       <ol className="mt-9 grid md:grid-cols-2">
         {productionPrinciples.map((item, index) => (
           <li
             key={item.title}
-            className="group border-t border-border py-7 transition-colors duration-200 hover:border-primary md:px-8 md:odd:pl-0 md:even:border-l md:last:border-b motion-reduce:transition-none"
+            className="group border-t border-border py-7 transition-colors duration-200 hover:border-primary md:px-8 md:odd:ps-0 md:even:border-s md:last:border-b motion-reduce:transition-none"
           >
             <span aria-hidden="true" className="text-xs font-semibold tabular-nums text-link">
               {String(index + 1).padStart(2, "0")}
@@ -56,25 +51,34 @@ export function ProductionApproachSection() {
 }
 
 /** "Kurumsal değerler" — six values with line icons. */
-export function CorporateValuesSection() {
+export async function CorporateValuesSection() {
+  const t = await getT();
+  const values: { icon: LineIconName; title: string; text: string }[] = [
+    { icon: "shieldCheck", title: t("Güven"), text: t("Açık, tutarlı ve sözünün arkasında duran ilişkiler kurmak.") },
+    { icon: "star", title: t("Kalite"), text: t("Her aşamada amaca uygunluğu ve özeni birlikte gözetmek.") },
+    { icon: "shieldCare", title: t("Sorumluluk"), text: t("İnsana, kaynaklara ve yapılan işe karşı dikkatli davranmak.") },
+    { icon: "bulb", title: t("Yenilikçilik"), text: t("Yeni ihtiyaçları anlamaya ve farklı çözümleri değerlendirmeye açık olmak.") },
+    { icon: "people", title: t("İş birliği"), text: t("Bilgiyi paylaşmak ve çözümü ortak anlayışla geliştirmek.") },
+    { icon: "growth", title: t("Sürekli gelişim"), text: t("Öğrenilenleri daha iyi ürün ve süreçlere dönüştürmek.") },
+  ];
   return (
     <Section labelledBy="corporate-values-title">
       <Reveal>
-        <Eyebrow>KURUMSAL DEĞERLER</Eyebrow>
+        <Eyebrow>{t("KURUMSAL DEĞERLER")}</Eyebrow>
         <h2 id="corporate-values-title" className={headingLgClass}>
-          Çalışma kültürümüze yön veren ilkeler.
+          {t("Çalışma kültürümüze yön veren ilkeler.")}
         </h2>
         <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">
-          Kararlarımızda ve ilişkilerimizde ortak bir dil oluşturan altı temel değer.
+          {t("Kararlarımızda ve ilişkilerimizde ortak bir dil oluşturan altı temel değer.")}
         </p>
       </Reveal>
       <div className="mt-9 grid md:grid-cols-2 lg:grid-cols-3">
         {values.map((value) => (
           <div
             key={value.title}
-            className="group border-t border-border py-7 transition-colors duration-200 hover:border-primary md:px-7 md:odd:pl-0 lg:border-l lg:first:border-l-0 lg:nth-[3n+1]:border-l-0 lg:nth-[3n+1]:pl-0 lg:nth-[3n+2]:pl-7 lg:nth-[3n+3]:pl-7 motion-reduce:transition-none"
+            className="group border-t border-border py-7 transition-colors duration-200 hover:border-primary md:px-7 md:odd:ps-0 lg:border-s lg:first:border-s-0 lg:nth-[3n+1]:border-s-0 lg:nth-[3n+1]:ps-0 lg:nth-[3n+2]:ps-7 lg:nth-[3n+3]:ps-7 motion-reduce:transition-none"
           >
-            <span className="inline-flex text-link transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none">
+            <span className="inline-flex text-link transition-transform duration-200 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none">
               <LineIcon name={value.icon} />
             </span>
             <h3 className="mt-5 text-xl font-semibold leading-snug lg:text-2xl">{value.title}</h3>
@@ -87,20 +91,21 @@ export function CorporateValuesSection() {
 }
 
 /** "Sorumlu yaklaşım" — dark band linking to the sustainability page. */
-export function ResponsibleApproachSection() {
+export async function ResponsibleApproachSection() {
+  const t = await getT();
   return (
     <Section labelledBy="corporate-sustainability-title" tone="dark" containerClassName="grid items-end gap-8 lg:grid-cols-[1fr_auto] lg:gap-16">
       <Reveal>
-        <Eyebrow variant="dark">SORUMLU YAKLAŞIM</Eyebrow>
+        <Eyebrow variant="dark">{t("SORUMLU YAKLAŞIM")}</Eyebrow>
         <h2 id="corporate-sustainability-title" className={headingHomeClass}>
-          Üretimi gelecekle birlikte düşünmek.
+          {t("Üretimi gelecekle birlikte düşünmek.")}
         </h2>
         <p className="mt-5 max-w-2xl text-base leading-7 text-primary-foreground/85">
-          Malzeme ve süreç kararlarını kaynaklara, insana ve çevreye karşı sorumlulukla değerlendiren yaklaşımımızı inceleyin.
+          {t("Malzeme ve süreç kararlarını kaynaklara, insana ve çevreye karşı sorumlulukla değerlendiren yaklaşımımızı inceleyin.")}
         </p>
       </Reveal>
       <ButtonLink href="/surdurulebilirlik" variant="inverse">
-        Sürdürülebilirlik yaklaşımımız
+        {t("Sürdürülebilirlik yaklaşımımız")}
       </ButtonLink>
     </Section>
   );

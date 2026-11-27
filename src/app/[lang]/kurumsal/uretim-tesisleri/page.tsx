@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { corporateHeroImage, locations, mapsHref } from "@/data/corporate";
+import { localized } from "@/i18n/data";
+import { getLocale, getT } from "@/i18n/server";
 import { site } from "@/lib/site";
 import { CorporateHero } from "@/components/corporate/CorporateHero";
 import { CorporateIcon, type CorporateIconName } from "@/components/corporate/CorporateIcon";
@@ -14,20 +16,16 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { cx, focusStyle } from "@/components/ui/styles";
 
 const PATH = "/kurumsal/uretim-tesisleri";
-const DESCRIPTION = "Saniteks'in İstanbul'daki merkez ofisi ve Sakarya Hendek'teki üretim tesisi: adres, iletişim ve üretim bilgileri.";
 
-export const metadata: Metadata = corporateMetadata({
-  title: "Üretim Tesisleri",
-  description: DESCRIPTION,
-  path: PATH,
-  image: corporateHeroImage,
-});
-
-const crumbs: Crumb[] = [
-  { label: "Ana Sayfa", href: "/" },
-  { label: "Kurumsal", href: "/kurumsal/hakkinda" },
-  { label: "Üretim Tesisleri" },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return corporateMetadata({
+    title: t("Üretim Tesisleri"),
+    description: t("Saniteks'in İstanbul'daki merkez ofisi ve Sakarya Hendek'teki üretim tesisi: adres, iletişim ve üretim bilgileri."),
+    path: PATH,
+    image: await localized(corporateHeroImage),
+  });
+}
 
 const linkClass = cx("text-link underline-offset-4 hover:text-link-hover hover:underline", focusStyle);
 
@@ -43,22 +41,31 @@ function InfoBlock({ icon, title, children }: { icon: CorporateIconName; title: 
   );
 }
 
-export default function PlantsPage() {
+export default async function PlantsPage() {
+  const t = await getT();
+  const locale = await getLocale();
+  const [heroImage, localeLocations] = await Promise.all([localized(corporateHeroImage), localized(locations)]);
+  const crumbs: Crumb[] = [
+    { label: t("Ana Sayfa"), href: "/" },
+    { label: t("Kurumsal"), href: "/kurumsal/hakkinda" },
+    { label: t("Üretim Tesisleri") },
+  ];
+
   return (
     <>
       <CorporateHero
         crumbs={crumbs}
         current={PATH}
         align="center"
-        title="Üretim Tesislerimiz"
-        subtitle="Yönetim merkezimiz İstanbul'da; üretimimiz Sakarya Hendek'teki tesisimizde yapılır."
-        image={corporateHeroImage}
+        title={t("Üretim Tesislerimiz")}
+        subtitle={t("Yönetim merkezimiz İstanbul'da; üretimimiz Sakarya Hendek'teki tesisimizde yapılır.")}
+        image={heroImage}
       />
 
       <Section labelledBy="plants-title" tone="muted">
-        <SectionHeading id="plants-title" eyebrow="TESİSLERİMİZ" title="Üretim ve yönetim noktalarımız." />
+        <SectionHeading id="plants-title" eyebrow={t("TESİSLERİMİZ")} title={t("Üretim ve yönetim noktalarımız.")} />
         <div className="mt-9 flex flex-col gap-10 lg:gap-12">
-          {locations.map((loc, index) => (
+          {localeLocations.map((loc, index) => (
             <article
               key={loc.id}
               aria-labelledby={`${loc.id}-title`}
@@ -73,7 +80,7 @@ export default function PlantsPage() {
                 )}
                 <div aria-hidden="true" className="absolute inset-0 bg-linear-to-t from-overlay/80 via-overlay/20 to-transparent" />
                 {!loc.image ? (
-                  <span aria-hidden="true" className="absolute top-6 left-6 flex size-14 items-center justify-center rounded-sm bg-primary text-primary-foreground">
+                  <span aria-hidden="true" className="absolute top-6 start-6 flex size-14 items-center justify-center rounded-sm bg-primary text-primary-foreground">
                     <CorporateIcon name={loc.icon} className="size-7" />
                   </span>
                 ) : null}
@@ -92,11 +99,11 @@ export default function PlantsPage() {
               <div className="flex flex-col justify-center rounded-sm border border-border bg-surface p-6 shadow-sm md:w-1/2 md:p-8">
                 <dl className="mb-8 grid grid-cols-2 gap-6">
                   <div>
-                    <dt className="mb-1 text-sm text-muted-foreground">Görev</dt>
+                    <dt className="mb-1 text-sm text-muted-foreground">{t("Görev")}</dt>
                     <dd className="text-xl font-semibold">{loc.role}</dd>
                   </div>
                   <div className="min-w-0">
-                    <dt className="mb-1 text-sm text-muted-foreground">E-posta</dt>
+                    <dt className="mb-1 text-sm text-muted-foreground">{t("E-posta")}</dt>
                     <dd className="text-base font-semibold break-words">
                       <a className={linkClass} href={`mailto:${loc.email}`}>
                         {loc.email}
@@ -106,26 +113,29 @@ export default function PlantsPage() {
                 </dl>
                 <div className="space-y-6">
                   {loc.products ? (
-                    <InfoBlock icon="products" title="Ürünler">
+                    <InfoBlock icon="products" title={t("Ürünler")}>
                       <p>{loc.products}</p>
                     </InfoBlock>
                   ) : null}
                   {loc.production ? (
-                    <InfoBlock icon="production" title="Üretim">
+                    <InfoBlock icon="production" title={t("Üretim")}>
                       <p>{loc.production}</p>
                     </InfoBlock>
                   ) : null}
-                  <InfoBlock icon="pin" title="İletişim bilgileri">
+                  <InfoBlock icon="pin" title={t("İletişim bilgileri")}>
                     <address className="not-italic">
                       <p className="font-semibold text-foreground">{loc.address}</p>
                       <p className="mt-1">
-                        <a className={cx(linkClass, "inline-flex min-h-11 items-center gap-2 text-sm font-semibold")} href={mapsHref(loc.address)} target="_blank" rel="noopener noreferrer">
-                          Haritada göster <span aria-hidden="true">↗</span>
-                          <span className="sr-only">(yeni sekmede açılır)</span>
+                        <a className={cx(linkClass, "inline-flex min-h-11 items-center gap-2 text-sm font-semibold")} href={mapsHref(locations[index].address)} target="_blank" rel="noopener noreferrer">
+                          {t("Haritada göster")}{" "}
+                          <span aria-hidden="true" className="inline-block rtl:-scale-x-100">
+                            ↗
+                          </span>
+                          <span className="sr-only">{t("(yeni sekmede açılır)")}</span>
                         </a>
                       </p>
                       <p>
-                        Tel:{" "}
+                        {t("Tel:")}{" "}
                         <a className={linkClass} href={loc.phoneHref}>
                           {loc.phoneDisplay}
                         </a>
@@ -141,13 +151,13 @@ export default function PlantsPage() {
 
       <CtaSection
         id="plants-contact-title"
-        eyebrow="BİLGİ ALIN"
-        title="Üretim ve tedarik hakkında konuşalım."
-        text="Ürünler, hammadde tedariki ve iş birliği olanakları için ekibimizle iletişime geçin."
-        action={{ href: "/iletisim", label: "İletişime geçin" }}
+        eyebrow={t("BİLGİ ALIN")}
+        title={t("Üretim ve tedarik hakkında konuşalım.")}
+        text={t("Ürünler, hammadde tedariki ve iş birliği olanakları için ekibimizle iletişime geçin.")}
+        action={{ href: "/iletisim", label: t("İletişime geçin") }}
       />
 
-      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH)} />
+      <JsonLd data={breadcrumbJsonLd(crumbs, site.url, PATH, locale)} />
     </>
   );
 }

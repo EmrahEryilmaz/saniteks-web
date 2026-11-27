@@ -1,14 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { focusStyle, textLinkClass } from "@/components/ui/styles";
+import { useLocale, useT } from "@/i18n/client";
+import { Link } from "@/i18n/Link";
+import type { Translate } from "@/i18n/translate";
 import {
   contactFieldNames,
   contactFields,
-  contactMessages,
   parseContactResponse,
   validateContact,
+  type ContactFieldName,
+  type ContactMessages,
   type ContactResponse,
 } from "@/lib/contact-validation";
 import { contactSubjects, type ContactSubject } from "@/lib/site";
@@ -18,7 +21,19 @@ const SUBMIT_TIMEOUT_MS = 45_000;
 
 const controlClass = `mt-2 min-h-12 w-full min-w-0 rounded-sm border border-border-strong bg-surface px-3 py-3 text-base text-foreground disabled:cursor-not-allowed disabled:bg-surface-strong disabled:text-muted-foreground aria-invalid:border-error ${focusStyle}`;
 
+/** Field labels in the page language (contactFields keeps the Turkish ones for the staff e-mail). */
+function fieldLabels(t: Translate): Record<ContactFieldName, string> {
+  return { name: t("Ad Soyad"), email: t("E-posta"), phone: t("Telefon"), subject: t("Konu"), message: t("Mesaj") };
+}
+
+/** Shown names of the subjects; the submitted values stay the Turkish keys of site.ts › contactSubjects. */
+function subjectLabels(t: Translate): Record<ContactSubject, string> {
+  return { "Genel Bilgi": t("Genel Bilgi"), Satış: t("Satış"), "İnsan Kaynakları": t("İnsan Kaynakları"), Diğer: t("Diğer") };
+}
+
 type ContactFormProps = {
+  /** Validation and status messages in the page language (contactMessages(await getT()) on the page). */
+  messages: ContactMessages;
   privacy?: ContactPrivacyNotice;
   /** Preselected subject (from ?konu=). */
   initialSubject?: ContactSubject | "";
@@ -27,7 +42,11 @@ type ContactFormProps = {
 };
 
 /** "Bize yazın" panel: the contact form with client-side validation and the /api/contact submit. */
-export function ContactForm({ privacy, initialSubject = "", initialMessage = "" }: ContactFormProps) {
+export function ContactForm({ messages, privacy, initialSubject = "", initialMessage = "" }: ContactFormProps) {
+  const t = useT();
+  const locale = useLocale();
+  const labels = fieldLabels(t);
+  const subjects = subjectLabels(t);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState<ContactResponse | null>(null);
   const inFlight = useRef(false);
@@ -58,12 +77,12 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
     const form = event.currentTarget;
     const entries = Object.fromEntries(new FormData(form));
     const payload = { ...entries, acknowledged: entries.acknowledged === "on" };
-    const result = validateContact(payload, { requireAcknowledgement });
+    const result = validateContact(payload, messages, { requireAcknowledgement });
 
     if (!result.valid) {
       const fieldErrors = result.errors as Record<string, string>;
       queueFocus(fieldErrors);
-      setStatus({ ok: false, message: contactMessages.checkForm, errors: fieldErrors });
+      setStatus({ ok: false, message: messages.checkForm, errors: fieldErrors });
       return;
     }
 
@@ -72,7 +91,8 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
     setStatus(null);
 
     try {
-      const response = await fetch("/api/contact", {
+      // ?lang= makes the route answer in the page language.
+      const response = await fetch(`/api/contact?lang=${locale}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -90,12 +110,12 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
         }
         setStatus(body);
       } else {
-        const next: ContactResponse = body.ok ? { ok: false, message: contactMessages.sendFailed } : body;
+        const next: ContactResponse = body.ok ? { ok: false, message: messages.sendFailed } : body;
         queueFocus(next.errors);
         setStatus(next);
       }
     } catch {
-      setStatus({ ok: false, message: contactMessages.unverified });
+      setStatus({ ok: false, message: messages.unverified });
     } finally {
       inFlight.current = false;
       setBusy(false);
@@ -105,14 +125,14 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
   return (
     <div className="min-w-0 border-t-2 border-primary bg-surface-muted p-6 md:p-8 lg:p-10">
       <h2 id="contact-form-title" className="text-3xl font-semibold tracking-tight lg:text-4xl">
-        Bize yazın
+        {t("Bize yazın")}
       </h2>
       <p className="mt-4 text-base leading-7 text-muted-foreground">
-        Sorunuzu ve iletişim bilgilerinizi paylaşın. Telefon alanı isteğe bağlıdır.
+        {t("Sorunuzu ve iletişim bilgilerinizi paylaşın. Telefon alanı isteğe bağlıdır.")}
       </p>
       <form ref={formRef} onSubmit={handleSubmit} noValidate aria-labelledby="contact-form-title" aria-busy={busy} className="mt-7">
         <fieldset disabled={busy} className="min-w-0">
-          <legend className="sr-only">İletişim bilgileri ve mesajınız</legend>
+          <legend className="sr-only">{t("İletişim bilgileri ve mesajınız")}</legend>
           <div className="grid min-w-0 gap-5 sm:grid-cols-2">
             {contactFieldNames.map((name) => {
               const field = contactFields[name];
@@ -128,17 +148,17 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
               return (
                 <div key={name} className={`min-w-0 ${name === "message" ? "sm:col-span-2" : ""}`}>
                   <label htmlFor={common.id} className="text-sm font-semibold">
-                    {field.label}{" "}
-                    <span className="font-normal text-muted-foreground">({field.required ? "zorunlu" : "isteğe bağlı"})</span>
+                    {labels[name]}{" "}
+                    <span className="font-normal text-muted-foreground">({field.required ? t("zorunlu") : t("isteğe bağlı")})</span>
                   </label>
                   {name === "subject" ? (
                     <select {...common} defaultValue={initialSubject}>
                       <option value="" disabled>
-                        Konu seçin
+                        {t("Konu seçin")}
                       </option>
                       {contactSubjects.map((subject) => (
                         <option key={subject} value={subject}>
-                          {subject}
+                          {subjects[subject]}
                         </option>
                       ))}
                     </select>
@@ -208,7 +228,7 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
             disabled={busy}
             className={`mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-sm bg-primary px-6 py-3 text-[19px] font-bold text-primary-foreground transition-colors hover:bg-primary-hover active:bg-primary-active disabled:cursor-not-allowed disabled:bg-surface-strong disabled:text-muted-foreground motion-reduce:transition-none sm:w-auto ${focusStyle}`}
           >
-            {busy ? "Gönderiliyor…" : "Gönder"}
+            {busy ? t("Gönderiliyor…") : t("Gönder")}
           </button>
         </fieldset>
         <div
@@ -221,7 +241,7 @@ export function ContactForm({ privacy, initialSubject = "", initialMessage = "" 
         </div>
         <noscript>
           <p className="text-sm text-muted-foreground">
-            Form için JavaScript gereklidir. Telefon veya e-posta bağlantılarıyla bize ulaşabilirsiniz.
+            {t("Form için JavaScript gereklidir. Telefon veya e-posta bağlantılarıyla bize ulaşabilirsiniz.")}
           </p>
         </noscript>
       </form>

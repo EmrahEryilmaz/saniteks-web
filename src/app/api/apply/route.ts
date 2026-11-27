@@ -1,7 +1,9 @@
+import { localeNames, type Locale } from "@/i18n/config";
+import { getTranslateFor, parseLocale } from "@/i18n/translate-for";
 import {
   applicationInput,
   applyFields,
-  applyMessages,
+  applyMessages as createApplyMessages,
   findPosition,
   formatFileSize,
   generalApplication,
@@ -38,10 +40,10 @@ function reply(status: number, body: ApplyResponse, headers?: Record<string, str
 const rateLimit = createRateLimiter({ max: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW_MS });
 
 /* ------------------------------------------------------------------ */
-/* Mail                                                                */
+/* Mail — always Turkish (staff inbox), with the visitor's language   */
 /* ------------------------------------------------------------------ */
 
-function composeMail(data: ApplyData, cv: CvCheck, sentAt: Date) {
+function composeMail(data: ApplyData, cv: CvCheck, locale: Locale, sentAt: Date) {
   const position = data.position === generalApplication ? undefined : findPosition(data.position);
   const positionTitle = position?.title ?? "Genel başvuru";
   const positionRow = positionOptions.find((option) => option.value === data.position)?.label ?? positionTitle;
@@ -54,6 +56,7 @@ function composeMail(data: ApplyData, cv: CvCheck, sentAt: Date) {
       [applyFields.phone.label, data.phone],
       [applyFields.position.label, positionRow],
       ["CV dosyası", `${cv.attachmentName} (${formatFileSize(cv.file.size)}, ekte)`],
+      ["Dil", localeNames[locale]],
     ],
     message: { label: applyFields.message.label, text: data.message || "—" },
     sentAt,
@@ -67,6 +70,10 @@ function composeMail(data: ApplyData, cv: CvCheck, sentAt: Date) {
 /* ------------------------------------------------------------------ */
 
 export async function POST(request: Request): Promise<Response> {
+  // The form posts to /api/apply?lang=<page language>; answers and error messages come back in that language.
+  const locale = parseLocale(new URL(request.url).searchParams.get("lang"));
+  const applyMessages = createApplyMessages(await getTranslateFor(locale));
+
   const contentType = request.headers.get("content-type") ?? "";
   const mediaType = contentType.split(";")[0]?.trim().toLowerCase();
   if (mediaType !== "multipart/form-data") {
@@ -103,7 +110,7 @@ export async function POST(request: Request): Promise<Response> {
     return reply(200, { ok: true, message: applyMessages.success });
   }
 
-  const result = validateApplication(input);
+  const result = validateApplication(input, applyMessages);
   if (!result.valid || !result.cv) {
     return reply(422, { ok: false, message: applyMessages.checkForm, errors: result.errors as Record<string, string> });
   }
@@ -113,7 +120,7 @@ export async function POST(request: Request): Promise<Response> {
     return reply(422, { ok: false, message: applyMessages.checkForm, errors: { cv: applyMessages.cvContent } });
   }
 
-  const mail = composeMail(result.data, cv, new Date());
+  const mail = composeMail(result.data, cv, locale, new Date());
   const to = hrRecipient();
   const config = mailConfig();
 

@@ -8,101 +8,114 @@ import { breadcrumbJsonLd, type Crumb } from "@/components/ui/Breadcrumbs";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHero, type HeroImage } from "@/components/ui/PageHero";
 import { containerClass, cx, sectionClass, textLinkClass } from "@/components/ui/styles";
+import { intlLocales, localizePath } from "@/i18n/config";
+import { pageMetadata } from "@/i18n/metadata";
+import { getLocale, getT } from "@/i18n/server";
+import type { Translate } from "@/i18n/translate";
+import { contactMessages } from "@/lib/contact-validation";
 import { site } from "@/lib/site";
 
 const path = "/iletisim";
-const title = "İletişim";
-const description =
-  "Saniteks iletişim bilgilerine ulaşın. Ürünler, satış ve iş birliği sorularınız için telefon veya e-posta üzerinden bizimle iletişime geçin.";
 
-const heroImage: HeroImage = {
-  src: "/images/corporate/textile-production-environment.webp",
-  alt: "Tekstil üretim ortamında malzeme ruloları ve üretim ekipmanları",
-  width: 1920,
-  height: 1080,
-};
+function pageText(t: Translate) {
+  return {
+    title: t("İletişim"),
+    description: t(
+      "Saniteks iletişim bilgilerine ulaşın. Ürünler, satış ve iş birliği sorularınız için telefon veya e-posta üzerinden bizimle iletişime geçin.",
+    ),
+  };
+}
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: path },
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    locale: site.locale,
-    url: path,
-    title: `${title} | Saniteks`,
+function heroImage(t: Translate): HeroImage {
+  return {
+    src: "/images/corporate/textile-production-environment.webp",
+    alt: t("Tekstil üretim ortamında malzeme ruloları ve üretim ekipmanları"),
+    width: 1920,
+    height: 1080,
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  const { title, description } = pageText(t);
+  const image = heroImage(t);
+  return pageMetadata({
+    title,
     description,
-    images: [{ url: heroImage.src, width: heroImage.width, height: heroImage.height, alt: heroImage.alt }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${title} | Saniteks`,
-    description,
-    images: [{ url: heroImage.src, width: heroImage.width, height: heroImage.height, alt: heroImage.alt }],
-  },
-};
-
-const crumbs: Crumb[] = [{ label: "Ana Sayfa", href: "/" }, { label: title }];
-
-const contactPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ContactPage",
-  "@id": `${site.url}${path}#webpage`,
-  url: `${site.url}${path}`,
-  name: `${title} | Saniteks`,
-  description,
-  inLanguage: "tr-TR",
-  isPartOf: { "@id": `${site.url}/#website` },
-  about: { "@id": `${site.url}/#organization` },
-  mainEntity: { "@id": `${site.url}/#organization` },
-};
+    path,
+    image: { url: image.src, alt: image.alt, width: image.width, height: image.height },
+  });
+}
 
 const contactLinkClass = `${textLinkClass} mt-2 inline-flex min-h-11 max-w-full items-center`;
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getT();
+  const locale = await getLocale();
+  const { title, description } = pageText(t);
+  const crumbs: Crumb[] = [{ label: t("Ana Sayfa"), href: "/" }, { label: title }];
+  const pageUrl = `${site.url}${localizePath(path, locale)}`;
+  const contactPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: `${title} | Saniteks`,
+    description,
+    inLanguage: intlLocales[locale],
+    isPartOf: { "@id": `${site.url}/#website` },
+    about: { "@id": `${site.url}/#organization` },
+    mainEntity: { "@id": `${site.url}/#organization` },
+  };
+  const privacy = contactPrivacyNotice(t);
+  const messages = contactMessages(t);
+
   return (
     <>
       <PageHero
         crumbs={crumbs}
-        eyebrow="BİRLİKTE KONUŞALIM"
+        eyebrow={t("BİRLİKTE KONUŞALIM")}
         title={title}
-        lead="Ürünlerimiz, iş birliği olanakları ve genel sorularınız için bizimle iletişime geçin."
-        image={heroImage}
+        lead={t("Ürünlerimiz, iş birliği olanakları ve genel sorularınız için bizimle iletişime geçin.")}
+        image={heroImage(t)}
       />
-      <section className={sectionClass} aria-label="İletişim bilgileri ve form">
+      <section className={sectionClass} aria-label={t("İletişim bilgileri ve form")}>
         <div className={cx(containerClass, "grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16")}>
           <div className="min-w-0 py-2">
-            <Eyebrow>İLETİŞİMDE KALALIM</Eyebrow>
+            <Eyebrow>{t("İLETİŞİMDE KALALIM")}</Eyebrow>
             <h2 className="text-3xl font-semibold tracking-tight lg:text-4xl">{site.name}</h2>
             <p className="mt-5 max-w-md text-base leading-7 text-muted-foreground">
-              Genel bilgi, satış ve insan kaynakları sorularınız için bize ulaşabilirsiniz.
+              {t("Genel bilgi, satış ve insan kaynakları sorularınız için bize ulaşabilirsiniz.")}
             </p>
             <address className="mt-8 not-italic">
               <div className="border-t border-border py-6">
-                <p className="text-sm text-muted-foreground">Telefon</p>
-                <a className={`${contactLinkClass} text-2xl font-semibold tracking-tight wrap-anywhere`} href={site.contact.phoneHref}>
+                <p className="text-sm text-muted-foreground">{t("Telefon")}</p>
+                <a
+                  className={`${contactLinkClass} text-2xl font-semibold tracking-tight wrap-anywhere`}
+                  href={site.contact.phoneHref}
+                  dir="ltr"
+                >
                   {site.contact.phoneDisplay}
                 </a>
               </div>
               <div className="border-t border-border py-6">
-                <p className="text-sm text-muted-foreground">E-posta</p>
+                <p className="text-sm text-muted-foreground">{t("E-posta")}</p>
                 <a className={`${contactLinkClass} text-xl font-semibold wrap-anywhere`} href={`mailto:${site.contact.email}`}>
                   {site.contact.email}
                 </a>
               </div>
               <div className="border-y border-border py-6">
-                <h3 className="text-lg font-semibold">Adresimiz</h3>
+                <h3 className="text-lg font-semibold">{t("Adresimiz")}</h3>
                 <p className="mt-3 max-w-md text-base leading-8 text-muted-foreground wrap-anywhere">{site.contact.address}</p>
               </div>
             </address>
           </div>
-          <Suspense fallback={<ContactForm privacy={contactPrivacyNotice} />}>
-            <PrefilledContactForm privacy={contactPrivacyNotice} />
+          <Suspense fallback={<ContactForm messages={messages} privacy={privacy} />}>
+            <PrefilledContactForm messages={messages} privacy={privacy} />
           </Suspense>
         </div>
       </section>
-      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path), contactPageJsonLd]} />
+      <JsonLd data={[breadcrumbJsonLd(crumbs, site.url, path, locale), contactPageJsonLd]} />
     </>
   );
 }

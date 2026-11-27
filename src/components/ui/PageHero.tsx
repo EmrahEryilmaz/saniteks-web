@@ -34,7 +34,7 @@ export function PageHero({ crumbs, eyebrow, title, lead, image, gridClassName, c
         <Breadcrumbs items={crumbs} />
         <div className={cx("grid items-center gap-8 py-5 md:py-7", gridClassName ?? "lg:grid-cols-[1.1fr_0.9fr] lg:gap-14")}>
           <div className="min-w-0">
-            <p className="mb-5 border-l-2 border-primary pl-4 text-xs font-semibold tracking-widest text-link">{eyebrow}</p>
+            <p className="mb-5 border-s-2 border-primary ps-4 text-xs font-semibold tracking-widest text-link">{eyebrow}</p>
             <h1 id="page-title" className="text-4xl font-semibold leading-tight tracking-[-0.025em] break-words md:text-5xl lg:text-6xl">
               {title}
             </h1>
